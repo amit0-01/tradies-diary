@@ -1,0 +1,142 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Product Name</mat-label>
+                        <input formControlName="productName" id="productName" placeholder="Name" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Size Type</mat-label>
+                        <!-- <input formControlName="sizeType" id="sizeType" placeholder="Size Type" matInput  type="text"> -->
+                        <mat-select (selectionChange)="sizeTypeChanged()"  formControlName="sizeType" id="sizeType" placeholder="Size Type" name="sizeType">
+                                <mat-option *ngFor="let sizeTypeChoice of sizeTypeChoices" [value]="sizeTypeChoice.value">
+                                {{ sizeTypeChoice.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> 
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Quantity</mat-label>                    
+                        <input (input)="onComputeTotal()" formControlName="quantity" id="quantity" placeholder="Quantity" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field *ngIf="addFestForm.get('sizeType').value === 'length' || addFestForm.get('sizeType').value === 'squared' || addFestForm.get('sizeType').value === 'cubed'" class="example-full-width" appearance="outline">
+                        <mat-label>Length</mat-label>                    
+                        <input (input)="onComputeSpace()" formControlName="length" id="length" placeholder="Length" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field *ngIf="addFestForm.get('sizeType').value === 'squared' || addFestForm.get('sizeType').value === 'cubed'" class="example-full-width" appearance="outline">
+                        <mat-label>Width</mat-label>                    
+                        <input (input)="onComputeSpace()" formControlName="width" id="width" placeholder="Width" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field *ngIf="addFestForm.get('sizeType').value === 'cubed'" class="example-full-width" appearance="outline">
+                        <mat-label>Height</mat-label>                    
+                        <input (input)="onComputeSpace()" formControlName="height" id="height" placeholder="Height" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field *ngIf="addFestForm.get('sizeType').value === 'squared'" class="example-full-width" appearance="outline">
+                        <mat-label>Area</mat-label>                    
+                        <input formControlName="area" id="area"placeholder="Area" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field *ngIf="addFestForm.get('sizeType').value === 'cubed'" class="example-full-width" appearance="outline">
+                        <mat-label>Volume</mat-label>                    
+                        <input  formControlName="volume" id="volume" placeholder="Volume" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Unit</mat-label>                    
+                        <input formControlName="unit" id="unit" placeholder="Unit" matInput  type="text">
+                </mat-form-field>  -->
+                <mat-form-field class="example-full-width" appearance="outline"  *ngIf="addFestForm.get('sizeType').value != 'item'">
+                        <mat-label>Unit Measurement</mat-label>
+                        <!-- <input formControlName="sizeType" id="sizeType" placeholder="Size Type" matInput  type="text"> -->
+                        <mat-select formControlName="unit" id="unit" placeholder="Unit" name="unit">
+                                <ng-container *ngFor="let unitMeasurement of unitMeasurements" >
+                                        <mat-option [value]="unitMeasurement.value" *ngIf="unitMeasurement.type == addFestForm.get('sizeType').value">
+                                                {{ unitMeasurement.viewValue }}
+                                        </mat-option>
+                                </ng-container> 
+                        </mat-select>  
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Unit Cost</mat-label>
+                        <input (input)="onComputeTotal()" formControlName="cost" id="cost" placeholder="Cost" matInput  type="text">
+                </mat-form-field> 
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Total</mat-label>                    
+                        <input formControlName="total" id="total" placeholder="Total" matInput  type="text">
+                </mat-form-field>  -->     
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Brand</mat-label>
+                        <input formControlName="brand" id="brand" placeholder="Brand" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>SKU</mat-label>
+                        <input formControlName="sku" id="sku" placeholder="SKU" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Supplier</mat-label>
+                        <!-- <input formControlName="supplier" id="supplier" placeholder="Supplier" matInput  type="text"> -->
+                        <mat-select formControlName="supplier" id="supplier" placeholder="Supplier" name="supplier" #singleSelect>
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_supplier"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option (click)="openAddSuppliersDialog()">-- Add New Supplier --</mat-option>
+                                <mat-option *ngFor="let listSupplier of filter_list_suppliers | async" [value]="listSupplier.id">
+                                {{ listSupplier.supplier_name }}
+                                </mat-option>
+                        </mat-select>  
+
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Category</mat-label>
+                        <!-- <input formControlName="category" id="category" placeholder="Category" matInput  type="text"> -->
+                        <mat-select formControlName="category" id="category" placeholder="Category" name="category" #singleSelect>
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_category"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option (click)="openAddCategoriesDialog()">-- Add New Category --</mat-option>
+                                <mat-option *ngFor="let listCategory of filter_list_categories | async" [value]="listCategory.id">
+                                {{ listCategory.category_name }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Cost Centre</mat-label>
+                        <!-- <input formControlName="costCentre" id="costCentre" placeholder="Cost Centre" matInput  type="text"> -->
+                        <mat-select formControlName="costCentre" id="costCentre" placeholder="Cost Centre" name="costCentre" #singleSelect>
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_costcentre"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option (click)="openAddCostCentresDialog()">-- Add New Cost Code --</mat-option>
+                                <mat-option *ngFor="let listCostCentre of filter_list_costcentres | async" [value]="listCostCentre.id">
+                                {{ listCostCentre.costcentre_name }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Stage</mat-label>
+                        <!-- <input formControlName="stage" id="stage" placeholder="Stage" matInput  type="text"> -->
+                        <mat-select formControlName="stage" id="stage" placeholder="Stage" name="stage" #singleSelect>
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_stage"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option (click)="openAddStageDialog()">-- Add New Stage --</mat-option>
+                                <mat-option *ngFor="let listStage of  filter_list_stages | async" [value]="listStage.id">
+                                {{ listStage.stage_name }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field> 
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button  (click)= "addNewProduct()" class = "btn dcb-btn btn-primary" mat-button cdkFocusInitial>Add Product  to Global List</button>
+</div>

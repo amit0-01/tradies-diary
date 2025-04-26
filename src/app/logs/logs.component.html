@@ -1,0 +1,180 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+      <div class = "row">
+          <div class="col-md-12">
+              <div class="card card-dcb dashboard-card">
+
+                        <div class="card-header">
+                            <div class = "row">
+                                <div class="col-md-12 ml-auto text-right">
+                                    <form [formGroup]="filterLogsForm">
+                                        <div class="row">
+                                                <div class="col-md-3"></div>
+                                                <!-- <div class="col-md-3">
+                                                    <mat-form-field>
+                                                        <mat-select [(value)]="selected" placeholder="Filter by"
+                                                            name="searchChoice">
+                                                            <mat-option (click)="filterLogsForm.reset()"
+                                                                *ngFor="let searchChoice of searchChoices"
+                                                                [value]="searchChoice.value">
+                                                                {{ searchChoice.viewValue }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div> -->
+                                                <div class="col-md-3">
+                                                    <ng-container *ngIf="selected;">
+                                                        <mat-form-field class="mat-full-width"
+                                                            *ngIf="selected == 'entry_date'">
+                                                            <input matInput [matDatepicker]="pickerflight"
+                                                                placeholder="Entry Date (dd/mm/yyyy)*"
+                                                                (click)="pickerflight.open()" formControlName="entryDate"
+                                                                id="flightDate" *ngIf="selected == 'entry_date'">
+                                                            <mat-datepicker-toggle matSuffix [for]="pickerflight">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #pickerflight></mat-datepicker>
+                                                        </mat-form-field>
+                                                        <mat-form-field class="mat-full-width" *ngIf="selected == 'project_id'">
+                                            
+                                                            <mat-select formControlName="projectID" id="projectID" placeholder="Project" name="projectID">
+                                                                    <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                                                    {{ projectName.projectName }}
+                                                                    </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                        <mat-form-field class="mat-full-width" *ngIf="selected == 'user_id'">
+                                                            <mat-select formControlName="userId" id="userId" placeholder="User" name="userId">
+                                                                    <mat-option *ngFor="let user of filterUsers" [value]="user.id">
+                                                                    {{ user.userFirstName}} {{user.userLastName }} - ({{ formatRole(user.userRole) }})
+                                                                    </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </ng-container>
+                                                    <!-- <ng-template #notShow>
+                                                        <mat-form-field class="mat-full-width">
+                                                            <input matInput placeholder="keyword" type="text" disabled>
+                                                        </mat-form-field>
+                                                    </ng-template> -->
+                                                </div>
+                                                <!-- <div class="col-md-3">
+                                                    <button 
+                                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                        (mouseenter)="onButtonEnter($event.target)" 
+                                                        (mouseleave)="onButtonOut($event.target)" 
+                                                        (click)="filterFBLogs()" 
+                                                        mat-button class="btn dcb-btn">
+                                                        <i class="material-icons">search</i> Filter Logs
+                                                    </button>
+                                                    <button 
+                                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                        (mouseenter)="onButtonEnter($event.target)" 
+                                                        (mouseleave)="onButtonOut($event.target)" 
+                                                        (click)="getFBLogs()" 
+                                                        mat-button class="btn dcb-btn">
+                                                        <i class="material-icons">refresh</i> Reset
+                                                    </button>
+                                                </div> -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: scroll;overflow-y: hidden;">
+                                    <div>
+                                        <!-- <div> -->
+                                            <!-- <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table> -->
+                                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="DataTables_Table_0" class="row-border hover"></table>
+                                    </div>
+                                    <!-- <mat-paginator *ngIf="paginatorQuery!=true" [length]="length"
+                                                [pageSize]="pageSize"
+                                                [pageSizeOptions]="pageSizeOptions"
+                                                (page)="pageEvent = getLogs2($event)">
+                                    </mat-paginator>
+
+                                    <mat-paginator *ngIf="paginatorQuery==true" [length]="length"
+                                                [pageSize]="pageSize"
+                                                [pageSizeOptions]="pageSizeOptions"
+                                                (page)="pageEvent = filterLogs2($event)">
+                                    </mat-paginator> -->
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer" style="justify-content: center;">
+
+                            <!-- <div class="text-center" *ngIf="buttonMode == 'unfiltered'">
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    class="btn dcb-btn btn-sm float-left" 
+                                    (click)="prevPage()"
+                                    [disabled]="disable_prev || !(pagination_clicked_count>0)">Previous
+                                </button> 
+                                <span class="page-num-indicator">Page no: {{pagination_clicked_count+1}}</span>
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    class="btn dcb-btn btn-sm float-right"
+                                    (click)="nextPage()" 
+                                    [disabled]="disable_next">Next
+                                </button>
+                            </div> -->
+
+                            <div class="text-center" *ngIf="buttonMode == 'regular'">
+                                <button
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)"  
+                                    class="btn dcb-btn btn-sm float-left" 
+                                    (click)="prevPageRegular()"
+                                    [disabled]="disable_prevRegular || !(pagination_clicked_countRegular>0)">Previous
+                                </button> 
+                                <span class="page-num-indicator">Page no: {{pagination_clicked_countRegular+1}}</span>
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    class="btn dcb-btn btn-sm float-right" 
+                                    (click)="nextPageRegular()" 
+                                    [disabled]="disable_nextRegular">Next
+                                </button>
+                            </div>
+
+                            <!-- <div class="text-center" *ngIf="buttonMode == 'project'">
+                                <button class="btn dcb-btn btn-sm float-left" (click)="prevPageProject()"
+                                    [disabled]="disable_prevProject || !(pagination_clicked_countProject>0)">Previous</button> <span class="page-num-indicator">Page no: {{pagination_clicked_countProject+1}}</span>
+                                <button class="btn dcb-btn btn-sm float-right" (click)="nextPageProject()" [disabled]="disable_nextProject">Next</button>
+                            </div> -->
+
+                            <div class="text-center" *ngIf="buttonMode == 'dateSearch'">
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    class="btn dcb-btn btn-sm float-left" 
+                                    (click)="prevPageDateSearch()"
+                                    [disabled]="disable_prevDateSearch || !(pagination_clicked_countDateSearch>0)">Previous
+                                </button> 
+                                <span class="page-num-indicator">Page no: {{pagination_clicked_countDateSearch+1}}</span>
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    class="btn dcb-btn btn-sm float-right" 
+                                    (click)="nextPageDateSearch()" 
+                                    [disabled]="disable_nextDateSearch">Next
+                                </button>
+                            </div>
+                            
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

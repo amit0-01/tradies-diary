@@ -1,0 +1,46 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-lg-6 col-sm-12 col-md-12">
+                <div class="card card-dcb dashboard-card">
+                        <div class="card-header card-header-text card-header-info">
+                            <button mat-button class="btn dcb-btn"
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    (click)="openAddDialog()">Add New Visitor
+                            </button>   
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: scroll;">
+                                    <div >
+                                            <!-- <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table> -->
+                                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="DataTables_Table_0" class="row-border hover"></table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <!-- <div>
+                                <button style="width: 100%;" mat-button class="btn dcb-btn"
+                                        (click)="downloadCSV()">
+                                        <i class="material-icons">download</i> Download CSV
+                                </button> 
+                                <br>
+                                <button style="width: 100%;" mat-button class="btn dcb-btn"
+                                        (click)="downloadBlankCSV()">
+                                        <i class="material-icons">download</i> Download Blank CSV Template
+                                </button> 
+                            </div>
+                            <div>
+                                <h5>Import CSV File</h5>
+                                <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
+                            </div> -->
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   

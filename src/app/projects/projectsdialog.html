@@ -1,0 +1,106 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="editForm">
+                <div class="row">
+                        <div class="col-md-6">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>ID</mat-label>
+                                        <input matInput value="{{data.id}}" placeholder="ID" type="text" disabled>
+                                </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Job  Number</mat-label>
+                                        <input formControlName="jobNumber" id="jobNumber" placeholder="Job Number" matInput  type="text">
+                                </mat-form-field>
+                        </div>
+                </div>
+   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Client Name</mat-label>
+                        <input formControlName="clientName" id="clientName" placeholder="Client Name" matInput  type="text">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Project Name</mat-label>
+                        <input formControlName="projectName" id="projectName" placeholder="Project Name" matInput  type="text">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Project Address</mat-label>
+                        <input formControlName="projectAddress" id="projectAddress" placeholder="Project Address" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Project Owner</mat-label>
+                        <mat-select formControlName="projectOwner" id="projectOwner" placeholder="Project Owner" name="projectOwner">
+                                <mat-option *ngFor="let projectOwner of projectOwners" [value]="projectOwner.id">
+                                {{ projectOwner.name }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field>
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Client Email Address</mat-label>
+                        <input formControlName="clientEmail" id="clientEmail" placeholder="Client Email Address" matInput  type="text">
+                </mat-form-field> -->
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Client Email Addresses</mat-label>
+                        <mat-chip-grid #chipList>
+                        <mat-chip *ngFor="let ClientEmail of editForm.get('clientEmail')['controls']; let i = index;" [selectable]="selectable"
+                            [removable]="removable" (removed)="removeClientEmail(i)">
+                            {{ClientEmail.value}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input class="chip-input" placeholder="Client Email Addresses"
+                              [matChipInputFor]="chipList"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                              [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addClientEmail($event)" />
+                    </mat-chip-grid>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Client Email Addresses (CC)</mat-label>
+                        <mat-chip-grid #chipList2>
+                        <mat-chip *ngFor="let ClientEmailCC of editForm.get('clientEmailCC')['controls']; let i = index;" [selectable]="selectable"
+                            [removable]="removable" (removed)="removeClientEmailCC(i)">
+                            {{ClientEmailCC.value}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input class="chip-input" placeholder="Client Email Addresses (CC)"
+                              [matChipInputFor]="chipList2"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                              [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addClientEmailCC($event)" />
+                    </mat-chip-grid>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Client Email Addresses (BCC)</mat-label>
+                        <mat-chip-grid #chipList3>
+                        <mat-chip *ngFor="let ClientEmailBCC of editForm.get('clientEmailBCC')['controls']; let i = index;" [selectable]="selectable"
+                            [removable]="removable" (removed)="removeClientEmailBCC(i)">
+                            {{ClientEmailBCC.value}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input class="chip-input" placeholder="Client Email Addresses (BCC)"
+                              [matChipInputFor]="chipList3"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                              [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addClientEmailBCC($event)" />
+                    </mat-chip-grid>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Project Status</mat-label>
+                        <mat-select formControlName="projectStatus" id="projectStatus" placeholder="Project Status" name="projectStatus">
+                                <mat-option *ngFor="let StatusOption of statusOption" [value]="StatusOption.value">
+                                {{ StatusOption.viewValue }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field>
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button class = "btn dcb-btn btn-primary" (click)="updateProject()" mat-button cdkFocusInitial>Update Project</button>
+</div>

@@ -1,0 +1,120 @@
+<h1 mat-dialog-title>{{data.workerName}} 's Timesheet</h1>
+<br>
+<div mat-dialog-content class=" table-pop">
+        <form [formGroup]="editForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Project</label>
+                                <mat-select formControlName="projectId" id="projectId" placeholder="What site is this report for" name="projectId">
+                                        <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                        {{ projectName.projectName }}
+                                        </mat-option>
+                                </mat-select>
+                        </div>
+                </div>    
+                <div class = "row">
+                        <div class="col-md-12">   
+                                <label>Date</label>
+                                <input matInput [matDatepicker]="picker2" placeholder="Entry Date" type="text" formControlName="selectedDate"
+                                id="selectedDate" (click)="picker2.open()">
+                                <mat-datepicker-toggle matSuffix [for]="picker2" style = "display: none;"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker> 
+                        </div>
+                </div>  
+                <div class = "row">
+                        <div class="col-md-12">  
+                                <label>Start</label>
+                                <input  formControlName="start" matInput (click)="changeTimeDialog('start',editForm.get('start').value)"/>
+                        </div>
+                </div> 
+                <div class = "row">
+                        <div class="col-md-12">  
+                                <label>Break</label>
+                                <mat-select formControlName="break" id="break" placeholder="Break" name="break">
+                                        <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                        {{ breaktime.viewValue }}
+                                        </mat-option>
+                                </mat-select> 
+                        </div>
+                </div> 
+                <div class = "row">
+                        <div class="col-md-12">  
+                                <label>Finish</label>
+                                <input  formControlName="finish" matInput (click)="changeTimeDialog('finish',editForm.get('finish').value)"/>
+                        </div>
+                </div>
+                <div class = "row">
+                        <div class="col-md-12">  
+                                <label>Accomplishments *</label>
+                                <tag-input 
+                                id="accomplishments"
+                                formControlName="accomplishments"
+                                [editable]="true"
+                                placeholder="Enter Accomplishments"
+                                secondaryPlaceholder="Enter Accomplishments "
+                                addOnBlur="true"
+                                [modelAsStrings]="true"
+                                >
+                                </tag-input>
+                        </div>
+                </div>
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Select Project</mat-label>
+                        <mat-select formControlName="projectId" id="projectId" placeholder="What site is this report for" name="projectId">
+                                <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                {{ projectName.projectName }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field> -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" placeholder="Entry Date" type="text" formControlName="selectedDate"
+                                id="selectedDate" (click)="picker2.open()">
+                        <mat-datepicker-toggle matSuffix [for]="picker2" style = "display: none;"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>     
+                </mat-form-field> -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Start</mat-label>
+                        <input  formControlName="start" matInput (click)="changeTimeDialog('start',editForm.get('start').value)"/>
+                </mat-form-field> -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Break</mat-label>
+                        <mat-select formControlName="break" id="break" placeholder="Break" name="break">
+                                <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                {{ breaktime.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Finish</mat-label>
+                        <input  formControlName="finish" matInput (click)="changeTimeDialog('finish',editForm.get('finish').value)"/>
+                </mat-form-field>   -->
+                <!-- <div>
+                        <label>Accomplishments *</label>
+                        <tag-input 
+                            id="accomplishments"
+                            formControlName="accomplishments"
+                            [editable]="true"
+                            placeholder="Enter Accomplishments"
+                            secondaryPlaceholder="Enter Accomplishments "
+                            addOnBlur="true"
+                            [modelAsStrings]="true"
+                        >
+                        </tag-input>
+                    </div> -->
+                        
+                        <!-- <div class="togglebutton">
+                          <label>
+                            <input type="checkbox" formControlName="acceptedStatus">
+                            <span class="toggle"></span>
+                                Accepted
+                          </label>
+                        </div>     -->
+           
+        </form>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <!-- <button class = "btn dcb-btn" (click)="updateStaff()" mat-button cdkFocusInitial  [disabled]="editForm.pristine">Update Employee</button> -->
+  <button class = "btn dcb-btn" (click)="updateTimesheet()" mat-button cdkFocusInitial >Update Timesheet</button>
+</div>

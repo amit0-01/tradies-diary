@@ -1,0 +1,13 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Cost Centre Name</mat-label>
+                        <input formControlName="name" id="name" placeholder="Name" matInput  type="text">
+                </mat-form-field>   
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button  (click)= "addNewCostcentre()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add Cost Centre to Global List</button>
+</div>

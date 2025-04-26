@@ -1,0 +1,298 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+      <div class = "row">
+          <div class="col-md-6">
+              <div class="card card-dcb  dashboard-card compact-layout compact-layout-common">
+                      <div class="card-header card-header-text card-header-success">
+                          <!-- <div class="card-text">
+                              Email Settings for Admin Approval
+                          </div>  -->
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="editForm" class="dcb-form">
+                            <div class="custom-frame">
+                                  <div class="row">
+                                      <div class="col-md-12">    
+                                        <label style="font-weight: bold;">Global Colour Settings</label>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-3" style="position:relative">
+                                              <label>Hover Colour</label>
+                                              <input #colourHover [style.color]="editForm.get('colourHover')?.value" (click) = "selectColour($event)" formControlName="colourHover" id="colourHover" matInput type="text">
+                                              <div #popColourHover [style.display]="showColourHover == true ? 'block' : 'none'" style="position: absolute;top: 15px;left: 15px;z-index: 2;" >
+                                                <color-sketch (mouseup) = "hideColourPopUp()" color="{{currentPopColour}}" (onChangeComplete)="changeColourHover($event)"></color-sketch>
+                                              </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                              <label>Highlight Colour</label>
+                                              <input #colourHighlight [style.color]="editForm.get('colourHighlight')?.value" (click) = "selectColour($event)" formControlName="colourHighlight" id="colourHighlight" matInput type="text">
+                                              <div #popColourHighlight [style.display]="showColourHighlight == true ? 'block' : 'none'" style="position: absolute;top: 15px;left: 15px;z-index: 2;" >
+                                                <color-sketch (mouseup) = "hideColourPopUp()" color="{{currentPopColour}}" (onChangeComplete)="changeColourHighlight($event)"></color-sketch>
+                                              </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                              <label>Enabled Button Colour</label>
+                                              <input #colourEnabledButton [style.color]="editForm.get('colourEnabledButton')?.value" (click) = "selectColour($event)" formControlName="colourEnabledButton" id="colourEnabledButton"  matInput type="text">
+                                              <div #popColourEnabledButton [style.display]="showEnabledButton == true ? 'block' : 'none'" style="position: absolute;top: 15px;left: 15px;z-index: 2;" >
+                                                <color-sketch (mouseup) = "hideColourPopUp()" color="{{currentPopColour}}" (onChangeComplete)="changeColourEnabledButton($event)"></color-sketch>
+                                              </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                              <label>Hovered Button Colour</label>
+                                              <input #colourHoveredButton [style.color]="editForm.get('colourHoveredButton')?.value" (click) = "selectColour($event)" formControlName="colourHoveredButton" id="colourHoveredButton"  matInput type="text">
+                                              <div #popColourHoveredButton [style.display]="showHoveredButton == true ? 'block' : 'none'" style="position: absolute;top: 15px;left: 15px;z-index: 2;" >
+                                                <color-sketch (mouseup) = "hideColourPopUp()" (onChangeComplete) = "changeColourHoveredButton($event)" color="{{currentPopColour}}" ></color-sketch>
+                                              </div>
+                                              <!-- (onChangeComplete)="changeColourHoveredButton($event)" -->
+                                      </div>
+                                  </div>
+                            </div>
+                            <br>
+                            <div class="custom-frame">
+                                <div class="row">
+                                    <div class="col-md-12">    
+                                      <label style="font-weight: bold;">PDF Settings</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                      <label>Phone Number</label>
+                                      <input formControlName="pdfPhone" id="pdfPhone" placeholder="Phone Number in the PDF" matInput type="text">
+                                    </div>
+                                    <div class="col-md-6">
+                                      <label>Mobile Number</label>
+                                      <input formControlName="pdfMobile" id="pdfMobile" placeholder="Mobile Number in the PDF" matInput type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Email Address</label>
+                                    <input formControlName="pdfEmail" id="pdfEmail" placeholder="Email in the PDF" matInput type="text">
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label>PDF Company Name</label>
+                                    <input formControlName="pdfCompanyName" id="pdfCompanyName" placeholder="Company Name in the PDF" matInput type="text">
+                                  </div>
+                                  
+                              </div>
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <label>Address</label>
+                                    <input formControlName="pdfAddress" id="pdfAddress" placeholder="Address in the PDF" matInput type="text">
+                                  </div>
+                                </div>
+                            </div>  
+                            <br>
+                            <div class="custom-frame">
+                                <div class="row">
+                                    <div class="col-md-12">    
+                                      <label style="font-weight: bold;">Email Settings</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                        <label>Admin Notification Email *</label>
+                                        <input formControlName="adminEmail" id="adminEmail" placeholder="Admin Email" matInput type="text">
+                                  </div>   
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-12">
+                                        <label>Text Signature (500 characters limit)</label>
+                                        <quill-editor (onContentChanged)="textChanged($event)" [styles]="{height: '70px'}" id="textSignature" formControlName="textSignature"></quill-editor>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-12">
+                                        <label>Email Signature (6000 characters limit)</label>
+                                        <textarea matInput rows="5" maxLength="6000" placeholder="Copy and Paste your HTML Signature here"  formControlName="emailSignature"></textarea>
+                                        <span class="btn-span" data-toggle="modal" data-target="#myModal">Preview</span>
+                                  </div>
+                                </div>
+
+                            </div> 
+
+                            
+
+                            <!-- <color-sketch ></color-sketch> -->
+
+                            <!--  <div class="row">
+                                <div class="col-md-3">
+                                      <label>PDF Tel Number</label>
+                                      <input formControlName="pdfTelNum" id="pdfCompanyName" placeholder="Telephone Number in the PDF" matInput type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                      <label>PDF Mobile Number</label>
+                                      <input formControlName="pdfMobNum" id="pdfCompanyName" placeholder="Mobile Number in the PDF" matInput type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                      <label>PDF Company Email Address</label>
+                                      <input formControlName="pdfEmailAddress" id="pdfCompanyName" placeholder="Email Address in the PDF" matInput type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                      <label>PDF Company Address</label>
+                                      <input formControlName="pdfCompanyAddress" id="pdfCompanyName" placeholder="Company Address in the PDF" matInput type="text">
+                                </div>
+                            </div> -->
+                            <br>
+                            <div class="row">
+                                <div class="col-md-7">
+                                  <label>Account Logo</label>
+                                  <p>Please upload image with max width of 500px</p>
+                                  <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail" style = "max-width: 500px;">
+                                      <img src="./assets/img/image_placeholder.jpg" alt="..." *ngIf="!imageURL">
+                                      <img [src]="imageURL" *ngIf="imageURL && imageURL !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                      <span [ngStyle]="{ backgroundColor: colorBtnDefault }" (mouseenter)="onButtonEnter($event.target)" (mouseleave)="onButtonOut($event.target)" class="dcb-btn btn btn-change btn-file">
+                                        <span class="fileinput-new">Select image</span>
+                                        <span class="fileinput-exists">Change</span>
+                                        <input accept="image/*" type="file" name="..." (change)="onFileChange($event)" />
+                                      </span>
+                                      <!-- <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
+                                      <!-- <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a> -->
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-md-5">
+                                  <label>Email Signature Image</label>
+                                  <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail" style = "max-width: 500px;">
+                                      <img src="./assets/img/image_placeholder.jpg" alt="..." *ngIf="!imageURL">
+                                      <img [src]="imageURL" *ngIf="imageURL && imageURL !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                      <span class="dcb-btn btn btn-change btn-file">
+                                        <span class="fileinput-new">Select image</span>
+                                        <span class="fileinput-exists">Change</span>
+                                        <input accept="image/*" type="file" name="..." (change)="onFileChange($event)" />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div> -->
+<!-- 
+                            <div class="row">
+                                <div class="col-md-12">
+                                      <label>Weekly Report Approval (To):</label>
+                                      <div class= "chip-input-holder">
+                                        <mat-chip-grid #chipList>
+                                            <mat-chip *ngFor="let EmailTo of editForm.get('emailTo')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeEmailTo(i)">
+                                                {{EmailTo.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="Admin Email Address Recipient"
+                                                  [matChipInputFor]="chipList"
+                                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                  [matChipInputAddOnBlur]="addOnBlur"
+                                                  (matChipInputTokenEnd)="addEmailTo($event)" />
+                                        </mat-chip-grid>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                             
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <label>Weekly Report Approval (CC):</label>
+                                        <div class= "chip-input-holder">
+                                        <mat-chip-grid #chipList2>
+                                            <mat-chip *ngFor="let EmailCC of editForm.get('emailCC')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeEmailCC(i)">
+                                                {{EmailCC.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="Admin Email Address Recipient"
+                                                    [matChipInputFor]="chipList2"
+                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                    [matChipInputAddOnBlur]="addOnBlur"
+                                                    (matChipInputTokenEnd)="addEmailCC($event  )" />
+                                        </mat-chip-grid>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                          
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <label>Weekly Report Approval (BCC):</label>
+                                        <div class= "chip-input-holder">
+                                        <mat-chip-grid #chipList2>
+                                            <mat-chip *ngFor="let EmailBCC of editForm.get('emailBCC')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeEmailBCC(i)">
+                                                {{EmailBCC.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="Admin Email Address Recipient"
+                                                    [matChipInputFor]="chipList2"
+                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                    [matChipInputAddOnBlur]="addOnBlur"
+                                                    (matChipInputTokenEnd)="addEmailBCC($event  )" />
+                                        </mat-chip-grid>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                          
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <label>Project Request Recepient:</label>
+                                        <div class= "chip-input-holder">
+                                        <mat-chip-grid #chipList2>
+                                            <mat-chip *ngFor="let ProjectReqestRecepient of editForm.get('projectReqestRecepient')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeProjectReqestRecepient(i)">
+                                                {{ProjectReqestRecepient.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="Project Request Recipient"
+                                                    [matChipInputFor]="chipList2"
+                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                    [matChipInputAddOnBlur]="addOnBlur"
+                                                    (matChipInputTokenEnd)="addProjectReqestRecepient($event)" />
+                                        </mat-chip-grid>
+                                        </div>
+                                </div>
+                            </div> -->
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <!-- <button  [ngStyle]="{ backgroundColor: colorBtnDefault }" (mouseover)="colorBtnDefault = colorBtnHovered" (mouseout)="colorBtnDefault = colorBtnEnabled" (click)= "savestep1()"  mat-raised-button class="btn dcb-btn" >Save Settings</button> -->
+                        <button [ngStyle]="{ backgroundColor: colorBtnDefault }" (mouseenter)="onButtonEnter($event.target)" (mouseleave)="onButtonOut($event.target)" (click)= "savestep1()"  mat-raised-button class="btn dcb-btn" >Save Settings</button>
+                      </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+ <!-- Modal -->
+ <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <a style="color:#292929" download="image.jpg" href="{{imgSrc}}"><i class="material-icons">download</i>Download Image</a> -->
+        <h4 class="modal-title">Email Signature</h4>
+        <span #closebutton class="btn-span" data-dismiss="modal">Close</span>
+      </div>
+      <div class="modal-body">
+        <div [innerHTML]="editForm.get('emailSignature')?.value"></div>
+      </div>
+    </div>
+  </div>
+</div>

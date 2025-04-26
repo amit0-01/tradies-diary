@@ -1,0 +1,406 @@
+
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+<!--                 
+        <div class = "row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    
+                    <div class="list row">
+                        <div class="col-md-6">
+                        <h4>Tutorials List</h4>
+                        <ul class="list-group">
+                            <li
+                            class="list-group-item"
+                            *ngFor="let tutorial of tutorials; let i = index"
+                            [class.active]="i == currentIndex"
+                            (click)="setActiveTutorial(tutorial, i)"
+                            >
+                            {{ tutorial.title }}
+                            </li>
+                        </ul>
+                        </div>
+                        <div class="col-md-6">
+                        <div *ngIf="currentTutorial">
+                            <app-tutorial-details
+                            (refreshList)="refreshList()"
+                            [tutorial]="currentTutorial"
+                            ></app-tutorial-details>
+                        </div>
+                    
+                        <div *ngIf="!currentTutorial">
+                            <br />
+                            <p>Please click on a Tutorial...</p>
+                        </div>
+                        </div>
+                    </div>
+
+                        <div class="submit-form">
+                            <div *ngIf="!submitted2">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                id="title"
+                                required
+                                [(ngModel)]="tutorial.title"
+                                name="title"
+                                />
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input
+                                class="form-control"
+                                id="description"
+                                required
+                                [(ngModel)]="tutorial.description"
+                                name="description"
+                                />
+                            </div>
+                        
+                            <button (click)="saveTutorial()" class="btn btn-success">Submit</button>
+                            </div>
+                        
+                            <div *ngIf="submitted2">
+                            <h4>You submitted successfully!</h4>
+                            <button class="btn btn-success" (click)="newTutorial()">Add</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div> -->
+
+  
+                <div class = "row">
+                    <div class="col-md-12">
+                        <div class="card card-dcb dashboard-card">
+                                <div class="card-header">
+                                </div>
+                                <div class="card-body">    
+<!--                                     
+                                    <h5 class="card-title">Select a file for upload:</h5>
+                                    <input type="file" (change)="upload($event)" multiple accept=".png,.jpg" />
+                                    <br><br>
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(uploadProgress | async) + '%'" [attr.aria-valuenow]="(uploadProgress | async)" aria-valuemin="0" aria-valuemax="100">
+                                      </div>
+                                    </div>
+                                    <br>
+                                    <div class="btn-group" role="group" *ngIf="uploadState | async; let state">
+                                      <button type="button" class="btn btn-primary" (click)="task.pause()" [disabled]="state === 'paused'">Pause</button>
+                                      <button type="button" class="btn btn-primary" (click)="task.cancel()" [disabled]="!(state === 'paused' || state ==='running')">Cancel</button>
+                                      <button type="button" class="btn btn-primary" (click)="task.resume()" [disabled]="state === 'running'">Resume</button>
+                                    </div>
+                                    <br><br>
+                                    <div *ngIf="downloadURL | async; let downloadSrc" class="alert alert-info" role="alert">
+                                      File uploaded: <a [href]="downloadSrc">{{downloadSrc}}</a>
+                                    </div>
+                                    <br><br><br>
+
+                                    <div class="dropzone" 
+                                            dropzone
+                                            (hovered)="toggleHover($event)"
+                                            (dropped)="onDrop($event)"
+                                            [class.hovering]="isHovering">
+
+                                            <h3>AngularFire Drop Zone</h3>
+                                            <p>Drag and Drop a File</p>
+                                            <div class="file">
+                                            <label class="file-label">
+                                    
+                                            <input accept="image/*" class="file-input" type="file" (change)="onDrop($event.target.files)" multiple>           
+                                    
+                                                <span class="file-cta">
+                                                <span class="file-icon">
+                                                    <i class="fa fa-upload"></i>
+                                                </span>
+                                                <span class="file-label">
+                                                    or choose a file…
+                                                </span>
+                                                </span>
+                                            </label>
+                                            </div>
+                                    </div> -->
+                               
+                               <h3>Uploads</h3>
+                               
+                               <div *ngFor="let file of files">
+                                 <uploader [file]="file"></uploader>
+                               </div>
+                                    <br><br><br>
+                                        <form [formGroup]="timeForm" class="dcb-form">                                       
+                                                <div class = "row">
+                                                    <div class="col-md-3">
+                                                            <div>
+                                                                <label>Entry Date *</label>
+                                                                <input matInput (dateChange)="getTime2()" [matDatepicker]="picker2" [max]="todays_date" placeholder="Entry Date" type="text" formControlName="selectedDate"
+                                                                id="selectedDate" (click)="picker2.open()">
+                                                                <!-- <input matInput (dateInput)="getTime()" (dateChange)="getTime()" [matDatepicker]="picker2" placeholder="Today's Date" type="text" formControlName="todaysDate"
+                                                                id="todaysDate" (click)="picker2.open()"> -->
+                                                                <mat-datepicker-toggle matSuffix [for]="picker2" style = "display: none;"></mat-datepicker-toggle>
+                                                                <mat-datepicker #picker2></mat-datepicker>
+                                                            </div>
+                                                            <div *ngIf="timeForm.get('selectedDate').touched" >
+                                                                <div *ngIf="timeForm.get('selectedDate').hasError('required')" class="error-label-class">
+                                                                  * Date is required
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                                <div>
+                                                                    <label>Select Project *</label>
+                                                                    <mat-select (selectionChange)="getTime2()" formControlName="projectId" id="projectId" placeholder="What site is this report for" name="projectId">
+                                                                            <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                                                            {{ projectName.projectName }}
+                                                                            </mat-option>
+                                                                    </mat-select>
+                                                                </div>
+                                                                <div *ngIf="timeForm.get('projectId').touched" >
+                                                                    <div *ngIf="timeForm.get('projectId').hasError('required')" class="error-label-class">
+                                                                      * Project is required
+                                                                    </div>
+                                                                </div>
+                                                    </div>
+                                                </div>
+                                                <div class = "row" >
+                                                    <div class="col-md-3">
+                                                                <div>
+                                                                    <label>Start *</label>
+                                                                    <input  formControlName="start" (click)="changeTimeDialog('start',timeForm.get('start').value)"/>
+                                                                    <!-- <input [ngxTimepicker]="startPicker" formControlName="start" (timeSet)="computeTime()">
+                                                                    <ngx-material-timepicker #startPicker [enableKeyboardInput]="true" (closed)="computeTime()"></ngx-material-timepicker> -->
+                                                                </div>
+                                                                <div *ngIf="timeForm.get('start').touched" >
+                                                                    <div *ngIf="timeForm.get('start').hasError('required')" class="error-label-class">
+                                                                      * Start Time is required
+                                                                    </div>
+                                                                </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                                <div>
+                                                                    <label>Break *</label>
+                                                                    <!-- <input [ngxTimepicker]="breakPicker" formControlName="break" [format]="24">
+                                                                    <ngx-material-timepicker #breakPicker (closed)="computeTime()"></ngx-material-timepicker> -->
+                                                                    <mat-select formControlName="break" id="break" placeholder="Break" name="break" (selectionChange)="computeTime()">
+                                                                            <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                                                            {{ breaktime.viewValue }}
+                                                                            </mat-option>
+                                                                    </mat-select>  
+                                                                </div>  
+                                                                <div *ngIf="timeForm.get('break').touched" >
+                                                                    <div *ngIf="timeForm.get('break').hasError('required')" class="error-label-class">
+                                                                      * Break is required
+                                                                    </div>
+                                                                </div> 
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                                <div>
+                                                                    <label>Finish*</label>
+                                                                    <input  formControlName="finish" (click)="changeTimeDialog('finish',timeForm.get('finish').value)"/>
+                                                                    <!-- <input [ngxTimepicker]="finishPicker" formControlName="finish">
+                                                                    <ngx-material-timepicker #finishPicker (closed)="computeTime()"></ngx-material-timepicker > -->
+                                                                </div>
+                                                                <div *ngIf="timeForm.get('finish').touched" >
+                                                                    <div *ngIf="timeForm.get('finish').hasError('required')" class="error-label-class">
+                                                                      * Finish Time is required
+                                                                    </div>
+                                                                </div>
+                                                    </div>
+                                                    <!-- <div class="col-md-3">
+                                                        <label></label>
+                                                        <button (click)= "generateTime()"  mat-button class="btn dcb-btn">Get Default Time</button>
+                                                    </div> -->
+                                                </div>
+                                                <div class = "row" >
+                                                            <div class="col-md-6">
+                                                                <div>
+                                                                    <label>Total Time</label>
+                                                                    <span>{{totalTime}}</span>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                </div>
+
+                                                <div class = "row" >
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <label>Note *</label>
+                                                            <tag-input 
+                                                                id="accomplishments"
+                                                                formControlName="accomplishments"
+                                                                [editable]="true"
+                                                                placeholder="Press ENTER or RETURN key to add an item"
+                                                                secondaryPlaceholder="Press ENTER or RETURN key to add an item"
+                                                                addOnBlur="true"
+                                                                [modelAsStrings]="true"
+                                                            >
+                                                            </tag-input>
+                                                            <div *ngIf="timeForm.get('accomplishments').touched" >
+                                                                <div *ngIf="timeForm.get('accomplishments').hasError('required')" class="error-label-class">
+                                                                  * Accomplishment is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
+
+                                                <div class ="row" formArrayName="imageUpload" >
+                                                        <div class="col-md-12">
+                                                        <label>Photo</label>
+                                                        </div>  
+                                                        
+                                                        <div class="col-md-3" *ngFor="let item of timeForm.get('imageUpload')['controls']; let i = index;" [formGroupName]="i" >
+                                                                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                                                        <mat-label>Caption</mat-label>
+                                                                        <input matInput placeholder="Caption" type="text" formControlName="passFirstName">
+                                                                </mat-form-field> -->
+                                                                <label>Caption</label>
+                                                                <input matInput placeholder="Caption" type="text" formControlName="imageCaption">
+                                        
+                                                                <div class="fileinput fileinput-new text-center">
+                                                                    <div class="fileinput-new thumbnail">
+                                                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!imageURL[i]">
+                                                                        <img [src]="imageURL[i]" *ngIf="imageURL[i] && imageURL[i] !== ''">
+                                                                    </div>
+                                                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                                                    <div>
+                                                                        {{ formatBytes(imageSize[i]) }}
+                                                                    </div>
+                                                                    <!-- <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar" [style.width]="(allPercentage[i] | async) + '%'" [attr.aria-valuenow]="(allPercentage[i] | async)" aria-valuemin="0" aria-valuemax="100">
+                                                                        
+                                                                        </div>
+                                                                    </div> -->
+                
+                                                                    <div>
+                                                                        <!-- <span class="btn btn-change btn-file">
+                                                                            <span class="fileinput-new">Select image</span>
+                                                                            <span class="fileinput-exists">Change</span>
+                                                                            <input accept="image/*" type="file" name="..."  (change)="onFileChange($event,i)"/>
+                                                                        </span> -->
+                                                                        <!-- <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
+                                                                        <button (click)= "removeImageUpload(i)"  mat-button class="btn btn-remove-img"><i class="fa fa-times"></i> Remove</button> 
+                                                                        <!-- <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a> -->
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                       
+                                                        </div>
+                                                    <div class="col-md-12">
+                                                        <span
+                                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                            (mouseenter)="onButtonEnter($event.target)" 
+                                                            (mouseleave)="onButtonOut($event.target)"   
+                                                            class="btn dcb-btn btn-file">
+                                                            <span class="fileinput-new">Add Multiple Images</span>
+                                                            <input accept="image/png, image/jpeg" type='file' (change)="onSelectFile($event)" multiple>
+                                                        </span>
+                                                        <!-- <button *ngIf="reportPreviewMode == false" (click)= "addImageDiary()"  mat-button class="btn btn-info">Add Images From Daily Report</button> -->
+                                                        <!-- <button (click)= "addImageUpload()"  mat-button class="btn btn-info">Add Single Image</button> -->
+                                                        <!-- <button (click)= "removeLastImageUpload()"  mat-button class="btn btn-remove-group">Remove</button>   -->
+                                                    
+                                            
+                                                    </div>
+
+                                                   
+
+                                                </div> 
+
+                                        </form>
+                                </div>
+                                <div class="card-footer" >
+                                    <!-- <button (click)= "generateTime()"  mat-button class="btn dcb-btn">Auto Generate Time</button> -->
+                                    <button 
+                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                        (mouseenter)="onButtonEnter($event.target)" 
+                                        (mouseleave)="onButtonOut($event.target)"  
+                                        (click) = "saveStep1()"  
+                                        mat-button class="btn dcb-btn"  
+                                        [disabled]="!accomplishments.valid">Submit
+                                    </button>
+                                    <button *ngIf="currentLog" (click) = "openDeleteDialog()"  mat-button class="btn dcb-btn">Delete</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class = "row">
+                    <div class="col-md-12">
+                        <div class="card card-dcb dashboard-card">
+                                <div class="card-header">
+                                </div>
+                                <div class="card-body">
+                                    <form [formGroup]="editForm" class="dcb-form">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div>
+                                                        <label>Select Date</label>
+                                                        <input matInput (dateInput)="getTime2()" (dateChange)="getTime2()" [matDatepicker]="picker3" placeholder="Enter Date" type="text" formControlName="todaysDate"
+                                                        id="todaysDate" (click)="picker3.open()">
+                                                        <mat-datepicker-toggle matSuffix [for]="picker3" style = "display: none;"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker3></mat-datepicker>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div>
+                                                        <label>Select Project</label>
+                                                        <mat-select (selectionChange)="getTime2()" formControlName="projectName" id="projectName" placeholder="What site is this report for" name="projectName">
+                                                                <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                                                {{ projectName.project_name }}
+                                                                </mat-option>
+                                                        </mat-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class ="row" formArrayName="imageUpload">
+                                                <div class="col-md-6 col-lg-3" *ngFor="let item of editForm.get('imageUpload')['controls']; let i = index;trackBy:trackFn" [formGroupName]="i" >
+                                                            <label>Caption</label>
+                                                            <input matInput placeholder="Caption" type="text" formControlName="imageCaption">
+                                
+                                                            <div class="fileinput fileinput-new text-center">
+                                                                <div class="fileinput-new thumbnail">
+                                                                    <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!imageURL[i]">
+                                                                    <img [src]="imageURL[i]" *ngIf="imageURL[i] && imageURL[i] !== ''">
+                                                                </div>
+                                                                <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                                                <div>
+                                                                {{ formatBytes(imageSize[i]) }}
+                                                                </div>
+                                                                <div>
+                                                                    <span class="btn btn-change btn-file">
+                                                                        <span class="fileinput-new">Select image</span>
+                                                                        <span class="fileinput-exists">Change</span>
+                                                                        <input accept="image/*" type="file" name="..."  (change)="onFileChange($event,i)"/>
+                                                                    </span>
+                                                                   
+                                                                    <button *ngIf="reportPreviewMode == false" (click)= "removeImageUpload(i)"  mat-button class="btn btn-remove-img"><i class="fa fa-times"></i> Remove</button> 
+                                                              
+                                                                </div>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <span class="btn dcb-btn btn-file">
+                                                        <span class="fileinput-new">Add Images</span>
+                                                        <input accept="image/*" type='file' (change)="onSelectFile($event)" multiple>
+                                                    </span>
+                                                </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer">
+                                    <button *ngIf="showUpdateUploadButton == false" (click)= "uploadPhotos()"  mat-button class="btn dcb-btn">Upload Photos</button>
+                                    <button *ngIf="showUpdateUploadButton == true" (click)= "updatePhotos()"  mat-button class="btn dcb-btn">Update Photos</button>
+                                </div>
+                        </div>
+                    </div>
+                </div> -->
+
+    </div>
+  </div>
+   

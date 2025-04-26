@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Add New Category</h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <br/>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Category Name</mat-label>
+                        <input formControlName="name" id="name" placeholder="Name" matInput  type="text">
+                </mat-form-field>   
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button class = "btn dcb-btn" (click)="onNoClick()">Cancel</button>
+  <button  (click)= "addNewCategory()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add Category to Global List</button>
+</div>

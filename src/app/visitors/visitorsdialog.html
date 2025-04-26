@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Update Visitor</h1>
+<div mat-dialog-content class=" table-pop">
+        <form [formGroup]="editForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Name</label>
+                                <input formControlName="visitorName" id="visitorName" placeholder="Name" matInput  type="text">
+                        </div>
+                </div>     
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                class = "btn dcb-btn" 
+                (click)="updateFBVisitor()" 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)" 
+                mat-button cdkFocusInitial  [disabled]="editForm.pristine">Update Visitor
+        </button>
+</div>

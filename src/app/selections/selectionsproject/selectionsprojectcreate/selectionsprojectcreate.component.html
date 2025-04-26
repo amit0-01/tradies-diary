@@ -1,0 +1,615 @@
+<div class="main-content dashboard-content">
+  <div class="container-fluid">
+      <div class = "row">
+          <div class="col-md-12">
+              <div class="card card-dcb dashboard-card">
+                      <div class="card-header card-header-text card-header-success" *ngIf="selectionForm.get('selectionNumber').value">
+                          <div class="card-text">
+                              Selection Report No. {{selectionForm.get('selectionNumber').value}}
+                          </div> 
+                      </div>
+                      <div class="card-body">
+                          <form [formGroup]="selectionForm" class="dcb-form">
+
+                              <div class="compact-layout compact-layout-common">
+                                  <div class="row">
+                                      <div class="col-md-2 col-lg-2">
+                                          <h1>Selection for {{projectData?.projectName}}</h1>
+                                      </div>
+                                      <div class="col-md-2 col-lg-2">
+                                          <label>Selection Name*</label>
+                                          <input matInput placeholder="Selection Name" type="text" formControlName="selectionName">
+                                      </div>
+                                     
+                                      <div class="col-md-2 col-lg-2">
+                                          <label>Status</label>
+                                          <input matInput placeholder="Status" type="status" value="Draft"  readonly>
+                                      </div>
+
+
+                                      <div class="col-md-1 col-lg-1">
+                                          <label>Due Date*</label>
+                                          <input matInput [matDatepicker]="picker3" placeholder="Due Date" type="text"
+                                          formControlName="dueDate" id="dueDate" (click)="picker3.open()">
+                                          <mat-hint>MM/DD/YYYY</mat-hint>
+                                          <mat-datepicker-toggle matIconSuffix  [for]="picker3" style="display: none;"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker3></mat-datepicker>
+                                      </div>
+
+
+                                      <div class="col-lg-5 col-md-5">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6">
+                                              <label class="w-100 d-flex justify-content-between">
+                                                Project Selection Recipient/s
+                                                <div>
+                                                  <span class="btn-span" (click)="toggleRecipientEdit()">
+                                                    {{ isEditable ? 'Done' : 'Edit' }}
+                                                  </span>
+                                                </div>
+                                              </label>
+                                          
+                                              <mat-select
+                                                [formControl]="projectSelectionRecipientControl"
+                                                placeholder="Clients"
+                                                multiple
+                                                #multiSelect
+                                                (selectionChange)="isEditable ? onSelectionChange($event) : null"
+                                                [disabled]="!isEditable"
+                                              >
+                                                <mat-select-trigger>
+                                                  <mat-chip-set>
+                                                    <mat-chip
+                                                      *ngFor="let topping of projectSelectionRecipientControl.value; index as i"
+                                                      [removable]="isEditable"
+                                                      (removed)="isEditable ? onToppingSelectionRemoved(topping, i) : null"
+                                                    >
+                                                      {{ topping.name }}
+                                                      <mat-icon *ngIf="isEditable" matChipRemove>cancel</mat-icon>
+                                                    </mat-chip>
+                                                  </mat-chip-set>
+                                                </mat-select-trigger>
+                                          
+                                                <mat-option *ngIf="isEditable">
+                                                  <ngx-mat-select-search
+                                                    [formControl]="search_control_owner_project"
+                                                    placeholderLabel="Search..."
+                                                    noEntriesFoundLabel="'No Match Found'"
+                                                  ></ngx-mat-select-search>
+                                                </mat-option>
+                                          
+                                                <!-- <mat-option *ngFor="let topping of filter_list_owners_project | async" [value]="topping"> -->
+                                                    <mat-option
+                                                    *ngFor="let topping of selectionEmailReceipient | async"
+                                                    [value]="topping"
+                                                  >
+                                                  {{ topping.name }}
+                                                </mat-option>
+                                              </mat-select>
+                                            </div>
+                                          
+                                            <!-- One-time Selection Recipient/s -->
+                                            <div class="col-lg-6 col-md-6">
+                                              <label style="width: 100%; display: flex; justify-content: space-between;">
+                                                One-time Selection Recipient/s
+                                              </label>
+                                          
+                                              <div class="input-container">
+                                                <input
+                                                  matInput
+                                                  [formControl]="inputControl"
+                                                  placeholder="Enter Selection Recipients Email's"
+                                                  (keydown.enter)="addRecipient($event)"
+                                                  [disabled]="!isEditable"
+                                                />
+                                                <mat-chip-set>
+                                                  <mat-chip
+                                                    *ngFor="let topping of projectOwnerControl.value; index as i"
+                                                    [removable]="true"
+                                                    (removed)="isEditable ? onToppingRemoved(topping, i) : null"
+                                                  >
+                                                    {{ topping.email }}
+                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                  </mat-chip>
+                                                </mat-chip-set>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          
+                                      </div>
+                                      <!-- <div class="col-md-3 col-lg-3">
+                                          <label>Client's Address*</label>
+                                          <input matInput placeholder="Client's Address" type="text" formControlName="clientAddress">
+                                      </div>  -->
+                                      <!-- <div class="col-md-2 col-lg-2">
+                                          <div class="header-tool2">
+                                              <span class="download-tool"><i (click)="saveStep1('draft','download')" class="material-icons">picture_as_pdf</i><span (click)="saveStep1('draft','download')">Download PDF & Create</span></span>
+                                              <span class="copy-tool"><i class="material-icons"  (click)="saveStep1('draft','copy')">content_copy</i><span (click)="saveStep1('draft','copy')">Copy PDF Link & Create</span></span>
+                                              <span class="copy-tool"><i class="material-icons"  (click)="saveStep1('draft','copy2')">content_copy</i><span (click)="saveStep1('draft','copy2')">Copy Client Link & Create</span></span>
+                                          </div> 
+                                      </div>-->
+                                  </div>
+
+                                  <div class="row">
+                                    <!-- Client CCs and BCCs (shared template structure) -->
+                                    <div class="col-lg-2 col-md-2" *ngFor="let field of ['cc', 'bcc']">
+                                      <label class="w-100 d-flex justify-content-between">
+                                        Client {{ field.toUpperCase() }}'s
+                                        <span class="btn-span" (click)="toggleEdit(field)">
+                                          {{ field === 'cc' ? (isCCEditable ? 'Done' : 'Edit') : (isBCCEditable ? 'Done' : 'Edit') }}
+                                        </span>
+                                      </label>
+                                  
+                                      <div class="input-container">
+                                        <input
+                                          *ngIf="field === 'cc' ? isCCEditable : isBCCEditable"
+                                          matInput
+                                          placeholder="Enter RFI Recipients Email's"
+                                          (keydown.enter)="handleEmailAdd($event, field)"
+                                        />
+                                        <mat-chip-set>
+                                          <mat-chip
+                                            *ngFor="let email of field === 'cc' ? selectionEmailCC : selectionEmailBCC; index as i"
+                                            [removable]="field === 'cc' ? isCCEditable : isBCCEditable"
+                                            (removed)="removeEmail(field, i)"
+                                          >
+                                            {{ email }}
+                                            <mat-icon
+                                              *ngIf="field === 'cc' ? isCCEditable : isBCCEditable"
+                                              matChipRemove
+                                            >
+                                              cancel
+                                            </mat-icon>
+                                          </mat-chip>
+                                        </mat-chip-set>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-12 col-lg-12">
+                                          <label>Opening Message *</label>
+                                          <div><quill-editor [preserveWhitespace]="true" formControlName="openingMessage" id="openingMessage"></quill-editor></div>
+                                      </div>
+                                  </div>
+                                  
+                                  <ng-container formArrayName="selectionGroupArray">
+
+                                      <div class="group card dashboard-card" *ngFor="let group of selectionGroupArray().controls; let groupIndex=index" [formGroupName]="groupIndex">
+                                              
+                                          <div class="card-body">
+                                              <div class="row">
+                                                  <div class="col-md-2 col-lg-2">
+                                                      <!-- <label>Group Name</label> -->
+                                                      <label style="width: 100%;display: flex;justify-content: space-between;">Group Name <span class="btn-span" (click)="openTableVarGroupNameAddDialog(groupIndex)" mat-button>Update</span></label>
+                                                      <input placeholder="Group Name" type="hidden" formControlName="groupName" >
+                                                      <input matInput placeholder="Group Name" type="text" [value]="group.get('groupName').value"   readonly>
+                                                  </div>
+                                                  <div class="col-md-2 col-lg-2" >
+                                                      <label *ngIf="group.get('hideBudget').value != true">Group Budget</label>
+                                                      <input *ngIf="group.get('hideBudget').value != true" matInput placeholder="Group Budget" type="number" (input)="computeGroupTotal(groupIndex)" formControlName="groupBudget" >
+                                                  </div>
+                                                  <div class="col-md-2 col-lg-2">
+                                                      <div class="togglebutton">
+                                                          <label>
+                                                          <input type="checkbox"  formControlName="hideBudget">
+                                                          <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                          <span [style.backgroundColor]="group.get('hideBudget').value ? colorHlightDefault : ''" class="toggle"></span>
+                                                          Hide Group Budget
+                                                          </label>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-3 col-lg-3">
+                                          
+                                                  </div>
+                                                  <div class="col-md-3 col-lg-3">
+                                                      <span (click) = "openExternalQuotesDialog(group.get('files').value)" class="btn-span">External Quotes</span>
+                                                      <div class="file-upload-holder"><file-upload discard="true" formControlName="tempFiles"></file-upload></div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-md-12 col-lg-12">
+                                                      <button 
+                                                          [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                          (mouseenter)="onButtonEnter($event.target)" 
+                                                          (mouseleave)="onButtonOut($event.target)"  
+                                                          (click)= "openTableItemsAddDialog(groupIndex)"
+                                                          mat-button class="btn dcb-btn btn-compact">Add Item</button>                                            
+                                                  </div>
+                                              </div>
+
+                                              <div class="row" style="margin-left: -20px; margin-right: -20px;padding:5px 0;">
+                                                      <table class="smart-table-2">
+                                                          <thead>
+                                                          <tr style="min-height:48px">
+                                                              <th class="action-col" *ngIf="group.get('groupStatus').value != 'approved'"></th>
+                                                              <th>Item Name</th>
+                                                              <th>Image</th>
+                                                              <th>Supplier Name</th>
+                                                              <th>Description</th>
+                                                              <th>Quantity</th>
+                                                              <th>Unit of Measurement</th>
+                                                              <th class="currency-cell">Unit Cost</th>
+                                                              <th class="currency-cell">Builder's Margin(%)</th>
+                                                              <th class="currency-cell">Subtotal</th>
+                                                              <th class="currency-cell">GST</th>
+                                                              <th class="currency-cell">Item Total</th>
+                                                          </tr>
+                                                          </thead>
+                                                          <tbody>
+                                                              <ng-container formArrayName="itemArray">
+                                                                  <tr *ngFor="let item of itemArray(groupIndex).controls; let itemIndex=index" [formGroupName]="itemIndex">
+                                                                      <td class="action-col" *ngIf="group.get('groupStatus').value != 'approved'">
+                                                                          <i class="material-icons"  (click)= "openTableItemsEditDialog(groupIndex,itemIndex)">edit</i>
+                                                                          <!-- <i (click) = "openTableEmployeesTaskEditDialog(empIndex,skillIndex,getStaffName(staff.get('staffOnSite').value))" class="material-icons">edit</i> -->
+                                                                          <i (click)= "removeGroupItem(groupIndex,itemIndex)" class="material-icons">delete</i>
+                                                                      </td>
+                                                                      <td>
+                                                                          <span>{{  item.get('itemName').value }}</span>
+                                                                      </td>
+                                                                      <td style="height: 48px;">
+                                                                          <img *ngIf="item.get('hasImage').value == true" (click)="enlargeImage.enlargeImage(item.get('itemImage').value)" data-toggle="modal" data-target="#myModal" style="cursor: zoom-in;max-width:50px;margin: 5px 0;" [src]=" item.get('itemImage').value">
+                                                                      </td>
+                                                                      <td>
+                                                                          <span>{{ getSupplierName(item.get('supplier')?.value) }}</span>
+                                                                      </td>
+                                                                      <td>
+                                                                          <span>{{ htmlToText(item.get('description')?.value) }}</span>
+                                                                      </td>
+                                                                      <td>
+                                                                          <span>{{ item.get('quantity')?.value }} </span>
+                                                                      </td>
+                                                                      <td>
+                                                                          <span>{{ item.get('uom')?.value }} </span>
+                                                                      </td>
+                                                                      <td class="currency-cell">
+                                                                          <span>{{ item.get('unitCost')?.value | currency:'':'' }} </span>
+                                                                      </td>
+                                                                      <td class="currency-cell">
+                                                                          <span>{{ item.get('buildersMargin')?.value }} </span>
+                                                                      </td>
+                                                                      <td class="currency-cell">  <!--Subtotal -->
+                                                                          <span>{{ item.get('quantity')?.value * ( (item.get('unitCost')?.value * 1) + ( (item.get('buildersMargin')?.value * item.get('unitCost')?.value) / 100 )) | currency:'':'' }} </span>
+                                                                      </td>
+                                                                      <td class="currency-cell">
+                                                                          <span>{{ item.get('gst')?.value | currency:'':'' }} </span>
+                                                                      </td>
+                                                                      <td class="currency-cell">
+                                                                          <span>{{ item.get('itemTotal')?.value | currency:'':'' }} </span>
+                                                                      </td>
+                                                                  </tr>
+                                                              </ng-container>
+                                                          </tbody> 
+                                                      </table>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="col-md-1 col-lg-1">
+                                                      <label>Group Total</label>
+                                                      <input  placeholder="Group Total" type="hidden" formControlName="groupTotal" >
+                                                      <input *ngIf="isNumber(group.get('groupTotal').value) == true" matInput placeholder="Total" type="text" [value]="group.get('groupTotal').value"  readonly>
+                                                      <input *ngIf="isNumber(group.get('groupTotal').value) == false" matInput placeholder="Total" type="text" value="0"  readonly>
+                                                  </div>
+
+                                                  <div class="col-md-1 col-lg-1" *ngIf="group.get('hideBudget').value != true">
+                                                      <label [ngStyle]="group.get('groupOverUnder').value < 0 ? {'color': '#f44336'} : {'color': '#0771DE'}">Group Over-under</label>
+                                                      <input placeholder="Group Over Under" type="hidden" formControlName="groupOverUnder" >
+                                                      <input *ngIf="isNumber(group.get('groupOverUnder').value) == true" matInput placeholder="Over Under" type="text" [value]="group.get('groupOverUnder').value"  readonly>
+                                                      <input *ngIf="isNumber(group.get('groupOverUnder').value) == false" matInput placeholder="Over Under" type="text" value="0" readonly>
+                                                  </div>
+
+                                                  <div class="col-md-10 col-lg-10" style="text-align: right;padding-top: 20px;">
+                                                      <div style = "max-width: 320px;margin-left: auto;" *ngIf="group.get('groupStatus').value == 'approved'">
+                                                          <img style="background: #ffffff;width: 100%;" [src]="addFestForm.get('signature').value">
+                                                          <label style="text-align:center">Approved</label>
+                                                      </div>
+                                                      <span style="margin-left:0 !important;margin-top: 4px;" (click)= "removeGroup(groupIndex)" mat-button class="btn-span"  *ngIf="group.get('groupStatus').value != 'approved'">Remove Group</span>
+                                                  </div>
+                                              </div>
+
+                                          </div>
+                                          
+                                              
+                                          <div class="card-body" style="opacity:0;height:0;width:0;overflow:hidden;margin:0;padding:0;">
+                                                  
+                                                  <ng-container formArrayName="itemArray">
+                                                      <div class="item card" *ngFor="let item of itemArray(groupIndex).controls; let itemIndex=index" [formGroupName]="itemIndex">
+                                                          <div class="card-body">
+                                                                  <div class="row">
+                                                                      <div class="col-md-6 col-lg-6">
+                                                                          <div class="row">
+                                                                              <div class="col-md-8 col-lg-8">
+                                                                                  <div class="fileinput fileinput-new text-center">
+                                                                                      <div class="fileinput-new thumbnail" style = "max-width: 500px;">
+                                                                                        <img src="./assets/img/image_placeholder.jpg" alt="..." *ngIf="!item.get('itemImage').value">
+                                                                                        <img [src]="item.get('itemImage').value" *ngIf="item.get('itemImage').value">
+                                                                                      </div>
+                                                                                      <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                                                                      <div>
+                                                                                      </div>
+                                                                                      <div>
+                                                                                        <span class="btn btn-change btn-file dcb-btn">
+                                                                                          <span class="fileinput-new">Select image *</span>
+                                                                                          <span class="fileinput-exists">Change</span>
+                                                                                          <input accept="image/*" type="file" name="..." (change)="onFileChange($event,groupIndex,itemIndex)" />
+                                                                                        </span>
+                                                                                        <!-- <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
+                                                                                        <!-- <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a> -->
+                                                                                      </div>
+                                                                                    </div>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="col-md-6 col-lg-6">
+                                                                          <div class="row">
+                                                                              <div class="col-md-12 col-lg-12">
+                                                                                  <label>Item Name</label>
+                                                                                  <input matInput placeholder="Item Name" type="text" formControlName="itemName">
+                                                                              </div>
+                                                                          </div>
+                                                                          <div class="row">
+                                                                              <div class="col-md-12 col-lg-12">
+                                                                                  <label>Supplier Name</label>
+                                                                                  
+                                                                                  <!-- <mat-select formControlName="supplierName" placeholder="Supplier Name" id="supplierName"  (click)="initializeFilterTrades(groupIndex, itemIndex)"> -->
+                                                                                  <mat-select formControlName="supplier" placeholder="Supplier" id="supplier">
+                                                                                   
+                                                                                      <!-- <mat-option (click)="openAddTradeDialog(empIndex)">-- Add New Trade --</mat-option> -->
+                                                                                          <!-- <mat-option>
+                                                                                                  <ngx-mat-select-search 
+                                                                                                  formControlName="search_control_trade"
+                                                                                                  placeholderLabel="Search..."
+                                                                                                  noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                                                          </mat-option> -->
+                                                                                          <!-- <mat-option *ngFor="let listTrade of filter_list_trades[itemIndex] | async" [value]="listTrade.id"> -->
+                                                                                              <mat-option *ngFor="let listTrade of listTrades" [value]="listTrade.id">
+                                                                                          {{ listTrade.tradeCompanyName }}
+                      
+                                                                                          </mat-option>
+                                                                                  </mat-select> 
+                                                                              </div>
+                                                                          </div>
+                                                                          <div class="row">
+                                                                              <div class="col-md-12 col-lg-12">
+                                                                                  <label>Description</label>
+                                                                                  <!-- <input matInput placeholder="Item Name" type="text" formControlName="description"> -->
+                                                                                  <!-- <tag-input 
+                                                                                      id="description"
+                                                                                      formControlName="description"
+                                                                                      [editable]="true"
+                                                                                      placeholder="Description"
+                                                                                      secondaryPlaceholder="Description"
+                                                                                      addOnBlur="true"
+                                                                                      [modelAsStrings]="true"
+                                                                                >
+                                                                                </tag-input> -->
+                                                                                <quill-editor [styles]="{height: '70px'}" formControlName="description" id="description"></quill-editor>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                      
+                                                                  </div>
+
+                                                                  <div class="row">
+                                                                      <div class="col-md-2 col-lg-2">
+                                                                          <label>Quantity</label>
+                                                                          <input matInput placeholder="Quantity" type="text" formControlName="quantity" (input)="onComputeTotal(groupIndex,itemIndex)">
+                                                                      </div>
+                                                                      <div class="col-md-2 col-lg-2">
+                                                                          <label>Unit of Measurement</label>
+                                                                          <mat-select formControlName="uom" id="uom" placeholder="UOM" name="uom">
+                                                                                  <ng-container *ngFor="let unitMeasurement of unitMeasurements" >
+                                                                                          <mat-option [value]="unitMeasurement.value">
+                                                                                                  {{ unitMeasurement.viewValue }}
+                                                                                          </mat-option>
+                                                                                  </ng-container> 
+                                                                          </mat-select>  
+                                                                      </div>
+                                                                      <div class="col-md-2 col-lg-2">
+                                                                          <label>Unit Cost</label>
+                                                                          <input matInput placeholder="Unit Cost" type="text" formControlName="unitCost" (input)="onComputeTotal(groupIndex,itemIndex)">
+                                                                      </div>
+                                                                      <!-- <div class="col-md-2 col-lg-2">
+                                                                          <label>Subtotal</label>
+                                                                          <input placeholder="Subtotal" type="hidden" formControlName="subTotal">
+                                                                          <input matInput placeholder="GST" type="text" [value]="item.get('subTotal').value"  readonly>
+                                                                      </div> -->
+                                                                      <div class="col-md-2 col-lg-2">
+                                                                          <label>Builder's Margin(%)</label>
+                                                                          <input matInput placeholder="Builder's Margin" type="text" formControlName="buildersMargin" (input)="onComputeTotal(groupIndex,itemIndex)">
+                                                                      </div>
+                                                                      <div class="col-md-2 col-lg-2">
+                                                                          <label>GST</label>
+                                                                          <input placeholder="GST" type="hidden" formControlName="gst">
+                                                                          <input matInput placeholder="GST" type="text" [value]="item.get('gst').value"  readonly>
+
+                                                                      </div>
+                                                                      
+                                                                  </div>
+                                                                  <div class="row">
+                                                                      <div class="col-md-2 col-lg-2">
+                                                                          <label>Item Total</label>
+                                                                          <input  placeholder="Item Total" type="hidden" formControlName="itemTotal">
+                                                                          <input matInput placeholder="GST" type="text" [value]="item.get('itemTotal').value"  readonly>
+                                                                      </div>
+                                                                      <div class="col-md-10 col-lg-10" style="text-align: right;padding-top: 20px;">
+                                                                          <button style="margin-left:0 !important;margin-top: 4px;" (click)= "removeGroupItem(groupIndex,itemIndex)" mat-button class="btn dcb-btn btn-remove-group">Remove Item</button>
+                                                                      </div>
+                                                                  </div>
+                                                          </div>
+                                                      </div>
+                                                  </ng-container>
+
+                                                  <button type="button"  class="btn dcb-btn btn-compact" (click)="addItemArray(groupIndex)">
+                                                      Add Item
+                                                  </button>
+
+                                                  <div class="row">
+                                                      <div class="col-md-2 col-lg-2">
+                                                          <label>Group Total</label>
+                                                          <input  placeholder="Group Total" type="hidden" formControlName="groupTotal" >
+                                                          <input matInput placeholder="GST" type="text" [value]="group.get('groupTotal').value"  readonly>
+                                                      </div>
+
+                                                      <div class="col-md-2 col-lg-2">
+                                                          <label [ngStyle]="group.get('groupOverUnder').value < 0 ? {'color': '#f44336'} : {'color': '#0771DE'}">Group Over-under</label>
+                                                          <input  matInput placeholder="Group Over Under" type="number" formControlName="groupOverUnder" >
+                                                      </div>
+
+                                                      <div class="col-md-8 col-lg-8" style="text-align: right;padding-top: 20px;">
+                                                          <button style="margin-left:0 !important;margin-top: 4px;" (click)= "removeGroup(groupIndex)" mat-button class="btn dcb-btn btn-remove-group">Remove Group</button>
+                                                      </div>
+
+                                                  </div>
+                 
+                                          </div>
+                                      </div>
+                                  </ng-container>
+                                  <button 
+                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                      (mouseenter)="onButtonEnter($event.target)" 
+                                      (mouseleave)="onButtonOut($event.target)"  
+                                      type="button"  
+                                      class="btn dcb-btn btn-compact" 
+                                      (click)="addSelectionGroupArray()">Add Group
+                                  </button>
+                              
+                                  <div class="row">
+                                      <div class="col-md-12 col-lg-12">
+                                          <label>Closing Message *</label> 
+                                          <div><quill-editor [preserveWhitespace]="true" formControlName="closingMessage" id="closingMessage"></quill-editor></div>
+                                      </div>
+                                  </div>
+
+                                  
+                                  <!-- <div class="row">
+                                      <div class="col-md-6 col-lg-6">
+                                              <div class="togglebutton">
+                                                      <label>
+                                                      <input type="checkbox"  formControlName="bmLineitem" (change)="toggleBMLineitem()">
+                                                     
+                                                      <span [style.backgroundColor]="selectionForm.value.bmLineitem ? colorHlightDefault : ''" class="toggle"></span>
+                                                              Add Builder's Margin per line item
+                                                      </label>
+                                              </div>
+                                      </div>
+
+                                      <div class="col-md-6 col-lg-6">
+                                              <div class="togglebutton">
+                                                      <label>
+                                                      <input type="checkbox"  formControlName="bmTotalFigure" (change)="toggleBMTotalFigure()">
+                                                    
+                                                      <span [style.backgroundColor]="selectionForm.value.bmTotalFigure ? colorHlightDefault : ''" class="toggle"></span>
+                                                              Add Builder's Margin  as a Total Figure on the bottom of the Variation PDF above the Total GST
+                                                      </label>
+                                              </div>
+                                      </div>
+
+                                      <div class="col-md-6 col-lg-6">
+                                              <div class="togglebutton">
+                                                      <label>
+                                                      <input type="checkbox"  formControlName="bmHideAll" (change)="toggleBMHideAll()">
+                                                      
+                                                      <span [style.backgroundColor]="selectionForm.value.bmHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                              Hide Builder's Margin completely from the PDF, but all the calculations remain.
+                                                      </label>
+                                              </div>
+                                      </div>
+      
+                                      <div class="col-md-6 col-lg-6">
+                                              <div class="togglebutton">
+                                                      <label>
+                                                      <input type="checkbox"  formControlName="qtyHideAll">
+                                                   
+                                                      <span [style.backgroundColor]="selectionForm.value.qtyHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                              Hide Quantity completely from the PDF, but all the calculations remain.
+                                                      </label>
+                                              </div>
+                                      </div>
+             
+                                      <div class="col-md-6 col-lg-6">
+                                              <div class="togglebutton">
+                                                      <label>
+                                                      <input type="checkbox"  formControlName="unitHideAll">
+                                                   
+                                                      <span [style.backgroundColor]="selectionForm.value.unitHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                              Hide Units completely from the PDF, but all the calculations remain.
+                                                      </label>
+                                              </div>
+                                      </div>
+         
+                                      <div class="col-md-6 col-lg-6">
+                                              <div class="togglebutton">
+                                                      <label>
+                                                      <input type="checkbox"  formControlName="unitCostHideAll">
+                                                    
+                                                      <span [style.backgroundColor]="selectionForm.value.unitCostHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                              Hide Unit Cost completely from the PDF, but all the calculations remain.
+                                                      </label>
+                                              </div>
+                                      </div>
+                   
+                                     
+        
+                                      <div class="col-md-6 col-lg-6">
+                                              <div class="togglebutton">
+                                                      <label>
+                                                      <input type="checkbox"  formControlName="itemTotalHideAll">
+                                                    
+                                                      <span [style.backgroundColor]="selectionForm.value.itemTotalHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                              Hide Item Total Cost completely from the PDF, but all the calculations remain.
+                                                      </label>
+                                              </div>
+                                      </div>
+                                  </div> -->
+                                  
+                              </div>
+                          </form>
+                      </div>
+                      <div class="card-footer">
+                          <!-- <span class="btn-span" routerLink="/variations/project/{{passID.id}}">Cancel</span> -->
+                          <div style="display: flex;justify-content: space-between;width: 80px;">
+                              <span (click)="btnFunctionCancel()" type="button"  class="btn-span">Cancel</span>
+                              <span (click)="btnFunctionList()" type="button"  class="btn-span">List</span>
+                              <!-- <span (click)="btnFunctionPrevious()" type="button"  class="btn-span">Previous</span>
+                              <span (click)="btnFunctionNext()" type="button"  class="btn-span">Next</span> -->
+                          </div>
+                          
+                          <div style="margin-left:auto">
+                              <button 
+                                  [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                  (mouseenter)="onButtonEnter($event.target)" 
+                                  (mouseleave)="onButtonOut($event.target)"  
+                                  type="button"  
+                                  class="btn dcb-btn btn-compact" 
+                                  (click)="saveStepCheckValidation()">Create Selection
+                              </button>
+                              <!-- <button type="button"  class="btn dcb-btn btn-compact" (click)="saveStep1('submit','')">Submit to Client</button> -->
+                          </div>` 
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+ 
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a style="color:#292929" download="image.jpg" href="{{enlargeImage.imgSrc}}"><i class="material-icons">download</i>Download Image</a>
+        <!-- <h4 class="modal-title">Modal Header</h4> -->
+        <span #closebutton class="btn-span" data-dismiss="modal">Close</span>
+      </div>
+      <div class="modal-body">
+      <img
+      src="{{enlargeImage.imgSrc}}"
+      style="max-width:100%;cursor:pointer"
+      class="modal-hover-opacity"
+    /> 
+      <!-- <span *ngIf="imgStampString">Uploaded at {{imgStampString}}</span> -->
+      </div>
+    </div>
+  </div>
+</div>

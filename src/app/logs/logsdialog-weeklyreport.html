@@ -1,0 +1,105 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Friday Date : {{logData.fridayDate}}</p>
+                <p>Project ID : {{logData.projectName}}</p>
+                <p>Site Supervisor : {{logData.siteSupervisor}}</p>
+                <p>Weather AllWeek : {{logData.weatherAllWeek}}</p>
+                <p>Weather Saturday : {{logData.weatherSaturday}}</p>
+                <p>Weather Sunday : {{logData.weatherSunday}}</p>
+                <p>Weather Monday : {{logData.weatherMonday}}</p>
+                <p>Weather Tuesday : {{logData.weatherTuesday}}</p>
+                <p>Weather Wednesday : {{logData.weatherWednesday}}</p>
+                <p>Weather Thursday : {{logData.weatherThursday}}</p>
+                <p>Weather Friday : {{logData.weatherFriday}}</p>
+                <p>Weather AllWeek Others : {{logData.weatherOthersAllWeek}}</p>
+                <p>Weather Saturday Others : {{logData.weatherOthersSaturday}}</p>
+                <p>Weather Sunday Others : {{logData.weatherOthersSunday}}</p>
+                <p>Weather Monday Others : {{logData.weatherOthersMonday}}</p>
+                <p>Weather Tuesday Others : {{logData.weatherOthersTuesday}}</p>
+                <p>Weather Wednesday Others : {{logData.weatherOthersWednesday}}</p>
+                <p>Weather Thursday Others : {{logData.weatherOthersThursday}}</p>
+                <p>Weather Friday Others : {{logData.weatherOthersFriday}}</p>
+                <p>Aimed Completion Date : {{logData.aimedComDate}}</p>
+                <p>LostWeekDays : {{logData.lostWeekDays}}</p>
+                <p>Total Lost this Week (days) : {{logData.lostTotalDays}}</p>
+                <p>Total Lost this Week (hours) : {{logData.lostWeekHours}}</p>
+                <p>Total Lost Project (hours): {{logData.lostTotalHours}}</p>
+                <p>DCB Accomplishments This Week : {{logData.dcbAccThisWeek}}</p>
+                <p>DCB Accomplishments Next Week : {{logData.dcbAccNextWeek}}</p>
+
+                <p>Sub Contractors Accomplishments This Week : {{logData.subAccThisWeek}}</p>
+                <p>Sub Contractors Accomplishments Next Week : {{logData.subAccNextWeek}}</p>
+                <p>Consultants on Site This Week : {{logData.conSiteThisWeek}}</p>
+    
+                <p>Consultants Needed This Week : {{logData.conSiteNeedWeek}}</p>
+                <p>Requested Changes to the Project? : {{logData.requestedChanges}}</p>
+                <p>Clarification from Architect/Engineer : {{logData.clarificationArchEng}}</p>     
+                <p>Information Needed to Keep Things Moving : {{logData.informationNeeded}}</p>
+                <p>Upcoming Meetings : {{logData.upcomingMeetings}}</p>
+                <p>Additional Questions :</p>
+                <div class ="row">
+                    <div class="col-md-6" *ngFor="let item of logData.customQuestion" >
+                        <p>Question: {{item.custQuestion}}</p>
+                        <p>Answer: {{item.custAnswer}}</p>
+                    </div>
+                </div>
+                <p>Images: {{logData.imageUpload}}</p>
+                <!-- <div class ="row">
+                        <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                                <label>{{ item.imageCaption }}  </label>
+                                <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                        <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                        {{ formatBytes(item.imageSize) }}
+                                    </div>
+                                </div>
+                        </div>
+
+                </div>  -->
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+        <!-- <br/> <br/>
+        <p>Images:</p>
+                <div class ="row">
+                        <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                                <label>{{ item.imageCaption }}  </label>
+                                <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                        <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                        {{ formatBytes(item.imageSize) }}
+                                    </div>
+                                </div>
+                        </div>
+
+                </div>  -->
+    </ng-container>
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

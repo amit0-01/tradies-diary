@@ -1,0 +1,29 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-lg-6 col-sm-12 col-md-12">
+                <div class="card card-dcb dashboard-card">
+                        <div class="card-header card-header-text card-header-info">
+                                    <button mat-button class="btn dcb-btn"
+                                    (click)="openAddDialog()">
+                                    <i class="material-icons">add</i> Add Custom Question
+                            </button>   
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: scroll;">
+                                    <div style="width: 744px;">
+                                        <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   

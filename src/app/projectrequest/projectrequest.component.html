@@ -1,0 +1,93 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-6">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-body">             
+                            <form [formGroup]="sendProjectRequestForm" class="dcb-form" (keydown.enter)="$event.preventDefault()">
+                                <div class="compact-layout compact-layout-common">
+                                        <div class = "row">
+                                                <div class="col-md-12">
+                                                    <label>Client Name *</label>
+                                                    <input formControlName="clientName" id="clientName" matInput  type="text">
+                                                    <div *ngIf="!clientName?.valid && (clientName?.dirty ||clientName?.touched)">
+                                                        <div [hidden]="!clientName.errors.required" class="error-label-class">
+                                                        * Client Name is required
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Client Email *</label>
+                                                    <input formControlName="clientEmail" id="clientEmail" matInput  type="text">
+                                                    <div *ngIf="!clientEmail.valid && (clientEmail.dirty ||clientEmail.touched)">
+                                                        <div [hidden]="!clientEmail.errors.required" class="error-label-class">
+                                                            * Client Email Address is required
+                                                        </div>
+                                                        <div [hidden]="!clientEmail.errors.email" class="error-label-class">
+                                                            * Invalid Email Address Format
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Opening Message *</label>
+                                                    <textarea  formControlName="openingMessage" id="openingMessage" matInput  type="text"  rows="8"></textarea>
+                                                    <div *ngIf="!openingMessage?.valid && (openingMessage?.dirty ||openingMessage?.touched)">
+                                                        <div [hidden]="!openingMessage.errors.required" class="error-label-class">
+                                                            * Opening Message is required
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Rates *</label>
+                                                    <input formControlName="rates" id="rates"  matInput  type="text">
+                                                    <div *ngIf="!rates?.valid && (rates?.dirty ||rates?.touched)">
+                                                        <div [hidden]="!rates.errors.required" class="error-label-class">
+                                                            * Rates is required
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Terms And Conditions *</label>
+                                                    <textarea  formControlName="termsConditions" id="termsConditions"  matInput  type="text"  rows="8"></textarea>
+                                                    <div *ngIf="!termsConditions?.valid && (termsConditions?.dirty ||termsConditions?.touched)">
+                                                        <div [hidden]="!termsConditions.errors.required" class="error-label-class">
+                                                            * Terms And Conditions is required
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Closing Message *</label>
+                                                    <textarea  formControlName="closingMessage" id="closingMessage" matInput  type="text"  rows="8"></textarea>
+                                                    <div *ngIf="!closingMessage?.valid && (closingMessage?.dirty ||closingMessage?.touched)">
+                                                        <div [hidden]="!closingMessage.errors.required" class="error-label-class">
+                                                            * Closing Message is required
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- <button mat-button class="btn dcb-btn"
+                                                    (click)="downloadCSV()">
+                                                    <i class="material-icons">download</i> Generate and Download CSV
+                                            </button>  -->
+                                            <button mat-button class="btn dcb-btn"
+                                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                (mouseenter)="onButtonEnter($event.target)" 
+                                                (mouseleave)="onButtonOut($event.target)" 
+                                                (click)="sendMail()">
+                                                <i class="material-icons">send</i> Send to Client
+                                            </button> 
+                                            <!-- <button (click)="reset()" mat-button class="btn dcb-btn">
+                                                <i class="material-icons">refresh</i> Clear
+                                            </button> -->
+                                        </div>
+                                    </div>
+
+                            </form>
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

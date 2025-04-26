@@ -1,0 +1,83 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Project Name</mat-label>
+                        <input formControlName="projectName" id="projectName" placeholder="Project Name" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Job  Number</mat-label>
+                        <input formControlName="jobNumber" id="jobNumber" placeholder="Job Number" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Client Name</mat-label>
+                        <input formControlName="clientName" id="clientName" placeholder="Client Name" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Project Address</mat-label>
+                        <input formControlName="projectAddress" id="projectAddress" placeholder="Project Address" matInput  type="text">
+                </mat-form-field>
+
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Client Email Address</mat-label>
+                        <input formControlName="clientEmail" id="clientEmail" placeholder="Client Email Address" matInput  type="text">
+                </mat-form-field> -->
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-chip-grid #chipList>
+                        <mat-chip *ngFor="let ClientEmail of addFestForm.get('clientEmail')['controls']; let i = index;" [selectable]="selectable"
+                            [removable]="removable" (removed)="removeClientEmail(i)">
+                            {{ClientEmail.value}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input class="chip-input" placeholder="Client Email Addresses"
+                              [matChipInputFor]="chipList"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                              [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addClientEmail($event)" />
+                    </mat-chip-grid>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-chip-grid #chipList2>
+                        <mat-chip *ngFor="let ClientEmailCC of addFestForm.get('clientEmailCC')['controls']; let i = index;" [selectable]="selectable"
+                            [removable]="removable" (removed)="removeClientEmailCC(i)">
+                            {{ClientEmailCC.value}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input class="chip-input" placeholder="Client Email Addresses (CC)"
+                              [matChipInputFor]="chipList2"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                              [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addClientEmailCC($event)" />
+                    </mat-chip-grid>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-chip-grid #chipList3>
+                        <mat-chip *ngFor="let ClientEmailBCC of addFestForm.get('clientEmailBCC')['controls']; let i = index;" [selectable]="selectable"
+                            [removable]="removable" (removed)="removeClientEmailBCC(i)">
+                            {{ClientEmailBCC.value}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input class="chip-input" placeholder="Client Email Addresses (BCC)"
+                              [matChipInputFor]="chipList3"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                              [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addClientEmailBCC($event)" />
+                    </mat-chip-grid>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Project Status</mat-label>
+                        <mat-select formControlName="projectStatus" id="projectStatus" placeholder="Project Status" name="projectStatus">
+                                <mat-option *ngFor="let StatusOption of statusOption" [value]="StatusOption.value">
+                                {{ StatusOption.viewValue }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field>
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button  (click)= "addNewProject()" class = "btn dcb-btn btn-primary" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add Project</button>
+</div>

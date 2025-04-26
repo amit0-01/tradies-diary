@@ -1,0 +1,13 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Trade Category</mat-label>
+                        <input formControlName="tradecategory" id="tradecategory" placeholder="Trade Category" matInput  type="text">
+                </mat-form-field>   
+        </form>
+</div>
+<div mat-dialog-actions>
+   <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button  (click)= "addNewTradeCategory()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add Trade Category to Global List</button>
+</div>

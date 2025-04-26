@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Current Project's Variation Number</h1>
+<div mat-dialog-content>
+       <ul>
+        <li *ngFor="let project of projectListDialog">{{project.projectName}} - {{ project.counterVariation ?  project.counterVariation : 0}}</li>
+       </ul>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">OK</span>
+</div>

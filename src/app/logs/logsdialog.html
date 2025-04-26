@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p *ngIf="data.data.subject=='reason'">{{logCaption}} : {{logData.reason}}</p>
+                <p *ngIf="data.data.subject=='question'">{{logCaption}} : {{logData.question}}</p>
+                <p *ngIf="data.data.subject=='visitor'">{{logCaption}} : {{logData.visitorName}}</p>
+                <p *ngIf="data.data.subject=='supplier'">{{logCaption}} : {{logData.supplierName}}</p>
+                <p *ngIf="data.data.subject=='product-category'">{{logCaption}} : {{logData.prodCategoryName}}</p>
+                <p *ngIf="data.data.subject=='stage'">{{logCaption}} : {{logData.stageName}}</p>
+                <p *ngIf="data.data.subject=='costcentre'">{{logCaption}} : {{logData.costcentreName}}</p>
+                <p *ngIf="data.data.subject=='tool'">{{logCaption}} : {{logData.toolName}}</p>
+                <!-- <p *ngIf="data.data.subject!='reason' && data.data.subject!='question'">{{logCaption}} : {{logData.name}}</p> -->
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="data.data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+    </ng-container>
+
+    <ng-container *ngIf="data.data.method=='delete'"> 
+        <p>Deleted Data:</p>
+        <pre>{{left | json}}</pre>
+        <!-- <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff> -->
+    </ng-container>
+
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

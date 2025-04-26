@@ -1,0 +1,88 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="editForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Employee No</mat-label>
+                        <input formControlName="employeeNo" id="employeeNo" placeholder="Employee No" matInput  type="text">
+                </mat-form-field>   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Employee Name</mat-label>
+                        <input formControlName="name" id="name" placeholder="Name" matInput  type="text">
+                </mat-form-field>   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Email Address</mat-label>
+                        <input formControlName="email" id="email" placeholder="Email Address" matInput  type="text">
+                </mat-form-field>   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input formControlName="phone" id="phone" placeholder="Phone Number" matInput  type="text">
+                </mat-form-field>   
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Default Hours</mat-label>
+                        <input formControlName="defaultHours" id="defaultHours" placeholder="Default Hours" matInput  type="text">
+                </mat-form-field>    -->
+                 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Default Costcode</mat-label>
+                        <!-- <input formControlName="costCentre" id="costCentre" placeholder="Cost Centre" matInput  type="text"> -->
+                        <mat-select formControlName="defaultCostcode" id="defaultCostcode" placeholder="Default Costcode" name="defaultCostcode"  #singleSelect>
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_costcentre"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option (click)="openAddCostCentresDialog()">-- Add New Cost Code --</mat-option>
+                                <mat-option *ngFor="let listCostCentre of filter_list_costcentres | async" [value]="listCostCentre.id">
+                                {{ listCostCentre.costcentre_name }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field>   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Paid Rate</mat-label>
+                        <input formControlName="paidRate" id="paidRate" placeholder="Paid Rate" matInput  type="text">
+                </mat-form-field> 
+
+                <div class="togglebutton">
+                        <label>
+                                <input type="checkbox" formControlName="showTime">
+                                <span class="toggle"></span>
+                                Add Time Shift
+                        </label>
+                </div>  
+                <mat-form-field class="example-full-width" appearance="outline" *ngIf="editForm.get('showTime').value === true || editForm.get('showTime').value  === '1'">
+                        <mat-label>Start</mat-label>
+                        <input  formControlName="start" matInput (click)="changeTimeDialog('start',editForm.get('start').value)"/>
+                        <!-- <input [ngxTimepicker]="startPicker" formControlName="start" id="start" placeholder="Start" matInput  type="text">
+                        <ngx-material-timepicker #startPicker [enableKeyboardInput]="true"></ngx-material-timepicker> -->
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline" *ngIf="editForm.get('showTime').value === true || editForm.get('showTime').value  === '1'">
+                        <mat-label>Break</mat-label>
+                        <mat-select formControlName="break" id="break" placeholder="Break" name="break">
+                                <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                {{ breaktime.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline" *ngIf="editForm.get('showTime').value === true || editForm.get('showTime').value  === '1'">
+                        <mat-label>Finish</mat-label>
+                        <input  formControlName="finish" matInput (click)="changeTimeDialog('finish',editForm.get('finish').value)"/>
+                        <!-- <input [ngxTimepicker]="finishPicker" formControlName="finish" id="finish" placeholder="Finish" matInput  type="text">
+                        <ngx-material-timepicker #finishPicker></ngx-material-timepicker > -->
+                </mat-form-field> 
+                        
+                <div class="togglebutton">
+                        <label>
+                        <input type="checkbox" formControlName="hideList">
+                        <span class="toggle"></span>
+                        Hide from list
+                        </label>
+                </div>    
+           
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <!-- <button class = "btn dcb-btn" (click)="updateStaff()" mat-button cdkFocusInitial  [disabled]="editForm.pristine">Update Employee</button> -->
+  <button class = "btn dcb-btn" (click)="updateStaff()" mat-button cdkFocusInitial >Update Employee</button>
+</div>

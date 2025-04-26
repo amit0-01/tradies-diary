@@ -1,0 +1,23 @@
+<h1 mat-dialog-title> What date is this report for?</h1>
+<div mat-dialog-content>
+    <mat-form-field class="mat-full-width" >
+        <input matInput [matDatepicker]="pickerflight"
+            placeholder="Date (dd/mm/yyyy)*"
+            (click)="pickerflight.open()" [(ngModel)]="selectedDate">
+        <mat-datepicker-toggle matSuffix [for]="pickerflight">
+        </mat-datepicker-toggle>
+        <mat-datepicker #pickerflight></mat-datepicker>
+    </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)"  
+        [mat-dialog-close]="selectedDate" 
+        class = "btn dcb-btn" 
+        mat-button cdkFocusInitial>Ok
+    </button>
+</div>

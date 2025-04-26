@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Product Name : {{logData.productName}}</p>
+                <p>Unit : {{logData.productUnit}}</p>
+                <p>Cost : {{logData.productCost}}</p>
+                <p>Size Type : {{logData.productSizeType}}</p>
+                <p>Brand : {{logData.productBrand}}</p>
+                <p>SKU : {{logData.productSku}}</p>
+                <p>Supplier : {{logData.productSupplier}}</p>
+                <p>Category : {{logData.productCategory}}</p>
+                <p>Cost Centre : {{logData.productCostcentre}}</p>
+                <p>Stage : {{logData.productStage}}</p>
+            </div>
+        </div>
+        <br>
+    </ng-container>
+
+    <ng-container *ngIf="data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+    </ng-container>
+
+    <ng-container *ngIf="data.method=='delete'"> 
+        <p>Deleted Data:</p>
+        <pre>{{prevData | json}}</pre>
+        <!-- <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff> -->
+    </ng-container>
+
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>
+

@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Delete Stage</h1>
+<div mat-dialog-content class="table-pop">
+  <div class = "row dcb-form">
+    <div class="col-md-12">
+      <label>Please type DELETE(all caps) to Confirm</label>
+      <input matInput [(ngModel)]="deleteConfirm" placeholder="Please type DELETE to Confirm" type="text">
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button 
+    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+    (mouseenter)="onButtonEnter($event.target)" 
+    (mouseleave)="onButtonOut($event.target)" 
+    (click)="confirmDelete()" 
+    class = "btn dcb-btn" 
+    mat-button cdkFocusInitial>Ok
+  </button>
+</div>

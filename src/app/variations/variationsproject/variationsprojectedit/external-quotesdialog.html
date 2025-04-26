@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>External Quotes</h1>
+<div mat-dialog-content>
+                        <!-- <div class = "row">
+                                <div class="col-md-12">
+                                        <label>New Unit of Measurement</label>
+                                        <input formControlName="uom" id="uom" placeholder="UOM" matInput  type="text">
+                                </div>
+                        </div>  -->
+                
+
+                <div class="pdf-container">
+                        
+                                <div  [ngClass]="rep[i] == true ? 'will-delete' : ''" class="pdf-holder" *ngFor="let pdf of data; index as i">
+                                        <a [href]="pdf" target ="_blank"  >
+                                                <pdf-viewer
+                                                [src]="pdf"
+                                                [rotation]="0"
+                                                [original-size]="false"
+                                                [show-all]="false"
+                                                [fit-to-page]="false"
+                                                [zoom]="1"
+                                                [zoom-scale]="'page-width'"
+                                                [stick-to-page]="false"
+                                                [render-text]="false"
+                                                [external-link-target]="'blank'"
+                                                [autoresize]="true"
+                                                [show-borders]="true"
+                                                style="width: 220px;height: 300px;;"
+                                                ></pdf-viewer>
+                                                <div class="overlay">
+                                                        <a [href]="pdf" target ="_blank" class="icon">
+                                                        <i class="fa fa-search"></i>
+                                                        </a>
+                                                </div>
+                                                <div class="overlay-delete">
+                                                        <span class="icon">
+                                                                <i class="fa fa-trash"></i>
+                                                        </span>
+                                                </div>
+                                        </a>
+                                        <input style="display:none" type="checkbox" [(ngModel)]="rep[i]"/>
+                                        <span *ngIf="rep[i] != true" class="btn-span" (click) = removePDF(i)>Remove</span>
+                                        <span *ngIf="rep[i] == true"class="btn-span" (click) = cancelRemovePDF(i)>Cancel</span>
+                                </div>
+                        
+                </div>
+
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button  
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)"  
+                (click)= "confirmRemove()" 
+                class = "btn dcb-btn" 
+                mat-button cdkFocusInitial>Confirm Remove
+        </button>
+</div>

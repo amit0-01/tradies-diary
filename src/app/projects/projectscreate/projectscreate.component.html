@@ -1,0 +1,906 @@
+<div class="main-content dashboard-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-dcb dashboard-card">
+          <div class="card-header card-header-text card-header-success">
+          </div>
+          <div class="card-body compact-layout compact-layout-common">
+            <form [formGroup]="editForm" class="dcb-form" [ngClass]="{'form-submitted': formSubmitted}">
+
+              <!-- <div class="col-md-3">
+                                <label>ID</label>   
+                                <input matInput value="{{passID.id}}" placeholder="ID" type="text" disabled>            
+                        </div> -->
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="fileinput fileinput-new text-center">
+                    <div class="fileinput-new thumbnail" style = "max-width: 500px;">
+                      <img src="./assets/img/image_placeholder.jpg" alt="..." *ngIf="!imageURL">
+                      <img [src]="imageURL" *ngIf="imageURL && imageURL !== ''">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                    <div>
+                      {{ formatBytes(imageSize) }}
+                    </div>
+                    <div>
+                      <span 
+                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                        (mouseenter)="onButtonEnter($event.target)" 
+                        (mouseleave)="onButtonOut($event.target)" 
+                        class="btn btn-change btn-file dcb-btn">
+                        <span class="fileinput-new">Select image</span>
+                        <span class="fileinput-exists">Change</span>
+                        <input accept="image/*" type="file" name="..." (change)="onFileChange($event)" />
+                      </span>
+                      <!-- <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
+                      <!-- <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a> -->
+                    </div>
+                  </div>
+                </div>  
+                <div class="col-md-9">
+                    <div class="row">
+
+                          <div class="col-lg-4 col-md-12">
+                            <label for="projectName">Project Name *</label>
+                            <input formControlName="projectName" id="projectName" placeholder="Project Name" matInput
+                              type="text">
+                          </div>
+
+                          <!-- <div class="col-lg-3 col-md-4">
+                            <label>Project Status *</label>
+                            <mat-select formControlName="projectStatus" id="projectStatus" placeholder="Project Status"
+                              name="projectStatus">
+                              <mat-option *ngFor="let StatusOption of statusOption" [value]="StatusOption.value">
+                                {{ StatusOption.viewValue }}
+                              </mat-option>
+                            </mat-select>
+                          </div> -->
+
+                          <div class="col-lg-2 col-md-6">
+                            <label>Job Number</label>
+                            <input formControlName="jobNumber" id="jobNumber" placeholder="Job Number" matInput type="text">
+                          </div>
+
+                          <div class="col-md-6">
+                            <label>Project Address</label>
+                            <input class = "hide-me" formControlName="projectAddress" id="projectAddress" placeholder="Project Address" matInput
+                              type="text">
+                            <input class = "hide-me" formControlName="latitude" id="latitude" placeholder="Latitude" matInput
+                            type="text">
+                            <input class = "hide-me" formControlName="longitude" id="longitude" placeholder="Longitude" matInput
+                            type="text">
+                              <input matInput 
+                              matGoogleMapsAutocomplete
+                              (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                              (onLocationSelected)="onLocationSelected($event)"
+                              >
+                              <!-- <mat-google-maps-autocomplete formControlName="projectAddress"></mat-google-maps-autocomplete> -->
+                              <!-- <mat-google-maps-autocomplete formControlName="projectAddress"  (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                              (onLocationSelected)="onLocationSelected($event)"></mat-google-maps-autocomplete> -->
+                        </div>
+
+                        <!-- <div class="col-lg-6 col-md-6"> -->
+                          <!-- <div class="row"> -->
+
+                              <div class="col-lg-3 col-md-6">
+                                <label>Client Name/s *</label>
+                                <!-- <input formControlName="clientName" id="clientName" placeholder="Client Name" matInput  type="text"> -->
+                                <tag-input 
+                                    id="clientName" 
+                                    formControlName="clientName" 
+                                    [editable]="true" 
+                                    placeholder="Client Name"
+                                    secondaryPlaceholder="Client Name" 
+                                    [modelAsStrings]="true" 
+                                    addOnBlur="true"
+                                    addOnPaste ="true"
+                                    [modelAsStrings]="true"
+                                    blinkIfDupe ="true"
+                                    theme="dark"
+                                    class="tag-default-height"
+                                    >
+                                </tag-input>
+                              </div>
+
+                              <!-- <div class="col-lg-6 col-md-6">
+                                <label>Weekly Report's Client Emails *</label>
+                                <tag-input 
+                                    id="clientEmail" 
+                                    formControlName="clientEmail" 
+                                    [editable]="true" 
+                                    placeholder="Client Email"
+                                    secondaryPlaceholder="Client Email Addresses" 
+                                    [modelAsStrings]="true" 
+                                    addOnBlur="true"
+                                    addOnPaste ="true"
+                                    [modelAsStrings]="true"
+                                    blinkIfDupe ="true"
+                                    theme="dark"
+                                    class="tag-default-height"
+                                    >
+                                </tag-input>
+                              </div> -->
+
+                              <!-- <div class="col-lg-6 col-md-6">
+                                <label>Weekly Report's CC</label>
+                                <tag-input 
+                                    id="clientEmailCC" 
+                                    formControlName="clientEmailCC" 
+                                    [editable]="true" 
+                                    placeholder="Client Email Addresses (CC)"
+                                    secondaryPlaceholder="Client Email Addresses (CC)" 
+                                    [modelAsStrings]="true" 
+                                    addOnBlur="true"
+                                    addOnPaste ="true"
+                                    [modelAsStrings]="true"
+                                    blinkIfDupe ="true"
+                                    theme="dark"
+                                    class="tag-default-height"
+                                >
+                                </tag-input>
+                              </div>
+
+                              <div class="col-lg-6 col-md-6">
+                                <label>Weekly Report's BCC</label>
+                                <tag-input 
+                                    id="clientEmailBCC" 
+                                    formControlName="clientEmailBCC" 
+                                    [editable]="true" 
+                                    placeholder="Client Email Addresses (BCC)"
+                                    secondaryPlaceholder="Client Email Addresses (BCC)" 
+                                    [modelAsStrings]="true" 
+                                    addOnBlur="true"
+                                    addOnPaste ="true"
+                                    [modelAsStrings]="true"
+                                    blinkIfDupe ="true"
+                                    theme="dark"
+                                    class="tag-default-height"
+                                    >
+                              </tag-input>
+                              </div> -->
+
+                            <!-- </div> -->
+                          <!-- </div> -->
+                          <!-- <div class="col-lg-6 col-md-6">
+                            <label>Direct Folder Email</label>
+                            <tag-input 
+                                id="directFolderEmail" 
+                                formControlName="directFolderEmail" 
+                                [editable]="true" 
+                                placeholder="Direct Folder Email"
+                                secondaryPlaceholder="Direct Folder Email Addresses" 
+                                [modelAsStrings]="true" 
+                                addOnBlur="true"
+                                addOnPaste ="true"
+                                [modelAsStrings]="true"
+                                blinkIfDupe ="true"
+                                theme="dark"
+                                >
+                            </tag-input>
+                          </div> -->
+                          <!-- <div class="col-lg-6 col-md-6"> -->
+                            <!-- <div class="row"> -->
+
+                                <!-- <div class="col-lg-6 col-md-6">
+
+                                  <label style="width: 100%;display: flex;justify-content: space-between;">Variation Recipient/s <span class="btn-span" (click)="openAddOwnerDialog()">Add New External User</span></label>
+                                  <mat-select [formControl]="recipientVariationControl" placeholder="Select Variation Recipient/s" multiple #multiSelect class="tag-default-height">
+      
+                                    <mat-select-trigger>
+                                      <mat-chip-set>
+                                        <mat-chip *ngFor="let topping of recipientVariationControl.value; index as i" [removable]="true"
+                                          (removed)="onToppingRemovedVariation(i)">
+                                          {{ topping.name }}
+                                          <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                      </mat-chip-set>
+                                    </mat-select-trigger>
+                                    <mat-option>
+                                      <ngx-mat-select-search 
+                                        [formControl]="search_control_owner"
+                                        placeholderLabel="Search..."
+                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let topping of  filter_list_owners | async" [value]="topping">{{topping.name}} </mat-option>
+      
+                                  </mat-select>
+
+                                </div> -->
+      
+                                <!-- <div class="col-lg-6 col-md-6">
+      
+                                  <label style="width: 100%;display: flex;justify-content: space-between;">Selection Recipient/s <span class="btn-span" (click)="openAddOwnerDialog()">Add New External User</span></label>
+                                  <mat-select [formControl]="recipientSelectionControl" placeholder="Select Selection Recipient/s" multiple #multiSelect class="tag-default-height">
+      
+                                    <mat-select-trigger>
+                                      <mat-chip-set>
+                                        <mat-chip *ngFor="let topping of recipientSelectionControl.value; index as i" [removable]="true"
+                                          (removed)="onToppingRemovedSelection(i)">
+                                          {{ topping.name }}
+                                          <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                      </mat-chip-set>
+                                    </mat-select-trigger>
+                                    <mat-option>
+                                      <ngx-mat-select-search 
+                                        [formControl]="search_control_owner"
+                                        placeholderLabel="Search..."
+                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let topping of  filter_list_owners | async" [value]="topping">{{topping.name}}</mat-option>
+      
+                                  </mat-select>
+      
+                                </div> -->
+      
+                                <!-- <div class="col-lg-6 col-md-6">
+      
+                                  <label style="width: 100%;display: flex;justify-content: space-between;">RFI Recipient/s <span class="btn-span" (click)="openAddOwnerDialog()">Add New External User</span></label>
+                                  <mat-select [formControl]="recipientRFIControl" placeholder="Select RFI Recipient/s" multiple #multiSelect class="tag-default-height">
+      
+                                    <mat-select-trigger>
+                                      <mat-chip-set>
+                                        <mat-chip *ngFor="let topping of recipientRFIControl.value; index as i" [removable]="true"
+                                          (removed)="onToppingRemovedRFI(i)">
+                                          {{ topping.name }}
+                                          <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                      </mat-chip-set>
+                                    </mat-select-trigger>
+                                    <mat-option>
+                                      <ngx-mat-select-search 
+                                        [formControl]="search_control_owner"
+                                        placeholderLabel="Search..."
+                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let topping of  filter_list_owners | async" [value]="topping">{{topping.name}}</mat-option>
+      
+                                  </mat-select>
+                                 
+                                </div> -->
+
+                                <div class="col-lg-3 col-md-6">
+
+                                  <label style="width: 100%;display: flex;justify-content: space-between;">Project Worker/s <span class="btn-span" (click)="openAddWorkerDialog()">Add New Worker</span></label>
+                                  <mat-select [formControl]="projectWorkerControl" placeholder="Project Worker" multiple #multiSelect class="tag-default-height">
+      
+                                    <mat-select-trigger>
+                                      <mat-chip-set>
+                                        <mat-chip *ngFor="let topping2 of projectWorkerControl.value; index as i" [removable]="true"
+                                          (removed)="onToppingRemoved2(i)">
+                                          {{ topping2.name }}
+                                          <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                      </mat-chip-set>
+                                    </mat-select-trigger>
+      
+                                    <mat-option>
+                                      <ngx-mat-select-search 
+                                        [formControl]="search_control_worker"
+                                        placeholderLabel="Search..."
+                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let topping2 of filter_list_workers | async" [value]="topping2">{{topping2.name}}
+                                    </mat-option>
+      
+                                  </mat-select>
+                                    
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
+                                  <label style="width: 100%;display: flex;justify-content: space-between;">Site Supervisor * <span class="btn-span" (click)="openAddSupervisorDialog()">Add New Supervisor</span></label>
+                                  <mat-select formControlName="siteSupervisor" id="siteSupervisor" placeholder="Who's running the show?"
+                                    name="siteSupervisor" #singleSelect  class="tag-default-height">
+                                    <mat-option>
+                                      <ngx-mat-select-search 
+                                        [formControl]="search_control_supervisor"
+                                        placeholderLabel="Search..."
+                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let siteSupervisor of filter_list_supervisors | async" [value]="siteSupervisor.id">
+                                      {{ siteSupervisor.name }}
+                                    </mat-option>
+                                  </mat-select>
+                                </div>
+      
+                                <div class="col-lg-3 col-md-6">
+                                  <label style="width: 100%;display: flex;justify-content: space-between;">Alt Supervisor/s <span class="btn-span" (click)="openAddSupervisorDialog()">Add New Supervisor</span></label>
+                                  <mat-select [formControl]="altSupervisorControl" placeholder="Alt Supervisors" multiple #multiSelect  class="tag-default-height">
+                
+                                    <mat-select-trigger>
+                                      <mat-chip-set>
+                                        <mat-chip *ngFor="let topping3 of altSupervisorControl.value; index as i" [removable]="true"
+                                          (removed)="onToppingRemoved3(i)">
+                                          {{ topping3.name }}
+                                          <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                      </mat-chip-set>
+                                    </mat-select-trigger>
+                                    <mat-option>
+                                      <ngx-mat-select-search 
+                                        [formControl]="search_control_worker"
+                                        placeholderLabel="Search..."
+                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let topping3 of filter_list_altsupervisors | async" [value]="topping3">{{topping3.name}}
+                                    </mat-option>
+                                  </mat-select>
+                                </div>
+      
+                            <!-- </div> -->
+                          <!-- </div> -->
+
+
+                          <div class="col-lg-3 col-md-6">
+                            <label>Expected Completion Date *</label>
+                            <input matInput [matDatepicker]="picker3" placeholder="Expected Completion Date" type="text"
+                              formControlName="aimedComDate" id="aimedComDate" (click)="picker3.open()">
+                            <mat-datepicker-toggle matSuffix [for]="picker3" style="display: none;"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                          </div>
+
+                          <div class="col-lg-3 col-md-6">
+                            <label>Total Days Lost to Date on the Project</label>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <input placeholder="Days" type="number" formControlName="lostTotalDays" id="lostTotalDays">days
+                              </div>
+                              <div class="col-md-6">
+                                <input placeholder="Hours" type="number" formControlName="lostTotalHours"
+                                  id="lostTotalHours">hours
+                              </div>
+                            </div>
+                          </div>
+                        
+
+                          
+                          <div class="col-lg-3 col-md-6">
+                            <label>Site Contact</label>
+                            <input formControlName="siteContact" id="siteContact" placeholder="Site Contact" matInput type="text">
+                          </div>
+                          <div class="col-lg-3 col-md-6">
+                              <label>Contact Phone</label>
+                              <input formControlName="contactPhone" id="contactPhone" placeholder="Contact Phone" matInput type="text">
+                          </div>
+                          <div class="col-lg-6 col-md-6">
+                            <label>Client Address</label>
+                            <input  class = "hide-me" formControlName="clientAddress" id="clientAddress" placeholder="Client Address" matInput
+                              type="text">
+                                <input matInput 
+                                [value]= "editForm.get('clientAddress').value"
+                                matGoogleMapsAutocomplete
+                                (onAutocompleteSelected)="onAutocompleteSelectedClient($event)">
+                          </div>
+                          <!-- <div class="col-lg-3 col-md-6">
+
+                            <label>Project Owner/s</label>
+                            <mat-select [formControl]="projectOwnerControl" placeholder="Project Owner" multiple #multiSelect>
+
+                              <mat-select-trigger>
+                                <mat-chip-set>
+                                  <mat-chip *ngFor="let topping of projectOwnerControl.value; index as i" [removable]="true"
+                                    (removed)="onToppingRemoved(topping, i)">
+                                    {{ topping.name }}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                  </mat-chip>
+                                </mat-chip-set>
+                              </mat-select-trigger>
+                              <mat-option>
+                                <ngx-mat-select-search 
+                                  [formControl]="search_control_owner"
+                                  placeholderLabel="Search..."
+                                  noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                              </mat-option>
+                              <mat-option (onSelectionChange)="ownerSelectChange($event)" *ngFor="let topping of  filter_list_owners | async" [value]="topping">{{topping.name}}</mat-option>
+
+                            </mat-select>
+                            <span class="btn-span" (click)="openAddOwnerDialog()">Add New Owner</span>
+                          </div> -->
+
+                          
+                               
+
+                    </div>
+
+                    <mat-tab-group>
+                      <mat-tab label="Weekly reports"> 
+                        <div class="row">
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>Weekly Report's Client Emails *</label>
+                          <tag-input 
+                              id="clientEmail" 
+                              formControlName="clientEmail" 
+                              [editable]="true" 
+                              placeholder="Client Email"
+                              secondaryPlaceholder="Client Email Addresses" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                              >
+                          </tag-input>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>Weekly Report's CC</label>
+                          <tag-input 
+                              id="clientEmailCC" 
+                              formControlName="clientEmailCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (CC)"
+                              secondaryPlaceholder="Client Email Addresses (CC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                          >
+                          </tag-input>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>Weekly Report's BCC</label>
+                          <tag-input 
+                              id="clientEmailBCC" 
+                              formControlName="clientEmailBCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (BCC)"
+                              secondaryPlaceholder="Client Email Addresses (BCC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                              >
+                        </tag-input>
+                        </div>
+
+
+                      </div>
+
+
+                      </mat-tab>
+                      <mat-tab label="Variation">
+                       <div class="row">
+                        <div class="col-lg-6 col-md-6">
+
+                          <label style="width: 100%;display: flex;justify-content: space-between;">Variation Recipient/s <span class="btn-span" (click)="openAddOwnerDialog()">Add New External User</span></label>
+                          <mat-select [formControl]="recipientVariationControl" placeholder="Select Variation Recipient/s" multiple #multiSelect class="tag-default-height">
+
+                            <mat-select-trigger>
+                              <mat-chip-set>
+                                <mat-chip *ngFor="let topping of recipientVariationControl.value; index as i" [removable]="true"
+                                  (removed)="onToppingRemovedVariation(i)">
+                                  {{ topping.name }}
+                                  <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-set>
+                            </mat-select-trigger>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_owner"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let topping of  filter_list_owners | async" [value]="topping">{{topping.name}} </mat-option>
+
+                          </mat-select>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>Variation CC</label>
+                          <tag-input 
+                              id="VariationEmailCC" 
+                              formControlName="VariationEmailCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (CC)"
+                              secondaryPlaceholder="Client Email Addresses (CC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                          >
+                          </tag-input>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>Variation BCC</label>
+                          <tag-input 
+                              id="VariationEmailBCC" 
+                              formControlName="VariationEmailBCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (CC)"
+                              secondaryPlaceholder="Client Email Addresses (CC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                          >
+                          </tag-input>
+                        </div>
+
+                       </div> 
+                      </mat-tab>
+                      <mat-tab label="Selection">
+                        <div class="row">
+                        <div class="col-lg-6 col-md-6">
+      
+                          <label style="width: 100%;display: flex;justify-content: space-between;">Selection Recipient/s <span class="btn-span" (click)="openAddOwnerDialog()">Add New External User</span></label>
+                          <mat-select [formControl]="recipientSelectionControl" placeholder="Select Selection Recipient/s" multiple #multiSelect class="tag-default-height">
+
+                            <mat-select-trigger>
+                              <mat-chip-set>
+                                <mat-chip *ngFor="let topping of recipientSelectionControl.value; index as i" [removable]="true"
+                                  (removed)="onToppingRemovedSelection(i)">
+                                  {{ topping.name }}
+                                  <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-set>
+                            </mat-select-trigger>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_owner"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let topping of  filter_list_owners | async" [value]="topping">{{topping.name}}</mat-option>
+
+                          </mat-select>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>Selection CC</label>
+                          <tag-input 
+                              id="selectionEmailCC" 
+                              formControlName="selectionEmailCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (CC)"
+                              secondaryPlaceholder="Client Email Addresses (CC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                          >
+                          </tag-input>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>Selection BCC</label>
+                          <tag-input 
+                              id="selectionEmailBCC" 
+                              formControlName="selectionEmailBCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (CC)"
+                              secondaryPlaceholder="Client Email Addresses (CC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                          >
+                          </tag-input>
+                        </div>
+                      </div>
+                      </mat-tab>
+                      <mat-tab label="RFI"> 
+                        <div class="row">
+                        <div class="col-lg-6 col-md-6">
+      
+                          <label style="width: 100%;display: flex;justify-content: space-between;">RFI Recipient/s <span class="btn-span" (click)="openAddOwnerDialog()">Add New External User</span></label>
+                          <mat-select [formControl]="recipientRFIControl" placeholder="Select RFI Recipient/s" multiple #multiSelect class="tag-default-height">
+
+                            <mat-select-trigger>
+                              <mat-chip-set>
+                                <mat-chip *ngFor="let topping of recipientRFIControl.value; index as i" [removable]="true"
+                                  (removed)="onToppingRemovedRFI(i)">
+                                  {{ topping.name }}
+                                  <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-set>
+                            </mat-select-trigger>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_owner"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let topping of  filter_list_owners | async" [value]="topping">{{topping.name}}</mat-option>
+
+                          </mat-select>
+                         
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>RFI CC</label>
+                          <tag-input 
+                              id="rfiEmailCC" 
+                              formControlName="rfiEmailCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (CC)"
+                              secondaryPlaceholder="Client Email Addresses (CC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                          >
+                          </tag-input>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                          <label>RFI BCC</label>
+                          <tag-input 
+                              id="rfiEmailBCC" 
+                              formControlName="rfiEmailBCC" 
+                              [editable]="true" 
+                              placeholder="Client Email Addresses (CC)"
+                              secondaryPlaceholder="Client Email Addresses (CC)" 
+                              [modelAsStrings]="true" 
+                              addOnBlur="true"
+                              addOnPaste ="true"
+                              [modelAsStrings]="true"
+                              blinkIfDupe ="true"
+                              theme="dark"
+                              class="tag-default-height"
+                          >
+                          </tag-input>
+                        </div>
+                      </div>
+                      </mat-tab>
+                    </mat-tab-group>
+                    
+                    <br>
+                    <div class="custom-frame">
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <label>Variation Starting Number</label>
+                                      <input style = "max-width: 80px;" formControlName="varProjStartNumber" id="varProjStartNumber" placeholder="0" matInput type="number"><br>
+                                      <!-- <span style="font-style: italic;">If you wish to update the Variation Starting number, then set this field higher than the project's current variation number to prevent duplication.</span> -->
+                                  </div>
+                                  <div class="col-md-12">
+                                    <label>Selection Starting Number</label>
+                                    <input style = "max-width: 80px;" formControlName="selProjStartNumber" id="selProjStartNumber" placeholder="0" matInput type="number"><br>
+                                    <!-- <span style="font-style: italic;">If you wish to update the Variation Starting number, then set this field higher than the project's current variation number to prevent duplication.</span> -->
+                                </div>
+                                <div class="col-md-12">
+                                  <label>RFI Starting Number</label>
+                                  <input style = "max-width: 80px;" formControlName="rfiProjStartNumber" id="rfiProjStartNumber" placeholder="0" matInput type="number"><br>
+                                  <!-- <span style="font-style: italic;">If you wish to update the Variation Starting number, then set this field higher than the project's current variation number to prevent duplication.</span> -->
+                              </div>
+                              </div> 
+
+                                <div class="row">
+                                        <div class="col-md-6 col-lg-6">
+                                                <div class="togglebutton">
+                                                        <label>
+                                                        <input type="checkbox" formControlName="bmLineitem"  (change)="toggleBMLineitem()">
+                                                        <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                        <span [style.backgroundColor]="editForm.value.bmLineitem ? colorHlightDefault : ''" class="toggle"></span>
+                                                                Add Builder's Margin per line item
+                                                        </label>
+                                                </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6">
+                                                <div class="togglebutton">
+                                                        <label>
+                                                        <input type="checkbox"  formControlName="bmTotalFigure" (change)="toggleBMTotalFigure()">
+                                                        <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                        <span [style.backgroundColor]="editForm.value.bmTotalFigure ? colorHlightDefault : ''" class="toggle"></span>
+                                                                Add Builder's Margin  as a Total Figure on the bottom of the Variation PDF above the Total GST
+                                                        </label>
+                                                </div>
+                                        </div>
+
+                                    <div class="col-md-6 col-lg-6">
+                                            <div class="togglebutton">
+                                                    <label>
+                                                    <input type="checkbox"  formControlName="bmHideAll" (change)="toggleBMHideAll()">
+                                                    <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                    <span [style.backgroundColor]="editForm.value.bmHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                            Hide Builder's Margin completely from the PDF, but all the calculations remain.
+                                                    </label>
+                                            </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-lg-6">
+                                            <div class="togglebutton">
+                                                    <label>
+                                                    <input type="checkbox"  formControlName="qtyHideAll">
+                                                    <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                    <span [style.backgroundColor]="editForm.value.qtyHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                            Hide Quantity completely from the PDF, but all the calculations remain.
+                                                    </label>
+                                            </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-lg-6">
+                                            <div class="togglebutton">
+                                                    <label>
+                                                    <input type="checkbox"  formControlName="unitHideAll">
+                                                    <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                    <span [style.backgroundColor]="editForm.value.unitHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                            Hide Units completely from the PDF, but all the calculations remain.
+                                                    </label>
+                                            </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6">
+                                            <div class="togglebutton">
+                                                    <label>
+                                                    <input type="checkbox"  formControlName="unitCostHideAll">
+                                                    <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                    <span [style.backgroundColor]="editForm.value.unitCostHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                            Hide Unit Cost completely from the PDF, but all the calculations remain.
+                                                    </label>
+                                            </div>
+                                    </div>
+                                    <!-- <div class="col-md-6 col-lg-6">
+                                            <div class="togglebutton">
+                                                    <label>
+                                                    <input type="checkbox"  formControlName="gstHideAll">
+                                                    <span [style.backgroundColor]="editForm.value.gstHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                            Hide Item GST completely from the PDF, but all the calculations remain.
+                                                    </label>
+                                            </div>
+                                    </div> -->
+      
+                                    <div class="col-md-6 col-lg-6">
+                                            <div class="togglebutton">
+                                                    <label>
+                                                    <input type="checkbox"  formControlName="itemTotalHideAll">
+                                                    <!-- <input type="checkbox" (change)="showApprovedOnly($event)"> -->
+                                                    <span [style.backgroundColor]="editForm.value.itemTotalHideAll ? colorHlightDefault : ''" class="toggle"></span>
+                                                            Hide Item Total Cost completely from the PDF, but all the calculations remain.
+                                                    </label>
+                                            </div>
+                                    </div>
+                                </div>
+                                
+                      </div>
+
+                    <div class="row">    
+                      <div class="col-lg-12 col-md-12">
+                        <br>
+                        <button 
+                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                            (mouseenter)="onButtonEnter($event.target)" 
+                            (mouseleave)="onButtonOut($event.target)" 
+                            class="btn dcb-btn" 
+                            (click)="saveStep1()" 
+                            mat-button cdkFocusInitial 
+                            [disabled]="!clientEmail.valid">Create Project
+                        </button>
+                      </div>   
+                    </div>
+                    
+                </div>
+              </div>
+
+              <div class="row" style="opacity:0;height:0;z-index:0;">
+                <div class="col-md-12">
+                  <label>Background Photo for PDF</label>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                  <div class="fileinput fileinput-new text-center project-bg-selection">
+                    <div class="fileinput-new thumbnail">
+                      <!-- <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!imageURL"> -->
+                      <img [src]="selectedBG">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                    <!-- <div>
+                                        {{ formatBytes(imageSize) }}
+                                      </div> -->
+                    <!-- <div>
+                                          <span class="btn btn-change btn-file">
+                                              <span class="fileinput-new">Select image</span>
+                                              <span class="fileinput-exists">Change</span>
+                                              <input type="file" name="..."  (change)="onFileChange($event)" />
+                                          </span>
+                                          <a href="/images/background.psd" download="background.psd" mat-button class="btn btn-remove-img"> Download PSD </a> 
+                                          <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                          <button (click)= "removeImageUpload(i)" mat-button class="btn btn-remove-img"><i class="fa fa-times"></i> Remove</button>
+                                          <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a>
+                                      </div> -->
+
+                    <label>Background Image for Project PDF</label>
+                    <mat-select (selectionChange)="bgSelect($event.value)" formControlName="bgName" id="bgName"
+                      placeholder="Project Background" name="bgName">
+                      <mat-option *ngFor="let projectBackground of projectBackgrounds"
+                        [value]="projectBackground.value">
+                        {{ projectBackground.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <div class="col-lg-9 col-md-8 text-right">
+                  <div class="fileinput fileinput-new project-bg-choices">
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf">
+                          Default Background
+                        </div>
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf2">
+                          Background 2
+                        </div>
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf3">
+                          Background 3
+                        </div>
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf4">
+                          Background 4
+                        </div>
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf5">
+                          Background 5
+                        </div>
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf6">
+                          Background 6
+                        </div>
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf7">
+                          Background 7
+                        </div>
+                        <div class="fileinput-new thumbnail margin-5">
+                          <img [src]="pdfImage.bgpdf8">
+                          Blank Background
+                        </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </form>
+
+
+
+          </div>
+          <div class="card-footer">
+            <!-- <button class="btn dcb-btn" (click)="saveStep1()" mat-button cdkFocusInitial [disabled]="!clientEmail.valid">Create Project</button> -->
+            <!-- <button (click)= "generatePdf()" mat-button class="btn dcb-btn btn-primary">Preview PDF</button> -->
+            <!-- <button (click)= "test()" mat-button class="btn btn-info">TEST</button> -->
+            <!-- <button (click)= "addReport()" mat-button class="btn dcb-btn btn-primary">Save Report</button> -->
+            <!-- <button (click)= "submitForApproval()" mat-button class="btn dcb-btn btn-primary">Submit For Approval</button> -->
+            <!-- <div class="stats">
+      <i class="material-icons">access_time</i> Modified last:&nbsp;<span style = "color:#000000">{{userNotes?.update_date_time}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;Modified by:&nbsp;<span style = "color:#000000">{{userNotes?.author}}</span>
+    </div>
+    <div class="stats">
+      <a  href = "#" [routerLink]="'/notes'"><i style = "vertical-align: top" class="material-icons">access_time</i> View Version History</a>
+   </div> -->
+            <!-- <div class="stats">
+      <i class="material-icons">access_time</i> Modified last: 25/10/2019  
+    </div>
+    <div class="stats">
+      <i class="material-icons">access_time</i> Modified by: Sue de Graaf  
+    </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

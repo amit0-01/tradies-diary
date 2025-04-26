@@ -1,0 +1,177 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Date : {{logData.todaysDate}}</p>
+                <p>Project ID : {{logData.projectId}}</p>
+                <p>Site Supervisor : {{logData.siteSupervisor}}</p>
+                <p>Weather Residual : {{logData.weatherResidual}}</p>
+                <p>Weather Perfect : {{logData.weatherPerfect}}</p>
+                <p>Max Temperature: {{logData.weatherMaxTemp}}</p>
+                <p>Minimum Temperature : {{logData.weatherMinTemp}}</p>
+                <p>Weather Morning : {{logData.weatherMorning}}</p>
+                <p>Weather Midday : {{logData.weatherMidDay}}</p>
+                <p>Weather Afternoon : {{logData.weatherAfternoon}}</p>
+                <p>Weather Evening : {{logData.weatherEvening}}</p>
+                <p>Weather On Off : {{logData.weatherOnOff}}</p>
+                <p>Weather All Day : {{logData.weatherAllDay}}</p>
+                <p>Weather Rest of Day : {{logData.weatherRestOfDay}}</p>
+                <p>Weather Others (Morning) : {{logData.weatherOthersMorning}}</p>
+                <p>Weather Others (Midday) : {{logData.weatherOthersMidDay}}</p>
+                <p>Weather Others (Afternoon) : {{logData.weatherOthersAfternoon}}</p>
+                <p>Weather Others (Evening) : {{logData.weatherOthersEvening}}</p>
+                <p>Weather Others (On Off) : {{logData.weatherOthersOnOff}}</p>
+                <p>Weather Others (All Day) : {{logData.weatherOthersAllDay}}</p>
+                <p>Weather Others (Rest of Day) : {{logData.weatherOthersRestOfDay}}</p>
+                <p>Toolbox Talk : {{logData.toolboxTalk}}</p>
+                <p>Toolbox Form Completed : {{logData.toolboxForm}}</p>
+                <p>Toolbox Action Required : {{logData.toolboxRequired}}</p>
+                <p *ngIf="logData.toolboxNotes">Toolbox Notes : {{logData.toolboxInput}}</p>
+                <p>Safety Talk : {{logData.safetyWalk}}</p>
+                <p>Safety Form Completed : {{logData.safetyForm}}</p>
+                <p>Safety Action Required : {{logData.safetyRequired}}</p>
+                <p *ngIf="logData.safetyNotes">Safety Notes : {{logData.safetyInput}}</p>
+                <p>Accident Report : {{logData.accidentReport}}</p>
+                <p>Accident Form Completed : {{logData.accidentForm}}</p>
+                <p>Accident Action Required : {{logData.accidentRequired}}</p>
+                <p *ngIf="logData.accidentNotes">Accident Notes : {{logData.accidentInput}}</p>
+                <p>PPE : {{logData.ppeReport}}</p>
+                <p>PPE Form Completed : {{logData.ppeForm}}</p>
+                <p>PPE Action Required : {{logData.ppeRequired}}</p>
+                <p *ngIf="logData.ppeNotes">PPE Notes : {{logData.ppeInput}}</p>
+                <p>Instructions Received : {{logData.instructionsReceived}}</p>
+                <p>Delays : {{logData.delays}}</p>
+                <p>Tools Used : {{logData.toolsUsed}}</p>
+                <p>Damage Report : {{logData.damageReport}}</p>
+                <p>Summary : {{logData.summary}}</p>
+                <p>Materials Requested : {{logData.materialsRequested}}</p>
+                <p>OffHire Plant : {{logData.offHirePlant}}</p>
+                <p>Variations : {{logData.variations}}</p>
+                <p>Deliveries : {{logData.deliveries}}</p>
+                <p>Trades to Contact : {{logData.tradesContact}}</p>
+                <p>Trades to Schedule : {{logData.tradesSched}}</p>
+                <p>Images : {{logData.imageUpload}}</p>
+
+                <p>Trade On Site:</p>
+                <div class ="row" *ngFor="let item of logData.tradeFormArray" >
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+                        <p>Trade ID : {{item.tradesOnSite}}</p>
+                        <div class ="row" *ngFor="let item2 of item.tradeStaffFormArray" >
+                            <div class="col-md-1"></div>
+                            <div class="col-md-11">
+                                <p>Staff ID : {{item2.staffOnSite}}</p>
+                                <div class ="row" *ngFor="let item3 of item2.taskTradeFormArray" >
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11">
+                                        <p>Start: {{item3.start}}</p>
+                                        <p>Break : {{item3.break}}</p>
+                                        <p>Finish : {{item3.finish}}</p>
+                                        <p>Hours : {{item3.hours}}</p>
+                                    </div>     
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>Staff On Site:</p>
+                <div class ="row" *ngFor="let item of logData.staffFormArray" >
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+                        <p>Staff ID : {{item.staffOnSite}}</p>
+                        <div class ="row" *ngFor="let item2 of item.taskStaffFormArray" >
+                            <div class="col-md-1"></div>
+                            <div class="col-md-11">
+                                <p>Start: {{item2.start}}</p>
+                                <p>Break : {{item2.break}}</p>
+                                <p>Finish : {{item2.finish}}</p>
+                                <p>Hours : {{item2.hours}}</p>
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+
+                <p>Visitor On Site:</p>
+                <div class ="row" *ngFor="let item of logData.visitorFormArray" >
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+                        <p>Visitors On Site : {{item.visitorsOnSite}}</p>
+                        <p>Reasons On Site: {{item.reasonsOnSite}}</p>
+                        <p>Duration : {{item.duration}}</p>
+                    </div>
+                </div>
+
+                <p>Materials/Plants:</p>
+                <div class ="row" *ngFor="let item of logData.productFormArray" >
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+                        <p>Product ID : {{item.productName}}</p>
+                        <p>Size Type: {{item.sizeType}}</p>
+                        <p>Quantity : {{item.quantity}}</p>
+                        <p>Length : {{item.length}}</p>
+                        <p>Width : {{item.width}}</p>
+                        <p>Height : {{item.height}}</p>
+                        <p>Hours : {{item.hours}}</p>
+                        <p>Weight : {{item.weight}}</p>
+                        <p>Cost : {{item.cost}}</p>
+                    </div>
+                </div>
+
+                <!-- <p>Images:</p>
+                <div class ="row">
+                        <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                                <label>{{ item.imageCaption }}  </label>
+                                <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                        <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                        {{ formatBytes(item.imageSize) }}
+                                    </div>
+                                </div>
+                        </div>
+                </div>  -->
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+        <!-- <br><br>
+        <p *ngIf="logData.imageUpload">Images:</p>
+                <div class ="row">
+                        <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                                <label>{{ item.imageCaption }}  </label>
+                                <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                        <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                        {{ formatBytes(item.imageSize) }}
+                                    </div>
+                                </div>
+                        </div>
+
+                </div>  -->
+    </ng-container>
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

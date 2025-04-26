@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Select RFI Group Name</h1>
+<div mat-dialog-content class=" table-pop">
+        <form [formGroup]="rfiForm" class="dcb-form">
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>ID</mat-label>
+                        <input matInput value="{{data.id}}" placeholder="ID" type="text" disabled>
+                </mat-form-field> -->
+                <!-- <br/>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input formControlName="visitorName" id="visitorName" placeholder="Name" matInput  type="text">
+                </mat-form-field> -->
+                <div class = "row">
+                        <div class="col-md-12">
+                                      <label>RFI Group Name</label>
+                                      <mat-select  #singleSelect formControlName="groupName" placeholder="Group Name" name="groupName">
+                                                                              
+                                                      <mat-option>
+                                                        <ngx-mat-select-search 
+                                                                [formControl]="search_control_groupname"
+                                                              placeholderLabel="Search..."
+                                                              noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                      </mat-option>
+                                                      <mat-option (click)="openAddDialog()">-- Add New Group Name --</mat-option>
+                                                      <mat-option *ngFor="let listGroupName of filter_list_groupnames | async" [value]="listGroupName.groupName">
+                                                                {{ listGroupName.groupName}}
+                                                      </mat-option>
+                                                      
+                                      </mat-select> 
+                        </div>
+              </div>
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)" 
+                class = "btn dcb-btn btn-compact" 
+                (click)="addNewGroupName()" 
+                mat-button cdkFocusInitial  
+                [disabled]="rfiForm.pristine">Insert Group Name
+        </button>
+</div>

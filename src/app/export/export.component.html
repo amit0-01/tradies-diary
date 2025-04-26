@@ -1,0 +1,184 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-4">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-body compact-layout compact-layout-common">
+                        <form [formGroup]="generateExportForm" class="dcb-form ">
+                            <div class="row">
+                                <div class="col-md-6">
+                                        <label>Project</label>
+                                        <mat-select formControlName="projectID" id="projectID" placeholder="Project" name="projectID" #singleSelect>
+                                                <mat-option>
+                                                    <ngx-mat-select-search 
+                                                            [formControl]="search_control_project"
+                                                            placeholderLabel="Search..."
+                                                            noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let projectName of filter_list_projects | async" [value]="projectName.id">
+                                                {{ projectName.projectName }}
+                                                </mat-option>
+                                        </mat-select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Employee</label>
+                                    <mat-select formControlName="employeeId" id="employeeId" placeholder="Employee" name="employeeId" #singleSelect>
+                                            <mat-option>
+                                                <ngx-mat-select-search 
+                                                        [formControl]="search_control_employee"
+                                                        placeholderLabel="Search..."
+                                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let listStaff of  filter_list_employees | async" [value]="listStaff.id">
+                                                <ng-container *ngIf="listStaff.type =='user-supervisor'">
+                                                    {{ listStaff.staff_name}} (Supervisor)
+                                                </ng-container>
+                                                <ng-container *ngIf="listStaff.type =='user-worker'">
+                                                {{ listStaff.staff_name}} (Worker)
+                                            </ng-container>
+                                                <ng-container *ngIf="listStaff.type !='user-supervisor' && listStaff.type !='user-worker'">
+                                                    {{ listStaff.staff_name}}
+                                                </ng-container>
+
+                                            </mat-option>
+
+                                    </mat-select>
+                                </div>
+                                <div class="col-md-12">
+                                    <!-- <label>Date Range</label> -->
+                                    <!-- <mat-checkbox id="dateRange" formControlName="dateRange"></mat-checkbox> -->
+                                    <div class="togglebutton">
+                                        <label>
+                                          <input type="checkbox" formControlName="dateRange">
+                                          <span [style.backgroundColor]="generateExportForm.value.dateRange ? colorHlightDefault : ''" class="toggle"></span>
+                                          Date Range
+                                        </label>
+                                    </div>   
+                                </div>
+                                <div class="col-md-6" *ngIf="generateExportForm.get('dateRange').value === false">
+                                    <label>Specific Date (dd/mm/yyyy)*</label>
+                                    <input matInput [matDatepicker]="pickerflight"
+                                        placeholder="Entry Date (dd/mm/yyyy)*"
+                                        (click)="pickerflight.open()" formControlName="entryDate"
+                                        id="flightDate">
+                                    <mat-datepicker-toggle style = "display: none;" matSuffix [for]="pickerflight">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #pickerflight></mat-datepicker>
+                                </div>
+                                <div class="col-md-6" *ngIf="generateExportForm.get('dateRange').value === true">
+                                    <label>From Date (dd/mm/yyyy)*</label>
+                                    <input matInput [matDatepicker]="pickerflight2"
+                                        placeholder="From Date (dd/mm/yyyy)*"
+                                        (click)="pickerflight2.open()" formControlName="fromDate"
+                                        id="fromDate">
+                                    <mat-datepicker-toggle style = "display: none;" matSuffix [for]="pickerflight2">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #pickerflight2></mat-datepicker>
+                                </div>
+                                <div class="col-md-6" *ngIf="generateExportForm.get('dateRange').value === true">
+                                    <label>To Date (dd/mm/yyyy)*</label>
+                                    <input matInput [matDatepicker]="pickerflight3"
+                                        placeholder="To Date (dd/mm/yyyy)*"
+                                        (click)="pickerflight3.open()" formControlName="toDate"
+                                        id="toDate">
+                                    <mat-datepicker-toggle style = "display: none;" matSuffix [for]="pickerflight3">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #pickerflight3></mat-datepicker>
+                                </div>
+
+
+                                        <!-- <mat-form-field class="mat-full-width">
+                                            <mat-select formControlName="projectID" id="projectID" placeholder="Project" name="projectID" #singleSelect>
+                                                    <mat-option>
+                                                        <ngx-mat-select-search 
+                                                                [formControl]="search_control_project"
+                                                                placeholderLabel="Search..."
+                                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let projectName of filter_list_projects | async" [value]="projectName.id">
+                                                    {{ projectName.projectName }}
+                                                    </mat-option>
+                                            </mat-select>
+                                        </mat-form-field> -->
+                                        <!-- <mat-form-field class="mat-full-width">
+                                            <mat-select formControlName="employeeId" id="employeeId" placeholder="Employee" name="employeeId" #singleSelect>
+                                                    <mat-option>
+                                                        <ngx-mat-select-search 
+                                                                [formControl]="search_control_employee"
+                                                                placeholderLabel="Search..."
+                                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let listStaff of  filter_list_employees | async" [value]="listStaff.id">
+                                                        <ng-container *ngIf="listStaff.type =='user-supervisor'">
+                                                            {{ listStaff.staff_name}} (Supervisor)
+                                                        </ng-container>
+                                                        <ng-container *ngIf="listStaff.type =='user-worker'">
+                                                        {{ listStaff.staff_name}} (Worker)
+                                                    </ng-container>
+                                                        <ng-container *ngIf="listStaff.type !='user-supervisor' && listStaff.type !='user-worker'">
+                                                            {{ listStaff.staff_name}}
+                                                        </ng-container>
+
+                                                    </mat-option>
+
+                                            </mat-select>
+                                        </mat-form-field> -->
+                                        <!-- <br>
+                                        
+                                        <br> -->
+                                        <!-- <mat-form-field class="mat-full-width" *ngIf="generateExportForm.get('dateRange').value === false">
+                                            <input matInput [matDatepicker]="pickerflight"
+                                                placeholder="Entry Date (dd/mm/yyyy)*"
+                                                (click)="pickerflight.open()" formControlName="entryDate"
+                                                id="flightDate">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerflight">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerflight></mat-datepicker>
+                                        </mat-form-field> -->
+                                        
+                                        <!-- <mat-form-field class="mat-full-width" *ngIf="generateExportForm.get('dateRange').value === true">
+                                            <input matInput [matDatepicker]="pickerflight2"
+                                                placeholder="From Date (dd/mm/yyyy)*"
+                                                (click)="pickerflight2.open()" formControlName="fromDate"
+                                                id="fromDate">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerflight2">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerflight2></mat-datepicker>
+                                        </mat-form-field>
+
+                                        <mat-form-field class="mat-full-width"  *ngIf="generateExportForm.get('dateRange').value === true">
+                                            <input matInput [matDatepicker]="pickerflight3"
+                                                placeholder="To Date (dd/mm/yyyy)*"
+                                                (click)="pickerflight3.open()" formControlName="toDate"
+                                                id="toDate">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerflight3">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerflight3></mat-datepicker>
+                                        </mat-form-field> -->
+                                    
+                            </div>
+                        </form>
+                        <div class="row">
+                            <!-- <button mat-button class="btn dcb-btn"
+                                    (click)="downloadCSV()">
+                                    <i class="material-icons">download</i> Generate and Download CSV
+                            </button>  -->
+                            <button mat-button class="btn dcb-btn"
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    (click)="generateExcel()">
+                                    <i class="material-icons">download</i> Export
+                            </button> 
+                            <button 
+           
+                                    (click)="reset()" mat-button class="btn dcb-btn dcb-btn-2">
+                                <i class="material-icons">refresh</i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

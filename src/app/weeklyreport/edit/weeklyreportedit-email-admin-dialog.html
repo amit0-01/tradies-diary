@@ -1,0 +1,58 @@
+<h4 mat-dialog-title style="font-size: 15px;">Please make sure you saved the changes first before submitting to the client.</h4>
+<div mat-dialog-content>
+    <form [formGroup]="addFestForm" class="dcb-form">
+        <!-- <input value="{{addFestForm.value.adminEmail}}" type="text" readonly> -->
+
+        <label>Admin Email Address*</label><br>
+        <input [value]="addFestForm.value.adminEmail" matInput type="text" class="readonly-field" readonly>
+        
+        <!-- <tag-input id="to" formControlName="to" [editable]="true" placeholder="Enter Email Address"
+        secondaryPlaceholder="Enter Email Address" [modelAsStrings]="true" addOnBlur="true"></tag-input> -->
+        <br>
+        <label>Client Email Addresses (CC)</label>
+        <tag-input 
+          id="cc" 
+          formControlName="cc" 
+          [editable]="true" 
+          placeholder="Enter Email Address"
+          secondaryPlaceholder="Enter Email Address" 
+          [modelAsStrings]="true" 
+          addOnBlur="true"
+          blinkIfDupe ="true"
+          theme="dark"
+          [dragZone]="'zone1'"
+          matTooltip="Press enter to add email address to the box"
+          matTooltipHideDelay="200"
+        ></tag-input>
+        <br>
+        <label>Client Email Addresses (BCC)</label>
+        <tag-input 
+          id="bcc" 
+          formControlName="bcc" 
+          [editable]="true" 
+          placeholder="Enter Email Address"
+          secondaryPlaceholder="Enter Email Address" 
+          [modelAsStrings]="true" 
+          addOnBlur="true"
+          blinkIfDupe ="true"
+          theme="dark"
+          [dragZone]="'zone1'"
+          matTooltip="Press enter to add email address to the box"
+          matTooltipHideDelay="200"
+        ></tag-input>
+        <br>
+        <label>Message</label>
+        <!-- <angular-editor formControlName="body" id="body" [config]="editorConfig"></angular-editor> -->
+        <div><quill-editor [preserveWhitespace]="true" id="body" formControlName="body"></quill-editor></div>
+
+        <input formControlName="adminEmail" id="adminEmail" type="hidden">
+        <input formControlName="emailHeader" id="emailHeader" type="hidden">
+    </form>
+</div>
+<div mat-dialog-actions>
+  <!-- <p>
+    Selected: {{test2.selectedOptions.selected.length}}
+  </p> -->
+  <button  class = "btn dcb-btn" mat-button (click)="onNoClick()">Cancel</button>
+  <button  class = "btn dcb-btn" mat-button (click)="sendAdminEmail()">Send Email to Admin</button>
+</div>

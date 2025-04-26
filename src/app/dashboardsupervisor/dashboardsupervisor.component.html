@@ -1,0 +1,465 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <!-- <div class = "row">
+            <div class="col-md-12">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body compact-layout">
+                         <div class="row">
+                            <div class="col-md-12">
+                                <form [formGroup]="filterLogsForm" class="dcb-form">
+                                    <div class="filter-holder">
+                                           
+                                                <div class="holder-filter-by"> 
+                                                    <label><i class="material-icons">filter_alt</i> Filter by</label>
+                                                    <mat-select placeholder="Select Filter Type" (selectionChange)="filterByChange($event)" [(value)]="selected" name="searchChoice" #singleSelect>
+                                                        <mat-option (click)="filterLogsForm.reset()"
+                                                            *ngFor="let searchChoice of searchChoices"
+                                                            [value]="searchChoice.value">
+                                                            {{ searchChoice.viewValue }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </div>
+
+                                                <div class="holder-filter-with">
+                                                    
+                                                    <ng-container *ngIf="selected; else notShow">
+
+                                                        <label *ngIf="selected == 'entry_date'"><i class="material-icons">filter_alt</i>Enter Date</label>
+                                                        <input *ngIf="selected == 'entry_date'" (dateChange)="filterLogs()" matInput [matDatepicker]="pickerflight"
+                                                        placeholder="Enter Date (dd/mm/yyyy)" (click)="pickerflight.open()" formControlName="entryDate">
+                                                        <mat-datepicker-toggle matSuffix [for]="pickerflight"  style = "display: none;">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #pickerflight></mat-datepicker>
+    
+                                                        <label *ngIf="selected == 'project_id'"><i class="material-icons">filter_alt</i>Select Project</label>
+                                                        <mat-select *ngIf="selected == 'project_id'" (selectionChange)="filterLogs()" formControlName="projectID" id="projectID" name="projectID">
+                                                                <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                                                {{ projectName.projectName }}
+                                                                </mat-option>
+                                                        </mat-select>
+
+                                                        
+                                                        <label *ngIf="selected == 'worker_id'"><i class="material-icons">filter_alt</i>Select Worker</label>
+                                                        <mat-select *ngIf="selected == 'worker_id'" (selectionChange)="filterLogs()" formControlName="workerID" id="workerID" placeholder="User" name="workerID">
+                                                            <mat-option *ngFor="let worker of filterWorkers" [value]="worker.id">
+                                                            {{ worker.userFirstName}} {{ worker.userLastName}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        
+                                                        <label *ngIf="selected == 'supervisor_id'"><i class="material-icons">filter_alt</i>Select Supervisor</label>
+                                                        <mat-select *ngIf="selected == 'supervisor_id'" (selectionChange)="filterLogs()" formControlName="supervisorID" id="supervisorID" placeholder="User" name="supervisorID">
+                                                            <mat-option *ngFor="let supervisor of filterSupervisors" [value]="supervisor.id">
+                                                            {{ supervisor.userFirstName}} {{ supervisor.userLastName}}
+                                                            </mat-option>
+                                                        </mat-select>
+
+                                                        <label *ngIf="selected == 'trades_id'"><i class="material-icons">filter_alt</i>Select Trades</label>
+                                                        <mat-select *ngIf="selected == 'trades_id'" (selectionChange)="filterLogs()" formControlName="tradesID" id="tradesID" placeholder="Company Name" name="tradesID">
+                                                                <mat-option *ngFor="let trade of filterTrades" [value]="trade.id">
+                                                                {{ trade.tradeCompanyName }}
+                                                                </mat-option>
+                                                        </mat-select>
+    
+                                                    </ng-container>
+
+                                                    <ng-template #notShow>
+
+                                                        <label><i class="material-icons">filter_alt</i> Select Value</label>
+                                                        <input matInput placeholder="Select Filter Type first" type="text" disabled>
+
+                                                    </ng-template>
+
+                                                </div>
+
+                                                <button 
+                                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                    (mouseenter)="onButtonEnter($event.target)" 
+                                                    (mouseleave)="onButtonOut($event.target)" 
+                                                    (click)="reset()" mat-button 
+                                                    class="btn dcb-btn  btn-compact">
+                                                    Reset
+                                                </button>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12" *ngIf="dashboardSearchDateDailyReportList?.length > 0">
+                                <h4>Daily Reports Entries on this date</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchDateDailySettings" [source]="dashboardSearchDateDailyReportList"></ng2-smart-table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchDateWeeklyReportList?.length > 0">
+                                <br><h4>Weekly Reports Entries on this date</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchDateWeeklySettings" [source]="dashboardSearchDateWeeklyReportList"></ng2-smart-table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchDateWorkerList?.length > 0">
+                                <br><h4>Worker Log Entries on this date</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchDateWorkerSettings" [source]="dashboardSearchDateWorkerList"></ng2-smart-table>
+                                </div> 
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchProjectList?.length > 0">
+                                <br><h4>You searched for this Project</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchProjectsSettings" [source]="dashboardSearchProjectList"></ng2-smart-table>
+                                </div> 
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchProjectDailyList?.length > 0">
+                                <br><h4>Daily Reports Entries matched this project</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchProjectDailySettings" [source]="dashboardSearchProjectDailyList"></ng2-smart-table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchProjectWeeklyList?.length > 0">
+                                <br><h4>Weekly Reports Entries matched this project</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchProjectWeeklySettings" [source]="dashboardSearchProjectWeeklyList"></ng2-smart-table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchProjectWorkerList?.length > 0">
+                                <br><h4>Worker Log Entries matched this project</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchProjectWorkerSettings" [source]="dashboardSearchProjectWorkerList"></ng2-smart-table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchWorkerList?.length > 0">
+                                <br><h4>Worker Log Entries matched this Worker</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchWorkerSettings" [source]="dashboardSearchWorkerList"></ng2-smart-table>
+                                    <div class="text-center" style="width: 300px;margin: 20px auto;">
+                                        <button 
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)" 
+                                            class="btn dcb-btn btn-sm float-left btn-compact" 
+                                            (click)="searchWorkerPrevPage()" 
+                                            [disabled]="searchWorkerDisable_prev || !(searchWorkerPagination_clicked_count > 0)">Previous
+                                        </button>
+                                        <span class="page-num-indicator">Page no: {{searchWorkerPagination_clicked_count+1}}</span>
+                                        <button 
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)" 
+                                            class="btn dcb-btn btn-sm float-right btn-compact" 
+                                            (click)="searchWorkerNextPage()" 
+                                            [disabled]="searchWorkerDisable_next">Next
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchSupervisorDailyList?.length > 0">
+                                <br><h4>Daily Reports Entries matched this Supervisor</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchSupervisorDailySettings" [source]="dashboardSearchSupervisorDailyList"></ng2-smart-table>
+                                    <div class="text-center" style="width: 300px;margin: 20px auto;">
+                                        <button 
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)" 
+                                            class="btn dcb-btn btn-sm float-left btn-compact" 
+                                            (click)="searchSupervisorPrevPage()" 
+                                            [disabled]="searchSupervisorDisable_prev || !(searchSupervisorPagination_clicked_count > 0)">Previous
+                                        </button>
+                                        <span class="page-num-indicator">Page no: {{searchSupervisorPagination_clicked_count+1}}</span>
+                                        <button
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)"  
+                                            class="btn dcb-btn btn-sm float-right btn-compact" 
+                                            (click)="searchSupervisorNextPage()" 
+                                            [disabled]="searchSupervisorDisable_next">Next
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="dashboardSearchTradesDailyList?.length > 0">
+                                <br><h4>Daily Reports Entries matched this trades</h4>
+                                <div class="smart-table-holder">
+                                    <ng2-smart-table [settings]="dashboardSearchTradesDailySettings" [source]="dashboardSearchTradesDailyList"></ng2-smart-table>
+                                    <div class="text-center" style="width: 300px;margin: 20px auto;">
+                                        <button
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)"  
+                                            class="btn dcb-btn btn-sm float-left btn-compact" 
+                                            (click)="searchTradesPrevPage()" 
+                                            [disabled]="searchTradesDisable_prev || !(searchTradesPagination_clicked_count > 0)">Previous
+                                        </button>
+                                        <span class="page-num-indicator">Page no: {{searchTradesPagination_clicked_count+1}}</span>
+                                        <button
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)" 
+                                            class="btn dcb-btn btn-sm float-right btn-compact" 
+                                            (click)="searchTradesNextPage()" 
+                                            [disabled]="searchTradesDisable_next">Next
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div> -->
+
+        <div class = "row" *ngFor="let sortItem of sortDashboard; index as i; first as isFirst; last as isLast;">
+            <div class="col-md-12" *ngIf="sortItem == 'dly'">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Latest Daily Reports Logs</h4>
+                            </div>
+                            <div class="col-md-6" style="text-align:right"> 
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderUp(i)" 
+                                    class="material-icons arrow-sort" 
+                                    *ngIf="!isFirst">arrow_upward
+                                </i>
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderDown(i)" 
+                                    class="material-icons arrow-sort"
+                                    *ngIf="!isLast">arrow_downward
+                                </i>
+                            </div>
+                            <div class="smart-table-holder">
+                                <table datatable [dtOptions]="latestDailyReportsLogsOptions" [dtTrigger]="dtTriggerDailyReportsLogs" id="dailyReportTable" class="row-border hover"></table>
+                                    <!-- <ng2-smart-table [settings]="dashboardDailyReportSettings" [source]="dashboardDailyReportList"></ng2-smart-table> -->
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-md-12" *ngIf="sortItem == 'wkly'">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6"><h4>Latest Weekly Reports Logs</h4></div>
+                            <div class="col-md-6" style="text-align:right"> 
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderUp(i)" 
+                                    class="material-icons arrow-sort" 
+                                    *ngIf="!isFirst">arrow_upward
+                                </i>
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderDown(i)" 
+                                    class="material-icons arrow-sort"
+                                    *ngIf="!isLast">arrow_downward
+                                </i>
+                            </div>
+                            <div class="smart-table-holder">
+                            <!-- <div class="col-md-12 respo-table" style="overflow-x: scroll;">
+                                <div style="width: 1500px;"> -->
+                                    <table datatable [dtOptions]="latestWeeklyReportOptions" [dtTrigger]="dtTriggerWeeklyReport" id="latestWeeklyReportTable" class="row-border hover"></table>
+                                    <!-- <ng2-smart-table [settings]="dashboardWeeklyReportSettings" [source]="dashboardWeeklyReportList"></ng2-smart-table> -->
+                                <!-- </div>
+                            </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-md-12" *ngIf="sortItem == 'wrkr'">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6"><h4>Latest Worker Entry Logs</h4></div>
+                            <div class="col-md-6" style="text-align:right"> 
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderUp(i)" 
+                                    class="material-icons arrow-sort" 
+                                    *ngIf="!isFirst">arrow_upward
+                                </i>
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderDown(i)" 
+                                    class="material-icons arrow-sort"
+                                    *ngIf="!isLast">arrow_downward
+                                </i>
+                            </div>
+                            <div class="smart-table-holder">
+                            <!-- <div class="col-md-12 respo-table" style="overflow-x: scroll;">              
+                                <div style="width: 1500px;"> -->
+                                    <table datatable [dtOptions]="latestWokerEntryLogsOptions" [dtTrigger]="dtTriggerWorkerEntryLog" id="workerEntryTable" class="row-border hover"></table>
+                                    <!-- <ng2-smart-table [settings]="dashboardWorkerSettings" [source]="dashboardWorkerList"></ng2-smart-table> -->
+                                <!-- </div>
+                            </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            
+            <div class="col-md-12" *ngIf="sortItem == 'proj'">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6"><h4>Latest Projects Created</h4></div>
+                            <div class="col-md-6" style="text-align:right"> 
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderUp(i)" 
+                                    class="material-icons arrow-sort" 
+                                    *ngIf="!isFirst">arrow_upward
+                                </i>
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)" 
+                                    (click)="orderDown(i)" 
+                                    class="material-icons arrow-sort"
+                                    *ngIf="!isLast">arrow_downward
+                                </i>
+                            </div>
+                            <div class="smart-table-holder">
+                            <!-- <div class="col-md-12 respo-table" style="overflow-x: scroll;">
+                                <div style="width: 1500px;"> -->
+                                    <table datatable [dtOptions]="latestProjectsCreatedOptions" [dtTrigger]="dtTriggerProjectTable" id="projectTable" class="row-border hover"></table>
+                                    <!-- <ng2-smart-table [settings]="dashboardProjectsSettings" [source]="dashboardProjectsList"></ng2-smart-table> -->
+                                <!-- </div>
+                            </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-md-12" *ngIf="sortItem == 'imgdly'">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6"><h4>Daily Report Images</h4></div>
+                            <div class="col-md-6" style="text-align:right"> 
+                                <i
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)"  
+                                    (click)="orderUp(i)" 
+                                    class="material-icons arrow-sort" 
+                                    *ngIf="!isFirst">arrow_upward
+                                </i>
+                                <i
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)"  
+                                    (click)="orderDown(i)" 
+                                    class="material-icons arrow-sort"
+                                    *ngIf="!isLast">arrow_downward
+                                </i>
+                            </div>
+                            <div class="col-md-12">
+                                
+                                    <ngx-gallery [options]="galleryOptionsDaily" [images]="galleryDailyReportImages"></ngx-gallery>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-md-12" *ngIf="sortItem == 'imgwrkr'">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6"><h4>Workers Images</h4></div>
+                            <div class="col-md-6" style="text-align:right"> 
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)"  
+                                    (click)="orderUp(i)"
+                                    class="material-icons arrow-sort" 
+                                    *ngIf="!isFirst">arrow_upward
+                                </i>
+                                <i 
+                                    [ngStyle]="{ color: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter2($event.target)" 
+                                    (mouseleave)="onButtonOut2($event.target)"  
+                                    (click)="orderDown(i)" 
+                                    class="material-icons arrow-sort"
+                                    *ngIf="!isLast">arrow_downward
+                                </i>
+                            </div>
+                            <div class="col-md-12">
+                                
+                                    <ngx-gallery [options]="galleryOptionsWorker" [images]="galleryWorkerImages"></ngx-gallery>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            
+            <!-- <div class="col-md-12">
+                <div class="card card-dcb dashboard-card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12"><h4>Images of Weekly Report</h4></div>
+                            <div class="col-md-12">
+                                
+                                    <ngx-gallery [options]="galleryOptions" [images]="galleryWeeklyReportImages"></ngx-gallery>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div> -->
+
+        </div>
+    </div>
+</div>
+

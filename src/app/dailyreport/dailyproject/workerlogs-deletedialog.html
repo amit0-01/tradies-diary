@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Delete Tool</h1>
+<div mat-dialog-content>
+  <br/>
+    <mat-form-field class="mat-full-width" appearance="outline">
+            <mat-label>Please type DELETE(all caps) to Confirm</mat-label>
+            <input matInput [(ngModel)]="deleteConfirm" placeholder="Please type DELETE to Confirm" type="text">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button (click)="confirmDelete()" class = "btn dcb-btn" mat-button cdkFocusInitial>Ok</button>
+</div>

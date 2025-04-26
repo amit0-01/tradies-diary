@@ -1,0 +1,53 @@
+<!-- <smart-gantt-chart 
+            #ganttchart
+            [durationUnit]="'hour'" 
+            [view]="'day'" 
+            [treeSize]="treeSize" 
+            [taskColumns]="taskColumns" 
+            [dataSource]="dataSource">
+        </smart-gantt-chart> -->
+
+<div class="mt-4">
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="chartOptions"
+    id="loginChart"
+    style="display: block"
+  >
+  </highcharts-chart>
+</div>
+<!-- <div class="mt-4">
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="chartOptionsProject"
+    id="projectChart"
+    style="display: block"
+  >
+  </highcharts-chart>
+</div> -->
+<div class="mt-4 d-flex justify-content-between">
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="pieChartOption"
+    id="variationPieChart"
+    style="display: block;"
+  >
+  </highcharts-chart>
+
+  <highcharts-chart
+  [Highcharts]="Highcharts"
+  [options]="pieChartOption"
+  id="selectionPieChart"
+  style="display: block;"
+  >
+</highcharts-chart>
+
+
+<highcharts-chart
+[Highcharts]="Highcharts"
+[options]="pieChartOption"
+id="rfiPieChart"
+style="display: block;"
+>
+</highcharts-chart>
+</div>

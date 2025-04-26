@@ -1,0 +1,262 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-12">
+                <div class="card card-dcb dashboard-card"> 
+                        <div class="card-body">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div style="display: flex;justify-content: space-between;padding-top:15px;padding-bottom:15px">
+                                      <h1>{{projectData?.projectName}} - {{  selectionData?.selectionName }}</h1>
+                                      <div class="header-tool" style="display: flex;justify-content: flex-end;padding: 0;">
+                                          <a target="_blank" href="{{pdfLink}}"><i class="material-icons">picture_as_pdf</i><span>Download PDF Report</span></a> 
+                                      </div>   
+  
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12">
+  
+                          <form [formGroup]="addFestForm" class="dcb-form" (keydown.enter)="$event.preventDefault()">
+  
+                                  <ng-container formArrayName="selectionGroupArray">
+  
+                                      <div class="group" *ngFor="let group of selectionGroupArray().controls; let groupIndex=index" [formGroupName]="groupIndex">
+  
+                                              <div class="row" >
+                                                  <div class="col-md-6">
+                                                      <h4>{{ group.get('groupName').value}}<span *ngIf="group.get('groupStatus').value" style="text-transform: capitalize"> ({{group.get('groupStatus').value}})</span> <span *ngIf="group.get('files').value">   -   <span (click) = "openExternalQuotesDialog(group.get('files').value)" class="btn-span">See Quotes</span></span></h4> 
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                      <h4 *ngIf="group.get('hideBudget').value != true" style="text-align: right;">Budget {{ group.get('groupBudget').value | currency:'':''}} </h4>
+                                                  </div>
+                                              </div>
+                                      
+                                              <div class="row" style="margin-left: -20px; margin-right: -20px;padding:5px 0;">
+                                                  <table class="smart-table-2">
+                                                      <thead>
+                                                      <tr>
+                                                          <th width="8%"></th>
+                                                          <th width="12%">Item Name</th>
+                                                          <th width="30%">Description</th>
+                                                          <th *ngIf="addFestForm.get('qtyHideAll').value != true">Quantity</th>
+                                                          <th *ngIf="addFestForm.get('unitHideAll').value != true">Unit of Measurement</th>
+                                                          <th class="currency-cell" *ngIf="addFestForm.get('unitCostHideAll').value != true">Unit Cost</th>
+                                                          <th class="currency-cell" *ngIf="addFestForm.get('bmHideAll').value != true && addFestForm.get('bmLineitem').value == true">BM</th>
+                                                          <th class="currency-cell" *ngIf="addFestForm.get('itemTotalHideAll').value != true">Total</th>     
+                                                          <!-- <th class="currency-cell" *ngIf="addFestForm.get('gstHideAll').value != true">GST</th>
+                                                          <th class="currency-cell" *ngIf="addFestForm.get('itemTotalHideAll').value != true">Total</th> -->
+                                                      </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                          <ng-container formArrayName="itemArray">
+                                                              <tr *ngFor="let item of itemArray(groupIndex).controls; let itemIndex=index" >
+                                                                  <td style="height: 48px;padding-left:15px;">
+                                                                      <img *ngIf="item.get('hasImage').value == true" (click)="enlargeImage($event)" data-toggle="modal" data-target="#myModal" style="cursor: zoom-in;max-width:50px;margin: 5px 0;" [src]=" item.get('itemImage').value">
+                                                                  </td>
+                                                                  <td>
+                                                                      <span>{{  item.get('itemName').value }}</span>
+                                                                  </td>
+                                                                  <td>
+                                                                      <span>{{ htmlToText(item.get('description')?.value) }}</span>
+                                                                  </td>
+                                                                  <td *ngIf="addFestForm.get('qtyHideAll').value != true">
+                                                                      <span>{{ item.get('quantity')?.value }} </span>
+                                                                  </td>
+                                                                  <td *ngIf="addFestForm.get('unitHideAll').value != true">
+                                                                      <span>{{ item.get('uom')?.value }} </span>
+                                                                  </td>
+                                                                  <td class="currency-cell" *ngIf="addFestForm.get('unitCostHideAll').value != true && addFestForm.get('bmLineitem').value == true">
+                                                                      <span>{{ item.get('unitCost')?.value | currency:'':'' }} </span>
+                                                                  </td>
+                                                                  <td class="currency-cell" *ngIf="addFestForm.get('unitCostHideAll').value != true && addFestForm.get('bmLineitem').value != true">
+                                                                      <span>{{  (item.get('unitCost')?.value * 1) + ( (item.get('buildersMargin')?.value * item.get('unitCost')?.value) / 100 ) | currency:'':'' }}  </span>
+                                                                  </td>
+                                                                  <td class="currency-cell" *ngIf="addFestForm.get('bmHideAll').value != true && addFestForm.get('bmLineitem').value == true">
+                                                                      <!-- <span>{{ item.get('buildersMargin')?.value | currency:'':'' }} </span> -->
+                                                                      <span>{{ ((item.get('buildersMargin')?.value * item.get('unitCost')?.value) / 100 ) | currency:'':'' }} </span>
+                                                                  </td>
+                                                                  <td class="currency-cell" *ngIf="addFestForm.get('itemTotalHideAll').value != true">
+                                                                      <!-- <span>{{ item.get('subTotal')?.value | currency:'':'' }} </span> -->
+                                                                      <span>{{ item.get('quantity')?.value * ( (item.get('unitCost')?.value * 1) + ( (item.get('buildersMargin')?.value * item.get('unitCost')?.value) / 100 )) | currency:'':'' }} </span>
+                                                                  </td>
+                                                                  <!-- <td class="currency-cell" *ngIf="addFestForm.get('gstHideAll').value != true">
+                                                                      <span>{{ item.get('gst')?.value | currency:'':'' }} </span>
+                                                                  </td> -->
+                                                                  <!-- <td class="currency-cell" *ngIf="addFestForm.get('itemTotalHideAll').value != true">
+                                                                      <span>{{ item.get('itemTotal')?.value | currency:'':'' }} </span>
+                                                                  </td> -->
+                                                              </tr>
+                                                          </ng-container>
+                                                      </tbody> 
+                                                  </table>
+                                              </div>
+  
+                                              <div class="row" style="margin-left: -20px; margin-right: -20px;padding:5px 0;">
+  
+                                                  <table class="smart-table-2">
+                                                      <tbody>
+                                        
+                                                              <tr>
+                                                                  <td width="50%">
+                                                                     
+                                                                  </td>
+                                                                  <td>
+                                                                      <p style="font-weight: 700">Total {{ group.get('groupTotal').value }}</p>
+                                                                  </td>
+                                                                  <td>
+                                                                      <p style="font-weight: 700" *ngIf="group.get('hideBudget').value != true"  [ngStyle]="group.get('groupOverUnder').value < 0 ? {'color': '#f44336'} : {'color': '#0771DE'}">Over-under ${{ group.get('groupOverUnder').value }}</p>
+                                                                  </td>
+                                                                  <td colspan="3" >
+                                                                      <mat-radio-group  class="variant-radio" *ngIf="addFestForm.get('status').value == 'Submitted to Client'" style="display: flex;justify-content: right;padding-right:15px;" aria-label="Select an option" id="groupStatus"  formControlName="groupStatus">
+                                                                          <mat-radio-button value="approved"><span>Approved</span></mat-radio-button>
+                                                                          <mat-radio-button value="rejected"><span>Rejected</span></mat-radio-button>
+                                                                          <mat-radio-button value="undecided"><span>Undecided</span></mat-radio-button>
+                                                                      </mat-radio-group>
+                                                                  </td>
+                                                              </tr>
+                                    
+                                                      </tbody> 
+                                                  </table>
+  
+                                                  <div class="col-md-6">
+  
+                                                  </div>    
+                                                  <div class="col-md-6" style="display: flex; margin-left: auto;justify-content: space-between;">
+                                             
+                                                          
+                                                         
+                                                          
+                                                  </div> 
+  
+                                              </div>
+  
+                                      </div>
+  
+                                  </ng-container>
+  
+                                  <!-- <ng-container formArrayName="selectionGroupArray">
+                              
+                                          <div  *ngFor="let group of selectionGroupArray().controls; let groupIndex=index" [formGroupName]="groupIndex">
+                                              <div class="variation-group-container">
+                                              
+                                                      <div class="row" >
+                                                          <div class="col-md-6">
+                                                              <h4>{{ group.get('groupName').value}}</h4>
+                                                          </div>
+                                                          <div class="col-md-6">
+                                                              <h4 *ngIf="group.get('hideBudget').value != true" style="text-align: right;">Budget $ {{ group.get('groupBudget').value}} </h4>
+                                                          </div>
+                                                      </div>
+                                          
+                                                  <ng-container formArrayName="itemArray">
+                                                  
+                                                      <div *ngFor="let item of itemArray(groupIndex).controls; let itemIndex=index" [formGroupName]="itemIndex">
+                                                          <div class="variation-item-container">
+                                                              <div class="row" >
+                                                                  <div class="col-md-4">
+                                                                      <img src="./assets/img/image_placeholder.jpg" alt="..." style="width: 100%;" *ngIf="!item.get('itemImage').value">
+                                                                      <img [src]="item.get('itemImage').value" alt="..." style="width: 100%;"*ngIf="item.get('itemImage').value">
+  
+                                                                      <ul class="item-description">
+                                                                          <li *ngFor="let description of item.get('description').value">{{description}}</li>
+                                                                      </ul>
+                                                                  </div>
+                                                                  <div class="col-md-5">
+                                                                      <p>{{ item.get('itemName').value}}</p>
+                                                                      <div class="row">
+                                                                          <div class="col-md-6">
+                                                                              <p>Unit Cost</p>
+                                                                              <p>Quantity</p>
+                                                                              <p>Subtotal</p>
+                                                                              <p>Builder's Margin</p>
+                                                                              <p>GST</p>
+                                                                              <p>Total</p>
+                                                                          </div>
+                                                                          <div class="col-md-6">
+                                                                              <p>$ {{item.get('unitCost').value}}</p>
+                                                                              <p>{{item.get('quantity').value}}</p>
+                                                                              <p>{{item.get('subTotal').value }}</p>
+                                                                              <p>{{item.get('buildersMargin').value }}</p>
+                                                                              <p>{{item.get('gst').value }}</p>
+                                                                              <p>{{item.get('itemTotal').value }}</p>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-md-3">
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </ng-container>
+                                                  <div class="col-md-12">
+                                                      <div class="row" >
+                                                              <div class="col-md-6">
+                                                                  <p>Total $ {{ group.get('groupTotal').value }}</p>
+                                                                  <p *ngIf="group.get('hideBudget').value != true">Over-under $4{{ group.get('groupOverUnder').value }}</p>
+                                                              </div>
+                                                              <div class="col-md-6">
+                                                                  <mat-radio-group aria-label="Select an option" class="variant-radio" id="groupStatus"  formControlName="groupStatus">
+                                                                      <mat-radio-button value="undecided"><span>Undecided</span></mat-radio-button>
+                                                                      <mat-radio-button value="rejected"><span>Rejected</span></mat-radio-button>
+                                                                      <mat-radio-button value="approved"><span>Approved</span></mat-radio-button>
+                                                                  </mat-radio-group>
+                                                              </div>
+                                                      </div> 
+                                                  </div> 
+                                              </div>             
+                                          </div>  
+                                  </ng-container> -->
+  
+                                  <div class = "row" *ngIf="addFestForm.get('status').value == 'Submitted to Client'">
+                                      <div class="col-md-12" style="text-align: right">
+                                          <button type="button" (click)="approveAll()" class="btn dcb-btn btn-compact">Mark All as Approved</button>
+                                      </div>
+                                  </div>
+  
+                                  <div class = "row"  *ngIf="addFestForm.get('status').value == 'Submitted to Client'">
+                                  <!-- <div class = "row"> -->
+                                      <div class="col-md-4">
+                                          
+                                          <div style="display:flex;width:400px;">
+                                              <label>Signature</label>
+                                              <span class="btn-span" (click)="signaturePad.clear()">Clear</span>
+                                          </div>
+                                          
+                                          <signature-pad style="align-items: flex-start !important;justify-content: flex-start;" #signature [options]="signaturePadOptions" (drawStart)="drawStart($event)" (drawEnd)="drawComplete($event)" id="signature"></signature-pad>
+                                          
+                                      </div>
+                                  </div>
+                              </form>
+                              <button  *ngIf="addFestForm.get('status').value == 'Submitted to Client'" type="button" (click)="saveStepCheckValidation()" class="btn dcb-btn btn-compact">Submit</button>
+                          </div>
+                      </div> 
+  
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+   
+   <!-- Modal -->
+   <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-header">
+            <a style="color:#292929" download="image.jpg" href="{{imgSrc}}"><i class="material-icons">download</i>Download Image</a>
+            <!-- <h4 class="modal-title">Modal Header</h4> -->
+            <span #closebutton class="btn-span" data-dismiss="modal">Close</span>
+          </div>
+          <div class="modal-body">
+          <img
+          src="{{imgSrc}}"
+          style="max-width:100%;cursor:pointer"
+          class="modal-hover-opacity"
+        /> 
+          <!-- <span *ngIf="imgStampString">Uploaded at {{imgStampString}}</span> -->
+          </div>
+        </div>
+      </div>
+  </div>

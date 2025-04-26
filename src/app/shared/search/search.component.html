@@ -1,0 +1,12 @@
+<div class="d-flex align-items-center">
+    <i *ngIf="Data?.collectionName=='users'" style="font-size: 15px;" class="material-icons text-dark me-2">filter_alt</i>
+    <input
+      [(ngModel)]="searchQuery"
+      (input)="onSearch()"
+      placeholder="Search..."
+      type="text"
+      class="search-input"
+      style="background-color: #F5F5F5; border: none;" 
+    />
+  </div>
+  

@@ -1,0 +1,107 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class = "row">
+          <div class="col-md-12">
+              <div class="card card-dcb">
+                      <div class="card-header">
+                        <div class = "row">
+                            <div class="col-md-12 ml-auto text-right">
+                                <form [formGroup]="filterWeeklyReports">
+                                    <div class="row">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-3">
+                                                <mat-form-field>
+                                                    <mat-select [(value)]="selected" placeholder="Filter by"
+                                                        name="searchChoice">
+                                                        <mat-option (click)="filterWeeklyReports.reset()"
+                                                            *ngFor="let searchChoice of searchChoices"
+                                                            [value]="searchChoice.value">
+                                                            {{ searchChoice.viewValue }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <ng-container *ngIf="selected; else notShow">
+                                                    <mat-form-field class="example-full-width"
+                                                        *ngIf="selected == 'entry_date'">
+                                                        <input matInput [matDatepicker]="pickerflight"
+                                                            placeholder="Entry Date (dd/mm/yyyy)*"
+                                                            (click)="pickerflight.open()" formControlName="entryDate"
+                                                            id="flightDate" *ngIf="selected == 'entry_date'">
+                                                        <mat-datepicker-toggle matSuffix [for]="pickerflight">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #pickerflight></mat-datepicker>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" *ngIf="selected == 'project_id'">
+                                                        <!-- <input matInput formControlName="projectID" id="projectID"
+                                                            placeholder="Project" type="text"> -->
+                                                        <mat-select formControlName="projectID" id="projectID" placeholder="Project" name="projectID">
+                                                                <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                                                {{ projectName.project_name }}
+                                                                </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" *ngIf="selected == 'supervisor_id'">
+                                                        <!-- <input matInput formControlName="supervisorId" id="supervisorId"
+                                                            placeholder="Supervisor" type="text"> -->
+                                                        <mat-select formControlName="supervisorId" id="supervisorId" placeholder="Supervisor" name="supervisorId">
+                                                                <mat-option *ngFor="let siteSupervisor of siteSupervisors" [value]="siteSupervisor.id">
+                                                                {{ siteSupervisor.supervisor_name }}
+                                                                </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" *ngIf="selected == 'has_image'">
+                                                        <!-- <input matInput formControlName="hasImage" id="hasImage"
+                                                            placeholder="Has Image" type="text"> -->
+                                                        <mat-select formControlName="hasImage" id="hasImage" placeholder="Has Image" name="hasImage">
+                                                                <mat-option *ngFor="let ImageBoolean of imageBoolean" [value]="ImageBoolean.value">
+                                                                {{ ImageBoolean.viewValue }}
+                                                                </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </ng-container>
+                                                <ng-template #notShow>
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="keyword" type="text" disabled>
+                                                    </mat-form-field>
+                                                </ng-template>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button (click)="filterReports()" mat-button class="btn btn-primary dcb-btn">
+                                                    <i class="material-icons">search</i> Filter Daily Reports
+                                                </button>
+                                                <button (click)="getWeeklyReports()" mat-button class="btn btn-primary dcb-btn">
+                                                    <i class="material-icons">refresh</i> Reset
+                                                </button>
+                                            </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: scroll;">
+                                    <div style="width: 1800px;">
+                                        <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onRowSelect($event)"></ng2-smart-table>    
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
+                      <div class="card-footer">
+                            <button mat-button class="btn btn-primary dcb-btn" (click)="deleteImages()">
+                                <i class="material-icons">delete</i> Delete Images
+                            </button> 
+
+                            <button mat-button class="btn btn-primary dcb-btn"
+                            [routerLink]="['/weekly-report']">
+                            <i class="material-icons">add</i> Add Weekly Report
+                            </button>  
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+ 

@@ -1,0 +1,2079 @@
+<div class="main-content  dashboard-content dailyproject-content" style = "padding-bottom:500px">
+    <div class="container-fluid">
+      Previously Updated by :    <span style="font-size: 16px !important; font-weight: 900 !important;text-decoration: underline;">
+        <b>{{previouslyUpdatedBy || '--'}}</b>
+      </span>
+      <div class = "row">
+          <div class="col-md-12">
+              <div class="card card-dcb daily-project-dashboard  dashboard-card">
+                      <div class="card-header card-header-text card-header-success" *ngIf="editForm.get('reportNumber').value">
+                          <div class="card-text">
+                              Daily Report No. {{ editForm.get('reportNumber').value }}
+                          </div> 
+                          <!-- <div class = "side-link">
+                              <button [routerLink]="'/notes/update'"  mat-button class="btn">
+                                <i class="material-icons">update</i> Update Note
+                            </button>
+                          </div> -->
+
+                          <div class="header-tool">
+                            <!-- <a target="_blank" href="{{pdfLink}}"><i class="material-icons">picture_as_pdf</i><span>Download PDF Report</span></a> -->
+                            <span class="copy-tool" (click) = "saveStep1('download')"><i class="material-icons">picture_as_pdf</i><span>Save & Download PDF Report</span></span>
+                            <span class="copy-tool" (click) = "saveStep1('copy')"><i class="material-icons">content_copy</i><span>Save & Copy PDF Link</span></span>                            
+                          </div>
+                      </div>
+                      
+                      <div class="card-body  tab-container">
+                        <form [formGroup]="editForm" class="dcb-form" (keydown.enter)="$event.preventDefault()">
+
+                            <div class="compact-layout compact-layout-common">
+                                  <div class="row">
+                                      <!-- <div class="col-md-3">
+                                            <label>Date *</label>
+                                            <input matInput [matDatepicker]="picker2" placeholder="Friday's Date" type="text" formControlName="fridayDate"
+                                            id="fridayDate" (click)="picker2.open()">
+                                            <mat-datepicker-toggle matSuffix [for]="picker2" style = "display: none;"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                      </div> -->
+                                      <!-- <div class="col-md-2 col-lg-2">
+                                          <label>Project ID</label>
+                                          <input matInput placeholder="Project ID" type="text" formControlName="projectId">
+                                      </div> -->
+                                      <div class="col-md-8 col-lg-3">
+                                        <label>Project</label>
+                                        <input matInput placeholder="Project Name" type="text" [value]="projectName" readonly>
+                                    </div>
+                                      <div class="col-md-2 col-lg-2">
+                                          <label>Job Number</label>
+                                          <input matInput placeholder="Job Number" type="text" [value]="jobNumber" readonly>
+                                      </div>
+                                      <div class="col-md-6 col-lg-3">
+                                          <label>Project Address</label>
+                                          <input matInput placeholder="Project Address" type="text" [value]="projectAddress" readonly>
+                                      </div>
+                                      <div class="col-md-3 col-lg-2">
+                                          <label>Aimed Date</label>
+                                          <input matInput placeholder="Aimed Date" type="text" [value]="aimedDate" readonly>
+                                      </div>
+                                      <div class="col-md-3 col-lg-2">
+                                            <label>Date *</label>
+                                            <input style="border-color: #000000;" matInput (dateChange)="changeDate()" [matDatepicker]="picker2" placeholder="Choose a Date" type="text" formControlName="todaysDate"
+                                            id="todaysDate" (click)="picker2.open()" [max]="todays_date">
+                                            <mat-datepicker-toggle matSuffix [for]="picker2" style = "display: none;"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                      </div>
+                                  </div>
+                            </div>
+                            <div #target  style = "padding-bottom: 20px;"></div>
+                            <div class="row">
+                              <div class="col-md-12 ml-auto mr-auto" style = "margin:0" #stickyMenu [class.sticky] = "sticky">
+                                  <ul class="dashboard-tab nav nav-pills nav-pills-warning nav-pills-icons" role="tablist">
+                                        <li class="nav-item" (click)="scroll(target)">
+                                          <a class="nav-link active" data-toggle="tab" href="#linkDetails" role="tablist">
+                                            <i class="material-icons">info</i><span class="item-text"> Details</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item" (click)="scroll(target)">
+                                          <a class="nav-link" data-toggle="tab" href="#linkWeather" role="tablist">
+                                            <i class="material-icons">thermostat</i><span class="item-text">  Weather</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item" (click)="scroll(target)">
+                                          <a class="nav-link" data-toggle="tab" href="#linkTrades" role="tablist">
+                                            <i class="material-icons">engineering</i><span class="item-text"> Trades on Site</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item" (click)="scroll(target)">
+                                          <a class="nav-link" data-toggle="tab" href="#linkStaff" role="tablist">
+                                            <i class="material-icons">badge</i><span class="item-text"> Employees on Site</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item" (click)="scroll(target)">
+                                          <a class="nav-link" data-toggle="tab" href="#linkVisitors" role="tablist">
+                                            <i class="material-icons">emoji_people</i><span class="item-text"> Visitors on Site</span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item" (click)="scroll(target)">
+                                          <a class="nav-link for-project" data-toggle="tab" href="#linkMaterials" role="tablist">
+                                            <i class="material-icons">add_business</i><span class="item-text"> Add Material/Plant</span>
+                                          </a>
+                                        </li>
+                                        <!-- <li class="nav-item"  *ngIf="imagefinishLoading == false">
+                                          <a class="nav-link" data-toggle="tab" href="#" role="tablist">
+                                            <mat-spinner class="tab-spinner" diameter="20"></mat-spinner>
+                                          </a>
+                                        </li> -->
+                                        <li class="nav-item" (click)="scroll(target)" >
+                                          <a class="nav-link" data-toggle="tab" href="#linkPhotos" role="tablist">
+                                            <i class="material-icons">add_a_photo</i><span class="item-text"> Add Photos</span>
+                                          </a>
+                                        </li>
+                                        <!-- <li class="nav-item" (click)="scroll(target)">
+                                          <a class="nav-link" data-toggle="tab" href="#linkWorker" role="tablist">
+                                            <i class="material-icons">construction</i><span class="item-text"> Worker Logs</span>
+                                          </a>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-content">
+                                <div class="card card-dcb dashboard-card tab-pane active" id="linkDetails">
+                                        <div class="card-body">
+                                            <span class="item-text">Details</span>
+                                         
+
+                                            <div class="togglebutton">
+                                              <label>
+                                                <input type="checkbox" [checked]="lockSwitchBool" (change)="lockSwitchBool = !lockSwitchBool">
+                                                <span [style.backgroundColor]="lockSwitchBool ? colorHlightDefault : ''"  class="toggle"></span>
+                                                Lock Switching
+                                              </label>
+                                            </div> 
+
+                                            <br/>
+                                            <mat-accordion cdkDropList 
+                                                #detailList="cdkDropList" 
+                                                [cdkDropListData]="detailAccordion"
+                                                (cdkDropListDropped)="drop($event)">
+                                              <mat-expansion-panel *ngFor="let detail of detailAccordion" cdkDrag [cdkDragDisabled]="lockSwitchBool" (opened)="focusPanelElement(detail.elementID)">
+                                                <mat-expansion-panel-header>
+                                                  <mat-panel-title>
+                                                    {{ detail.title }}
+                                                  </mat-panel-title>
+                                                  </mat-expansion-panel-header>
+
+                                                <!-- <p>This is the primary content of the panel.</p> -->
+                                                <ng-container *ngIf="detail.elementID == 'summary'">
+                                                        <tag-input 
+                                                        #myinput
+                                                        id="summary"
+                                                        formControlName="summary"
+                                                        [editable]="true"
+                                                        placeholder="Enter Summary"
+                                                        secondaryPlaceholder="Enter Summary"
+                                                        [modelAsStrings]="true"
+                                                        (onAdd)="tagInputSave()"
+                                                        (onRemove)="tagInputSave()"
+                                                        addOnBlur="true"
+                                                        addOnPaste ="true"
+                                                        [modelAsStrings]="true"
+                                                        blinkIfDupe ="true"
+                                                        theme="dark"
+                                                      >
+                                                      </tag-input>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="detail.elementID == 'instructionsReceived'">
+                                                    <tag-input 
+                                                      id="instructionsReceived"
+                                                      formControlName="instructionsReceived"
+                                                      [editable]="true"
+                                                      placeholder="Enter Instructions"
+                                                      secondaryPlaceholder="Enter Instructions"
+                                                      [modelAsStrings]="true"
+                                                      (onAdd)="tagInputSave()"
+                                                      (onRemove)="tagInputSave()"
+                                                      addOnBlur="true"
+                                                      addOnPaste ="true"
+                                                      [modelAsStrings]="true"
+                                                      blinkIfDupe ="true"
+                                                      theme="dark"
+                                                    >
+                                                    </tag-input>
+                                                </ng-container>
+                                                
+                                                <ng-container *ngIf="detail.elementID == 'whs'">
+                                                      <div class="row">
+                                                          <div class="whs-holder col-md-12">
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="toolboxTalk" id="toolboxTalk">
+                                                                      <span [style.backgroundColor]="editForm.value.toolboxTalk ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Toolbox talk
+                                                                    </label>
+                                                                  </div>
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="toolboxForm" id="toolboxForm">
+                                                                      <span [style.backgroundColor]="editForm.value.toolboxForm ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Form complete
+                                                                    </label>
+                                                                  </div>
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="toolboxRequired" id="toolboxRequired">
+                                                                      <span [style.backgroundColor]="editForm.value.toolboxRequired ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Action required
+                                                                    </label>
+                                                                  </div>
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="toolboxNotes" id="toolboxNotes">
+                                                                      <span [style.backgroundColor]="editForm.value.toolboxNotes ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Notes
+                                                                    </label>
+                                                                  </div>
+                                                                  <tag-input 
+                                                                    *ngIf="editForm.get('toolboxNotes').value === true"
+                                                                    id="toolboxInput"
+                                                                    formControlName="toolboxInput"
+                                                                    [editable]="true"
+                                                                    placeholder="Enter Note"
+                                                                    secondaryPlaceholder="Enter Note"
+                                                                    [modelAsStrings]="true"
+                                                                    addOnBlur="true"
+                                                                    addOnPaste ="true"
+                                                                    [modelAsStrings]="true"
+                                                                    blinkIfDupe ="true"
+                                                                    theme="dark"
+                                                                  >
+                                                                  </tag-input>
+                                                          </div>
+                                                          <div class="whs-holder col-md-12">
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="safetyWalk" id="safetyWalk">
+                                                                      <span  [style.backgroundColor]="editForm.value.safetyWalk ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Safety walk
+                                                                    </label>
+                                                                  </div>
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="safetyForm" id="safetyForm">
+                                                                      <span  [style.backgroundColor]="editForm.value.safetyForm ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Form complete
+                                                                    </label>
+                                                                  </div>
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="safetyRequired" id="safetyRequired">
+                                                                      <span  [style.backgroundColor]="editForm.value.safetyRequired ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Action required
+                                                                    </label>
+                                                                  </div>
+                                                                  <div class="togglebutton">
+                                                                    <label>
+                                                                      <input type="checkbox" formControlName="safetyNotes" id="safetyNotes">
+                                                                      <span  [style.backgroundColor]="editForm.value.safetyNotes ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Notes
+                                                                    </label>
+                                                                  </div>
+                                                                  <tag-input 
+                                                                    *ngIf="editForm.get('safetyNotes').value === true"
+                                                                    id="safetyInput"
+                                                                    formControlName="safetyInput"
+                                                                    [editable]="true"
+                                                                    placeholder="Enter Note"
+                                                                    secondaryPlaceholder="Enter Note"
+                                                                    [modelAsStrings]="true"
+                                                                    addOnBlur="true"
+                                                                    addOnPaste ="true"
+                                                                    [modelAsStrings]="true"
+                                                                    blinkIfDupe ="true"
+                                                                    theme="dark"
+                                                                  >
+                                                                  </tag-input>
+                                                          </div>
+                                                          <div class="whs-holder col-md-12">
+                                                                    <div class="togglebutton">
+                                                                      <label>
+                                                                        <input type="checkbox" formControlName="accidentReport" id="accidentReport">
+                                                                        <span [style.backgroundColor]="editForm.value.accidentReport ? colorHlightDefault : ''" class="toggle"></span>
+                                                                      Accident report
+                                                                      </label>
+                                                                    </div>
+                                                                    <div class="togglebutton">
+                                                                      <label>
+                                                                        <input type="checkbox" formControlName="accidentForm" id="accidentForm">
+                                                                        <span [style.backgroundColor]="editForm.value.accidentForm ? colorHlightDefault : ''" class="toggle"></span>
+                                                                        Form complete
+                                                                      </label>
+                                                                    </div>
+                                                                    <div class="togglebutton">
+                                                                      <label>
+                                                                        <input type="checkbox" formControlName="accidentRequired" id="accidentRequired">
+                                                                        <span [style.backgroundColor]="editForm.value.accidentRequired ? colorHlightDefault : ''" class="toggle"></span>
+                                                                        Action required
+                                                                      </label>
+                                                                    </div>
+                                                                    <div class="togglebutton">
+                                                                      <label>
+                                                                        <input type="checkbox" formControlName="accidentNotes" id="accidentNotes">
+                                                                        <span [style.backgroundColor]="editForm.value.accidentNotes ? colorHlightDefault : ''" class="toggle"></span>
+                                                                        Notes
+                                                                      </label>
+                                                                    </div>
+                                                                    <tag-input 
+                                                                      *ngIf="editForm.get('accidentNotes').value === true"
+                                                                      id="accidentInput"
+                                                                      formControlName="accidentInput"
+                                                                      [editable]="true"
+                                                                      placeholder="Enter Note"
+                                                                      secondaryPlaceholder="Enter Note"
+                                                                      [modelAsStrings]="true"
+                                                                      addOnBlur="true"
+                                                                      addOnPaste ="true"
+                                                                      [modelAsStrings]="true"
+                                                                      blinkIfDupe ="true"
+                                                                      theme="dark"
+                                                                    >
+                                                                    </tag-input>
+                                                            </div>
+                                                            <div class="whs-holder col-md-12">
+                                                                      <div class="togglebutton">
+                                                                        <label>
+                                                                          <input type="checkbox" formControlName="ppeReport" id="ppeReport">
+                                                                          <span [style.backgroundColor]="editForm.value.ppeReport ? colorHlightDefault : ''" class="toggle"></span>
+                                                                          PPE required
+                                                                        </label>
+                                                                      </div>
+                                                                      <div class="togglebutton">
+                                                                        <label>
+                                                                          <input type="checkbox" formControlName="ppeForm" id="ppeForm">
+                                                                          <span [style.backgroundColor]="editForm.value.ppeForm ? colorHlightDefault : ''" class="toggle"></span>
+                                                                          Form complete
+                                                                        </label>
+                                                                      </div>
+                                                                      <div class="togglebutton">
+                                                                        <label>
+                                                                          <input type="checkbox" formControlName="ppeRequired" id="ppeRequired">
+                                                                          <span [style.backgroundColor]="editForm.value.ppeRequired ? colorHlightDefault : ''" class="toggle"></span>
+                                                                          Action required
+                                                                        </label>
+                                                                      </div>
+                                                                      <div class="togglebutton">
+                                                                        <label>
+                                                                          <input type="checkbox" formControlName="ppeNotes" id="ppeNotes">
+                                                                          <span [style.backgroundColor]="editForm.value.ppeNotes ? colorHlightDefault : ''" class="toggle"></span>
+                                                                          Notes
+                                                                        </label>
+                                                                      </div>
+                                                                      <tag-input 
+                                                                        *ngIf="editForm.get('ppeNotes').value === true"
+                                                                        id="ppeInput"
+                                                                        formControlName="ppeInput"
+                                                                        [editable]="true"
+                                                                        placeholder="Enter Note"
+                                                                        secondaryPlaceholder="Enter Note"
+                                                                        [modelAsStrings]="true"
+                                                                        addOnBlur="true"
+                                                                        addOnPaste ="true"
+                                                                        [modelAsStrings]="true"
+                                                                        blinkIfDupe ="true"
+                                                                        theme="dark"
+                                                                      >
+                                                                      </tag-input>
+                                                            </div>
+                                                        </div>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="detail.elementID == 'delays'">
+                                                      <tag-input 
+                                                          id="delays"
+                                                          formControlName="delays"
+                                                          [editable]="true"
+                                                          placeholder="Enter Delays"
+                                                          secondaryPlaceholder="Enter Delays"
+                                                          [modelAsStrings]="true"
+                                                          (onAdd)="tagInputSave()"
+                                                          (onRemove)="tagInputSave()"
+                                                          addOnBlur="true"
+                                                          addOnPaste ="true"
+                                                          [modelAsStrings]="true"
+                                                          blinkIfDupe ="true"
+                                                          theme="dark"
+                                                        >
+                                                      </tag-input>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="detail.elementID == 'eot'">
+                                                    <div class="togglebutton custom-toggle eot-toggle">
+                                                      <label style = "width:100%">
+                                                        EOT to be submitted
+                                                        <input type="checkbox" formControlName="eot" id="eot">
+                                                        <span  [style.backgroundColor]="editForm.value.eot ? colorHlightDefault : ''" class="toggle"></span>
+                                                      </label>
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="detail.elementID == 'toolsUsed'">
+                                                      <tag-input 
+                                                        id="toolsUsed"
+                                                        formControlName="toolsUsed"
+                                                        [editable]="true"
+                                                        placeholder="Enter Tools Used"
+                                                        secondaryPlaceholder="Enter Tools Used"
+                                                        [modelAsStrings]="true"
+                                                        (onAdd)="tagInputSave()"
+                                                        (onRemove)="tagInputSave()"
+                                                        addOnBlur="true"
+                                                        addOnPaste ="true"
+                                                        [modelAsStrings]="true"
+                                                        blinkIfDupe ="true"
+                                                        theme="dark"
+                                                      >
+                                                      </tag-input>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="detail.elementID == 'damageReport'">
+                                                      <tag-input 
+                                                        id="damageReport"
+                                                        formControlName="damageReport"
+                                                        [editable]="true"
+                                                        placeholder="Enter Damage Report"
+                                                        secondaryPlaceholder="Enter Damage Report"
+                                                        [modelAsStrings]="true"
+                                                        addOnBlur="true"
+                                                        addOnPaste ="true"
+                                                        [modelAsStrings]="true"
+                                                        blinkIfDupe ="true"
+                                                        theme="dark"
+                                                      >
+                                                      </tag-input>
+                                                </ng-container>
+
+                                                <ng-container  *ngIf="detail.elementID == 'materialsRequested'">
+                                                      <tag-input 
+                                                            id="materialsRequested"
+                                                            formControlName="materialsRequested"
+                                                            [editable]="true"
+                                                            placeholder="Enter Materials"
+                                                            secondaryPlaceholder="Enter Materials"
+                                                            [modelAsStrings]="true"
+                                                            [modelAsStrings]="true"
+                                                            (onAdd)="tagInputSave()"
+                                                            (onRemove)="tagInputSave()"
+                                                            addOnBlur="true"
+                                                            addOnPaste ="true"
+                                                            [modelAsStrings]="true"
+                                                            blinkIfDupe ="true"
+                                                            theme="dark"
+                                                          >
+                                                      </tag-input>
+                                                </ng-container>
+
+                                                <ng-container  *ngIf="detail.elementID == 'tradesContact'">
+                                                        <tag-input 
+                                                              id="tradesContact"
+                                                              formControlName="tradesContact"
+                                                              [editable]="true"
+                                                              placeholder="Who do you need to contact to come to site?"
+                                                              secondaryPlaceholder="Who do you need to contact to come to site?"
+                                                              [modelAsStrings]="true"
+                                                              [modelAsStrings]="true"
+                                                              (onAdd)="tagInputSave()"
+                                                              (onRemove)="tagInputSave()"
+                                                              addOnBlur="true"
+                                                              addOnPaste ="true"
+                                                              [modelAsStrings]="true"
+                                                              blinkIfDupe ="true"
+                                                              theme="dark"
+                                                            >
+<!-- 
+                                                            <tag-input-dropdown [showDropdownIfEmpty]="true"
+                                                            [dynamicUpdate]="false"
+                                                            [focusFirstElement]="true"
+                                                            [displayBy]="'company_name'"
+                                                            [identifyBy]="'id'"
+                                                            [autocompleteItems]="listTrades">
+                                                            <ng-template let-item="item" let-index="index">
+                                                              {{ item.company_name }}
+                                                            </ng-template>
+                                                          </tag-input-dropdown> -->
+
+                                                        </tag-input>
+                                                </ng-container>
+
+                                                <ng-container  *ngIf="detail.elementID == 'tradesSched'">
+                                                        <tag-input 
+                                                          id="tradesSched"
+                                                          formControlName="tradesSched"
+                                                          [editable]="true"
+                                                          placeholder="Who do you need to schedule to come to site?"
+                                                          secondaryPlaceholder="Who do you need to schedule to come to site?"
+                                                          [modelAsStrings]="true"
+                                                          [modelAsStrings]="true"
+                                                          (onAdd)="tagInputSave()"
+                                                          (onRemove)="tagInputSave()"
+                                                          addOnBlur="true"
+                                                          addOnPaste ="true"
+                                                          [modelAsStrings]="true"
+                                                          blinkIfDupe ="true"
+                                                          theme="dark"
+                                                        >
+                                                                <!-- <tag-input-dropdown [showDropdownIfEmpty]="true"
+                                                                [dynamicUpdate]="false"
+                                                                [focusFirstElement]="true"
+                                                                [displayBy]="'company_name'"
+                                                                [identifyBy]="'id'"
+                                                                [autocompleteItems]="listTrades">
+                                                                <ng-template let-item="item" let-index="index">
+                                                                  {{ item.company_name }}
+                                                                </ng-template>
+                                                              </tag-input-dropdown> -->
+
+                                                        </tag-input>
+                                                </ng-container>
+
+                                                <ng-container  *ngIf="detail.elementID == 'offHirePlant'">
+                                                        <tag-input 
+                                                              id="offHirePlant"
+                                                              formControlName="offHirePlant"
+                                                              [editable]="true"
+                                                              placeholder="Enter Off Hire Plant Number & who did you contact, date & time?"
+                                                              secondaryPlaceholder="Enter Off Hire Plant Number & who did you contact, date & time?"
+                                                              [modelAsStrings]="true"
+                                                              (onAdd)="tagInputSave()"
+                                                              (onRemove)="tagInputSave()"
+                                                              addOnBlur="true"
+                                                              addOnPaste ="true"
+                                                              [modelAsStrings]="true"
+                                                              blinkIfDupe ="true"
+                                                              theme="dark"
+                                                            >
+                                                        </tag-input>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="detail.elementID == 'variations'">
+                                                      <tag-input 
+                                                              id="variations"
+                                                              formControlName="variations"
+                                                              [editable]="true"
+                                                              placeholder="Were there any Variations today?"
+                                                              secondaryPlaceholder="Were there any Variations today?"
+                                                              [modelAsStrings]="true"
+                                                              (onAdd)="tagInputSave()"
+                                                              (onRemove)="tagInputSave()"
+                                                              addOnBlur="true"
+                                                              addOnPaste ="true"
+                                                              [modelAsStrings]="true"
+                                                              blinkIfDupe ="true"
+                                                              theme="dark"
+                                                            >
+                                                        </tag-input>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="detail.elementID == 'deliveries'">
+                                                  <tag-input 
+                                                              id="deliveries"
+                                                              formControlName="deliveries"
+                                                              [editable]="true"
+                                                              placeholder="Enter Deliveries"
+                                                              secondaryPlaceholder="Enter Deliveries"
+                                                              [modelAsStrings]="true"
+                                                              (onAdd)="tagInputSave()"
+                                                              (onRemove)="tagInputSave()"
+                                                              addOnBlur="true"
+                                                              addOnPaste ="true"
+                                                              [modelAsStrings]="true"
+                                                              blinkIfDupe ="true"
+                                                              theme="dark"
+                                                            >
+                                                            </tag-input>
+                                                </ng-container>
+
+                                              </mat-expansion-panel>
+                                            </mat-accordion>
+                                            <br/>
+                                            <button
+                                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                (mouseenter)="onButtonEnter($event.target)" 
+                                                (mouseleave)="onButtonOut($event.target)" 
+                                                (click)= "saveStep1('default')" 
+                                                mat-button class="btn dcb-btn">Save Daily Report
+                                            </button>
+                                            <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Save and Download PDF</button>
+                                            <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Save and Preview PDF</button>
+
+                                      </div>
+
+                                </div>
+                                
+                                <div class="card card-dcb dashboard-card tab-pane compact-layout" id="linkMaterials" formArrayName="productFormArray">
+                                  <div class="card-body">
+                                    <span class="item-text">Add Material/Plant</span>
+                                    <div class="row staff-form-holder" >
+                                        <div style = "padding-bottom:10px;border-bottom: 1px solid #ddd;margin-bottom:5px;" class="col-md-12" *ngFor="let product of productFormArray().controls; let empIndex=index;">
+                                          <ng-container [formGroupName]="empIndex" > 
+                                                  <div class = "row">
+                                                        <div class="col-md-2" style = "min-width: 160px;">
+                                                            <label>Product Name</label>
+                                                            <mat-select (selectionChange)="sizeTypeChanged(empIndex)" formControlName="productName" id="productName" placeholder="Product Name" name="productName" #singleSelect (click)="initializeFilterProducts(empIndex)">
+                                                                    <mat-option>
+                                                                        <ngx-mat-select-search 
+                                                                          formControlName="search_control_product"
+                                                                          placeholderLabel="Search..."
+                                                                          noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                                    </mat-option>
+                                                                    <!-- <mat-option (click)="openAddMaterialDialog(empIndex)">-- Add New Product --</mat-option> -->
+                                                                    <mat-option *ngFor="let listProduct of filter_list_products[empIndex] | async" [value]="listProduct.productArrayID">
+                                                                    {{ listProduct.productArrayName }}
+                                                                    </mat-option>
+                                                            </mat-select> 
+                                                        </div>
+                                                       
+                                                        <input formControlName="sizeType" id="sizeType" placeholder="Size Type" type="hidden">
+                                                            <!-- <input placeholder="Size Type" matInput  type="text" [value]="product.get('sizeType').value"> -->
+                                                        
+                                                        
+                                                        <div class="col-md-1" *ngIf="product.get('productName').value && product.get('sizeType').value == 'item'">
+                                                            <label>Quantity</label>
+                                                            <input (input)="onComputeSpace(empIndex)"  formControlName="quantity" id="quantity" placeholder="Quantity" matInput  type="text">
+                                                        </div>
+                                                        <div class="col-md-1" *ngIf="product.get('sizeType').value === 'length' || product.get('sizeType').value === 'squared' || product.get('sizeType').value === 'cubed'" style = "min-width: 145px;">
+                                                            <label>Length</label>
+                                                            <input (input)="onComputeSpace(empIndex)" formControlName="length" id="length" placeholder="Length" matInput  type="text">
+                                                        </div>
+                                                        <div class="col-md-1"  *ngIf="product.get('sizeType').value === 'squared' || product.get('sizeType').value === 'cubed'" style = "min-width: 145px;">
+                                                            <label>Width</label>
+                                                            <input (input)="onComputeSpace(empIndex)" formControlName="width" id="width" placeholder="Width" matInput  type="text">
+                                                        </div>
+                                                        <div class="col-md-1" *ngIf="product.get('sizeType').value === 'cubed'" style = "min-width: 145px;">
+                                                            <label>Height</label>
+                                                            <input (input)="onComputeSpace(empIndex)" formControlName="height" id="height" placeholder="Height" matInput  type="text">
+                                                        </div>
+                                                        <div class="col-md-1" *ngIf="product.get('sizeType').value === 'time'" style = "min-width: 145px;">
+                                                            <label>Hours</label>
+                                                            <input (input)="onComputeSpace(empIndex)" formControlName="hours" id="hours" placeholder="Hours" matInput  type="text">
+                                                        </div>
+                                                        <div class="col-md-1" *ngIf="product.get('sizeType').value === 'weight'" style = "min-width: 145px;">
+                                                            <label>Weight</label>
+                                                            <input (input)="onComputeSpace(empIndex)" formControlName="weight" id="weight" placeholder="Weight" matInput  type="text">
+                                                        </div>
+                                                        <div class="col-md-1"  *ngIf="product.get('sizeType').value === 'squared'" style = "min-width: 145px;">
+                                                            <label>Area</label>
+                                                            <input formControlName="area" id="area"placeholder="Area" type="hidden">
+                                                            <input placeholder="Area" matInput  type="text" [value]="product.get('area').value" disabled>
+                                                        </div>
+                                                        <div class="col-md-1" *ngIf="product.get('sizeType').value === 'cubed'" style = "min-width: 145px;">
+                                                          <label>Volume</label>
+                                                          <input formControlName="volume" id="volume" placeholder="Volume" type="hidden">
+                                                          <input placeholder="Volume" matInput  type="text" [value]="product.get('volume').value" disabled>
+                                                        </div>
+                                                        <div class="col-md-1" *ngIf="product.get('productName').value" style = "min-width: 145px;">
+                                                          <label>Unit Cost</label>
+                                                          <input (input)="onComputeSpace(empIndex)" formControlName="cost" id="cost" placeholder="Cost" type="hidden">
+                                                          <input placeholder="Cost" matInput  type="text" [value]="product.get('cost').value" disabled>
+                                                          <!-- <input (input)="onComputeSpace(empIndex)" placeholder="Cost" matInput  type="text" [value]="product.get('cost').value"> -->
+                                                        </div>
+                                                        <div class="col-md-1"  *ngIf="product.get('productName').value && product.get('sizeType').value != 'item'" style = "min-width: 145px;">
+                                                          <label>Measurement</label>
+                                                          <input formControlName="unit" id="unit" placeholder="Unit" type="hidden">
+                                                          <input placeholder="Unit" matInput  type="text" [value]="product.get('unit').value" disabled>
+                                                        </div>
+                                                        <div class="col-md-1"  *ngIf="product.get('productName').value" style = "min-width: 145px;">
+                                                          <label>Total</label>
+                                                          <input formControlName="total" id="total" placeholder="Total" type="hidden">
+                                                          <input placeholder="Total" matInput  type="text" [value]="product.get('total').value" disabled>
+                                                        </div>
+                                                  </div>
+                                            </ng-container>
+                                            <button 
+                                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                (mouseenter)="onButtonEnter($event.target)" 
+                                                (mouseleave)="onButtonOut($event.target)" 
+                                                (click)= "removeLastProductForm()" 
+                                                mat-button class="btn dcb-btn" 
+                                                style="margin-top:5px">Remove
+                                            </button>  
+                                        </div>
+                                      
+                                    </div>
+                                    <button 
+                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                        (mouseenter)="onButtonEnter($event.target)" 
+                                        (mouseleave)="onButtonOut($event.target)" 
+                                        (click)= "addProductForm()" 
+                                        mat-button
+                                        class="btn dcb-btn btn-compact">Add Product
+                                    </button>
+                                       
+                                    <br>
+                                    <br>
+                                    <!-- <tag-input 
+                                        id="productsOnSite"
+                                        formControlName="productsOnSite"
+                                        placeholder="Enter Products"
+                                        secondaryPlaceholder="Enter Products"
+                                        [onlyFromAutocomplete]="true"
+                                      >
+                                            <tag-input-dropdown [showDropdownIfEmpty]="true"
+                                                [dynamicUpdate]="false"
+                                                [focusFirstElement]="true"
+                                                [displayBy]="'product_name'"
+                                                [identifyBy]="'id'"
+                                                [autocompleteItems]="listProducts">
+                                                <ng-template let-item="item" let-index="index">
+                                                    {{ item.product_name }}
+                                                </ng-template>
+                                            </tag-input-dropdown>
+
+                                        </tag-input> -->
+
+
+                                   <!-- <button  *ngIf="reportPreviewMode == false" mat-button class="btn dcb-btn"
+                                            (click)="openAddMaterialDialog()">
+                                            <i class="material-icons">add</i> Add Product to Global List
+                                    </button>   -->
+
+                                    <button 
+                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                        (mouseenter)="onButtonEnter($event.target)" 
+                                        (mouseleave)="onButtonOut($event.target)" 
+                                        (click)= "saveStep1('default')" 
+                                        mat-button class="btn dcb-btn">Save Daily Report
+                                    </button>
+                                    <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Save and Download PDF</button>
+                                    <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Save and Preview PDF</button>
+                                    </div>
+                                </div>
+<!-- 
+                                <div class="tab-pane" id="linkStages">
+                                    <button mat-button class="btn dcb-btn"
+                                            (click)="openAddStageDialog()">
+                                            <i class="material-icons">add</i> Add Stages
+                                    </button>  
+                                    <ng2-smart-table [settings]="stagesSettings" [source]="stageSource"></ng2-smart-table>
+                                </div> -->
+                                <div class="card card-dcb dashboard-card tab-pane compact-layout" id="linkWeather">
+                                  
+                                  <div class="card-body">
+                                    <span class="item-text">Weather</span>
+                                        <div class = "row">
+
+                                            <div class="col-sm-6  col-md-6 col-lg-3">
+                                                <div class="togglebutton">
+                                                  <label>
+                                                    <input type="checkbox" formControlName="weatherPerfect" (change)="togglePerfect()">
+                                                    <span [style.backgroundColor]="editForm.value.weatherPerfect ? colorHlightDefault : ''" class="toggle"></span>
+                                                    Perfect
+                                                  </label>
+                                                </div>    
+                                            </div>
+                                            <div class="col-sm-6 col-md-6 col-lg-3">         
+                                              <div class="togglebutton">
+                                                  <label>
+                                                    <input type="checkbox" checked="" formControlName="weatherResidual">
+                                                    <span [style.backgroundColor]="editForm.value.weatherResidual ? colorHlightDefault : ''" class="toggle"></span>
+                                                    Residual Weather
+                                                  </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-6 weather-control">   
+                                              <div>
+                                                <label>Min Temperature</label>
+                                                <input placeholder="" type="number" formControlName="weatherMinTemp">
+                                              </div>
+                                            <!-- </div>
+                                            <div class="col-md-4 col-lg-2"> -->
+                                              <div>
+                                                 <label>Max Temperature</label>
+                                                <input placeholder="" type="number" formControlName="weatherMaxTemp">
+                                              </div>
+                                            <!-- </div>
+                                            
+                                            <div class="col-md-4">    -->
+                                              <div><span (click) = "getTemperature()" class="btn-span" style="margin-left:15px;">Get Temperatures</span></div>
+                                            </div>
+                                       </div>
+
+                                        <ng-container *ngIf="editForm.get('weatherPerfect').value != true">
+
+                                            <div class="row weather-dropdown">
+
+                                                <div>
+                                                      <label class= "weather-label">All Day</label>
+                                                      <mat-select (selectionChange)="changeAllDayWeather()" formControlName="weatherAllDay" id="weatherAllDay" placeholder="Select Weather" name="weatherAllDay">
+                                                        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+                                                          {{ weatherOption.viewValue }}
+                                                        </mat-option>
+                                                      </mat-select>
+                                                      <input style = "margin-top:20px" *ngIf="isOthersAllDay == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersAllDay" id="weatherOthersAllDay">
+                                                </div>
+
+                                                <div>
+                                                      <label class= "weather-label">Morning</label>
+                                                      <mat-select (selectionChange)="changeDayWeather()" formControlName="weatherMorning" id="weatherMorning" placeholder="Select Weather" name="weatherMorning">
+                                                        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+                                                          {{ weatherOption.viewValue }}
+                                                        </mat-option>
+                                                      </mat-select>
+                                                      <input style = "margin-top:20px" *ngIf="isOthersMorning == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersMorning" id="weatherOthersMorning">
+                                                </div>
+
+                                                <div>
+                                                      <label class= "weather-label">Midday</label> 
+                                                      <mat-select (selectionChange)="changeDayWeather()" formControlName="weatherMidDay" id="weatherMidDay" placeholder="Select Weather" name="weatherMidDay">
+                                                        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+                                                          {{ weatherOption.viewValue }}
+                                                        </mat-option>
+                                                      </mat-select>
+                                                      <input style = "margin-top:20px" *ngIf="isOthersMidDay == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersMidDay" id="weatherOthersMidDay">
+                                                </div>
+
+                                                <div>
+                                                      <label class= "weather-label">Afternoon</label>
+                                                      <mat-select (selectionChange)="changeDayWeather()" (selectionChange)="changeDayWeather()" formControlName="weatherAfternoon" id="weatherAfternoon" placeholder="Select Weather" name="weatherAfternoon">
+                                                        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+                                                          {{ weatherOption.viewValue }}
+                                                        </mat-option>
+                                                      </mat-select>
+                                                      <input style = "margin-top:20px" *ngIf="isOthersAfternoon == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersAfternoon" id="weatherOthersAfternoon">
+                                                </div>
+                                                
+                                                <div>
+                                                       <label class= "weather-label">Evening</label>
+                                                       <mat-select (selectionChange)="changeDayWeather()" formControlName="weatherEvening" id="weatherEvening" placeholder="Select Weather" name="weatherEvening">
+                                                        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+                                                          {{ weatherOption.viewValue }}
+                                                        </mat-option>
+                                                      </mat-select>
+                                                      <input style = "margin-top:20px" *ngIf="isOthersEvening == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersEvening" id="weatherOthersEvening">
+                                                </div>
+
+                                                <div>
+                                                      <label class= "weather-label">On and off</label>
+                                                      <mat-select (selectionChange)="changeDayWeather()" formControlName="weatherOnOff" id="weatherOnOff" placeholder="Select Weather" name="weatherOnOff">
+                                                        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+                                                          {{ weatherOption.viewValue }}
+                                                        </mat-option>
+                                                      </mat-select>
+                                                      <input style = "margin-top:20px" *ngIf="isOthersOnOff == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersOnOff" id="weatherOthersOnOff">
+                                                </div>
+
+                                                <div>
+                                                      <label class= "weather-label">Rest of day</label>
+                                                      <mat-select (selectionChange)="changeDayWeather()" formControlName="weatherRestOfDay" id="weatherRestOfDay" placeholder="Select Weather" name="weatherRestOfDay">
+                                                        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+                                                          {{ weatherOption.viewValue }}
+                                                        </mat-option>
+                                                      </mat-select>
+                                                      <input style = "margin-top:20px" *ngIf="isOthersRestOfDay == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersRestOfDay" id="weatherOthersRestOfDay">
+                                                </div>
+                                                
+                                            </div>
+          
+                                            <!-- <mat-radio-group aria-label="Select an option" class="weather-radio-group radio-days" (change)="changeAllDayWeather()" formControlName="weatherAllDay" id="weatherAllDay">
+                                              <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                            </mat-radio-group>  -->
+                                            
+                                            <!-- <mat-radio-group aria-label="Select an option" class="weather-radio-group radio-days" (change)="changeDayWeather()"  formControlName="weatherMorning" id="weatherMorning">
+                                              <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                              
+                                            </mat-radio-group> -->
+
+                                                                                          
+                                            <!-- <mat-radio-group aria-label="Select an option" class="weather-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherMidDay" id="weatherMidDay">
+                                              <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                              
+                                            </mat-radio-group> -->
+
+                                            
+                                            <!-- <mat-radio-group aria-label="Select an option" class="weather-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherAfternoon" id="weatherAfternoon">
+                                              <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                             
+                                            </mat-radio-group> -->
+
+                                            <!-- <mat-radio-group aria-label="Select an option" class="weather-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherEvening" id="weatherEvening"> 
+                                              <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                              
+                                            </mat-radio-group> -->
+ 
+                                            <!-- <mat-radio-group aria-label="Select an option" class="weather-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherOnOff" id="weatherOnOff">
+                                              <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                              
+                                            </mat-radio-group> -->
+     
+                                            <!-- <mat-radio-group aria-label="Select an option" class="weather-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherRestOfDay" id="weatherRestOfDay">
+                                              <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                              <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                              
+                                            </mat-radio-group> -->
+                                        </ng-container>
+                                        <br>
+                                        <button 
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)" 
+                                            (click)= "saveStep1('default')" 
+                                            mat-button 
+                                            class="btn dcb-btn">Save Daily Report
+                                        </button>
+                                        <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Save and Download PDF</button>
+                                        <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Save and Preview PDF</button>
+                                    </div>
+                                </div>
+
+                                <div class="card card-dcb dashboard-card tab-pane compact-layout" id="linkTrades" formArrayName="tradeFormArray">
+                                  <div class="card-body">
+                                  <span class="item-text">Trades on Site</span>
+                                  <div class="staff-form-holder" >
+
+                                        <div style = "padding-bottom:10px;border-bottom: 1px solid #ddd;margin-bottom:20px;" *ngFor="let trade of tradeFormArray().controls; let empIndex=index;">
+                                                  
+                                            <ng-container [formGroupName]="empIndex" >
+                                                  <div class ="row trade-holder">
+                                                          <div class="col-md-3 col-sm-8">
+                                                              <label>Trade Name</label>
+                                                              <!-- <mat-select (selectionChange)="getTradeStaffs(empIndex, $event.value)" formControlName="tradesOnSite" placeholder="Trade Name" name="tradesOnSite" (click)="initializeFilterTrades(empIndex)"> -->
+                                                              <mat-select formControlName="tradesOnSite" placeholder="Trade Name" name="tradesOnSite" (click)="initializeFilterTrades(empIndex)">
+                                                                      <!-- <mat-option (click)="openAddTradeDialog(empIndex)">-- Add New Trade --</mat-option> -->
+                                                                      <mat-option>
+                                                                            <ngx-mat-select-search 
+                                                                              formControlName="search_control_trade"
+                                                                              placeholderLabel="Search..."
+                                                                              noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                                      </mat-option>
+                                                                      <mat-option *ngFor="let listTrade of filter_list_trades[empIndex] | async" [value]="listTrade.id">
+
+                                                                      {{ listTrade.tradeCompanyName }}
+
+                                                                      </mat-option>
+                                                              </mat-select> 
+                                                              <!-- <input  matInput placeholder="Trade Name" type="text" formControlName="tradesOnSite"  (keydown.enter)="addTradeForm()"> -->
+                                                          </div>
+                                                          <div class="col-md-4 col-sm-4 btn-trade">
+                                                            <button 
+                                                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                                (mouseenter)="onButtonEnter($event.target)" 
+                                                                (mouseleave)="onButtonOut($event.target)" 
+                                                                style="margin-left:0 !important;margin-top: 4px;" 
+                                                                (click)= "removeTradeForm(empIndex)" 
+                                                                mat-button 
+                                                                class="btn dcb-btn">Remove Trade
+                                                            </button>
+                                                          </div>
+                                                          
+                                                    
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="col-md-6">
+                                                      <div class="staff-count-holder" *ngIf="trade.get('tradesOnSite').value">
+                                                        <label>Total Number of Staff:</label>
+                                                        <mat-select  *ngIf="!trade.get('staffCount').value" (selectionChange)="setNumStaff(empIndex,trade.get('tradesOnSite').value, $event.value)"  style = "width: 55px;display: block;margin-top: 8px;" formControlName="staffCount" id="staffCount" name="staffCount">
+                                                                <mat-option *ngFor="let staff_count of staffcounts" [value]="staff_count.value">
+                                                                {{ staff_count.viewValue }}
+                                                                </mat-option>
+                                                        </mat-select>  
+                                                        <span *ngIf="trade.get('staffCount').value" class="totallocked">{{ trade.get('staffCount').value }}</span>
+                                                        <span *ngIf="trade.get('staffCount').value" class="note">To add more staff click add staff on the last worker</span>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                      <div *ngIf="trade.get('totalHours').value" class="trade-total-holder">
+                                                        <span>Trade Total Hours {{trade.get('totalHours').value}}</span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                      
+                                                  <div class="row" style="margin-left: -20px;margin-right: -20px;">
+                                                  <!-- <div class="row" style="margin-left: -20px;margin-right: -20px;" *ngIf="trade.get('staffCount').value"> -->
+                                                    <ng-container formArrayName="tradeStaffFormArray">
+                                                      <div style="width: 100%;margin-bottom:15px;" *ngFor="let staff of tradeStaffFormArray(empIndex).controls; let staffIndex=index" [formGroupName]="staffIndex">
+                                                        <table style="width: 100%;" class="table-employees-header">
+                                                          <tr>
+                                                            <td style="padding-left: 20px;">
+                                                               {{ getTradeStaffName(empIndex, trade.get('tradesOnSite').value, staff.get('staffOnSite').value) }}
+                                                            </td>
+                                                            <td width="200px">
+                                                              Total Hrs: {{ staff.get('totalHours').value }}
+                                                            </td>
+                                                            <td width="200px">
+                                                              <span (click)= "removeTradeStaffForm(empIndex,staffIndex)"  mat-button class="btn-span">Remove Staff</span>
+                                                            </td>
+                                                          </tr>
+                                                        </table>
+                                                        <table class="smart-table-2 table-employees-holder">
+                                                            <thead>
+                                                              <tr>
+                                                                <th class="action-col"></th>
+                                                                <th>Task No</th>
+                                                                <th>Description</th>
+                                                                <th width="200px">Start</th>
+                                                                <th width="200px">Break</th>
+                                                                <th width="200px">Finish</th>
+                                                                <th width="200px">Hours</th>
+                                                                <th class="action2-col" width="200px"></th>
+                                                              </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                              <ng-container formArrayName="taskTradeFormArray">
+                                                                <tr *ngFor="let task of taskTradeFormArray(empIndex,staffIndex).controls; let skillIndex=index"  [formGroupName]="skillIndex" >
+                                                                  <!-- <ng-container [formGroupName]="empIndex" > -->
+                                                                    <td class="action-col">
+                                                                      <i (click) = "openTableTradesTaskEditDialog(empIndex,staffIndex,skillIndex,getTradeStaffName(empIndex, trade.get('tradesOnSite').value, staff.get('staffOnSite').value))" class="material-icons">edit</i>
+                                                                      <!-- <i (click) = "openTableEmployeesTaskEditDialog(empIndex,skillIndex,getStaffName(staff.get('staffOnSite').value))" class="material-icons">edit</i> -->
+                                                                      <i (click)="removeTaskTradeForm(empIndex,staffIndex,skillIndex)" class="material-icons">delete</i>
+                                                                    </td>
+                                                                    <td data-label="Task No">
+                                                                      {{skillIndex+1}}
+                                                                    </td>
+                                                                    <td data-label="Description">
+                                                                      <span> {{ task.get('taskDescription').value }}</span>
+                                                                    </td>
+                                                                    <td data-label="Start">
+                                                                      <span> {{ task.get('start').value }}</span>
+                                                                    </td>
+                                                                    <td data-label="Break">
+                                                                      <span> {{ task.get('break').value }}</span>
+                                                                    </td>
+                                                                    <td data-label="Finish">
+                                                                      <span> {{ task.get('finish').value }}</span>
+                                                                    </td>
+                                                                    <td data-label="Hours">
+                                                                      <span> {{ task.get('hours').value }}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                      <span style="margin-right:10px;" (click)= "openTableTradesTaskAddDialog(empIndex,staffIndex,getTradeStaffName(empIndex, trade.get('tradesOnSite').value, staff.get('staffOnSite').value))" mat-button class="btn-span"  *ngIf="taskTradeFormArray(empIndex,staffIndex).length == (skillIndex + 1)">Add Task</span>
+                                                                      <!-- <span (click)= "openTableEmployeesTaskAddDialog(empIndex,getStaffName(staff.get('staffOnSite').value))" mat-button class="btn-span"  *ngIf="taskTradeFormArray(empIndex,staffIndex).length == (skillIndex + 1)">Add Task</span> -->
+                                                                      <span *ngIf="staffIndex == 0 && skillIndex == 0" (click) = "applyAllStaff(empIndex)" class="btn-span">Apply to All Staff</span>
+                                                                    </td>
+                                                                  <!-- </ng-container> -->
+                                                                </tr>
+                                                              </ng-container>
+                                                            </tbody> 
+                                                        </table>
+                                                      </div>
+                                                    </ng-container>
+                                                  </div>
+                                                  <!-- <button (click)= "addTradeStaffForm(empIndex)" mat-button class="btn dcb-btn">Add Staff</button> -->
+                                                  <button
+                                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                      (mouseenter)="onButtonEnter($event.target)" 
+                                                      (mouseleave)="onButtonOut($event.target)"   
+                                                      *ngIf="trade.get('staffCount').value"  
+                                                      (click)= "openTableTradesAddDialog(empIndex,trade.get('tradesOnSite').value)" 
+                                                      mat-button class="btn dcb-btn">Add Staff</button>
+                                                  <br>
+                                                  <br>
+
+                                                  <div class="trade-staff-holder" *ngIf="trade.get('staffCount').value"  style="opacity:0;height:0;width:0;overflow:hidden;">
+                                                        
+                                                        <ng-container formArrayName="tradeStaffFormArray">
+                                                            <div class="trade-staff-item" *ngFor="let staff of tradeStaffFormArray(empIndex).controls; let staffIndex=index" [formGroupName]="staffIndex">
+
+
+                                                              <div class = "row">   
+
+                                                                      <div class="col-md-4 col-sm-8">
+                                                                          <label>Trade Staff Name</label>
+                                                                          <!-- <mat-select (selectionChange)="selectTradeEmployee(empIndex,staffIndex)" formControlName="staffOnSite" id="staffOnSite" placeholder="Staff Name" name="staffOnSite" (click)="initializeFilterTradeStaffs(empIndex,staffIndex)"> -->
+                                                                          <mat-select (selectionChange)="selectTradeEmployee(empIndex,staffIndex)" formControlName="staffOnSite" id="staffOnSite" placeholder="Staff Name" name="staffOnSite">
+                                                                                  <!-- <mat-option>
+                                                                                        <ngx-mat-select-search 
+                                                                                          formControlName="search_control_tradestaff"
+                                                                                          placeholderLabel="Search..."
+                                                                                          noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                                                  </mat-option> -->
+                                                                                  <!-- <mat-option (click)="openAddTradeStaffDialog(empIndex,staffIndex)">-- Add New Trade Staff --</mat-option> -->
+                                                                                  <mat-option *ngFor="let listStaff of listTradeStaffs[empIndex]" [value]="listStaff.staffID">
+                                                                                  {{ listStaff.staffName }}
+                                                                                  </mat-option>
+                                                                          </mat-select> 
+                                                                      </div>
+
+                                                                      <div class="col-md-6  col-sm-4 btn-trade-staff">   
+
+                                                                          <button 
+                                                                              [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                                              (mouseenter)="onButtonEnter($event.target)" 
+                                                                              (mouseleave)="onButtonOut($event.target)" 
+                                                                              *ngIf="staffIndex == (tradeStaffFormArray(empIndex).controls.length-1)" 
+                                                                              (click)= "addTradeStaffForm(empIndex)" 
+                                                                              mat-button class="btn dcb-btn">Add Staff
+                                                                          </button>
+                                                                          <button *ngIf="staffIndex <= (tradeStaffFormArray(empIndex).controls.length-1)" (click)= "removeTradeStaffForm(empIndex,staffIndex)" mat-button class="btn dcb-btn btn-remove-group">Remove Staff</button>  
+                                                              
+                                                                      </div>
+                                                      
+
+                                                                          <ng-container formArrayName="taskTradeFormArray">
+                          
+                                                                                  <div class="col-md-12 trade-staff-task-item">
+                                                                                      <div *ngFor="let task of taskTradeFormArray(empIndex,staffIndex).controls; let skillIndex=index" [formGroupName]="skillIndex" >
+                                                                                            <div class = "row">
+                                                                                                <div class="col-md-12">
+                                                                                                    <label>Task No. {{skillIndex+1}}</label>
+                                                                                                    <!-- <input  matInput placeholder="Task No." type="text"  value="Task No. {{skillIndex+1}}" disabled> -->
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class = "row">
+                                                                                                <div class="col-md-4">
+            
+                                                                                                    <input  matInput placeholder="Description" type="text" formControlName="taskDescription" (keydown.enter)="addTaskTradeForm(empIndex,staffIndex)">
+                                                                                                </div>
+                                                                                                <div class="tradetask-buttons-desktop col-md-6">
+                                                                                                    <!-- <button  *ngIf="reportPreviewMode == false && (skillIndex == (taskTradeFormArray(empIndex,staffIndex).controls.length-1))" (click)= "addTaskTradeForm(empIndex,staffIndex)" mat-button class="btn dcb-btn">Add Task</button> -->
+                                                                                                    <button  (click)= "addTaskTradeForm(empIndex,staffIndex)" mat-button class="btn dcb-btn">Add Task</button>
+                                                                                                    <button  *ngIf="skillIndex <= (taskTradeFormArray(empIndex,staffIndex).controls.length)" mat-button class="btn dcb-btn btn-remove-group" (click)="removeTaskTradeForm(empIndex,staffIndex,skillIndex)">Remove Task</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class = "row">
+                                                                                                    <div class="col-md-1" style = "max-width: 85px;">
+                                                                                                          <label>Detail</label>
+                                                                                                          <mat-checkbox formControlName="checkDetail" class="example-margin"></mat-checkbox> 
+                                                                                                      </div>
+                                                                                                    <div class="col-md-1" *ngIf="task.get('checkDetail').value === true" style = "min-width: 140px;">
+                                                                                                        <div>
+                                                                                                            <label>Start</label>
+                                                                                                            <!-- <ng-template #popTemplate>
+                                                                                                              <timepicker formControlName="start2" (click)="changeTime(empIndex, staffIndex, skillIndex)" [showMeridian]="true"></timepicker>
+                                                                                                              <button>Set</button>
+                                                                                                              <button>Cancel</button>
+                                                                                                            </ng-template> -->
+                                                                                                            <input  formControlName="start"  (click)="changeTimeDialog('trade','start',empIndex, staffIndex, skillIndex,task.get('start').value)"/>
+                                                                                                            <!-- <input value="{{task.get('start').value | date:'hh:mm aa' }}" [popover]="popTemplate" [outsideClick]="true" placement="bottom" /> -->
+                                                                                                            <!-- <input [ngxTimepicker]="startPicker" formControlName="start" (timeSet)="computeTime(empIndex, staffIndex, skillIndex)">
+                                                                                                            <ngx-material-timepicker #startPicker [enableKeyboardInput]="true" (closed)="computeTime(empIndex, staffIndex, skillIndex)"></ngx-material-timepicker> -->
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-1" *ngIf="task.get('checkDetail').value === true" style = "min-width: 140px;">
+                                                                                                        <div>
+                                                                                                            <label>Break</label>
+                                                                                                            <mat-select formControlName="break" id="break" placeholder="Break" name="break" (selectionChange)="computeTime(empIndex, staffIndex, skillIndex)">
+                                                                                                                    <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                                                                                                    {{ breaktime.viewValue }}
+                                                                                                                    </mat-option>
+                                                                                                            </mat-select>  
+                                                                                                            <!-- <input [ngxTimepicker]="breakPicker" formControlName="break" [format]="24">
+                                                                                                            <ngx-material-timepicker #breakPicker (closed)="computeTime()"></ngx-material-timepicker> -->
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-1" *ngIf="task.get('checkDetail').value === true" style = "min-width: 140px;">
+                                                                                                        <div>
+                                                                                                            <label>Finish</label>
+                                                                                                            <!-- <input [ngxTimepicker]="finishPicker" formControlName="finish" (timeSet)="computeTime(empIndex, staffIndex, skillIndex)">
+                                                                                                            <ngx-material-timepicker #finishPicker (closed)="computeTime(empIndex, staffIndex, skillIndex)"></ngx-material-timepicker > -->
+                                                                                                              <input  formControlName="finish" (click)="changeTimeDialog('trade','finish',empIndex, staffIndex, skillIndex,task.get('finish').value)"/>
+                                                                                                            </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-1" *ngIf="task.get('checkDetail').value === true" style = "min-width: 140px;">
+                                                                                                          <label>Hours</label>
+                                                                                                          <input matInput placeholder="Hours" type="number" formControlName="tempHours">
+                                                                                                    </div>
+                                                                                                    <div class="col-md-1" *ngIf="task.get('checkDetail').value != true" style = "min-width: 140px;">
+                                                                                                        <label>Hours</label>
+                                                                                                        <input (input)="computeTradeStaffTotalHours(empIndex, staffIndex)" matInput placeholder="Hours" type="number" formControlName="hours">
+                                                                                                    </div>  
+
+                                                                                                    <div class="tradetask-buttons-mobile col-md-12" style = "padding-top: 20px;">
+                                                                                                      <!-- <button  *ngIf="reportPreviewMode == false && (skillIndex == (taskTradeFormArray(empIndex,staffIndex).controls.length-1))" (click)= "addTaskTradeForm(empIndex,staffIndex)" mat-button class="btn dcb-btn">Add Task</button> -->
+                                                                                                      <button  (click)= "addTaskTradeForm(empIndex,staffIndex)" mat-button class="btn dcb-btn">Add Task</button>
+                                                                                                      <button  *ngIf="skillIndex <= (taskTradeFormArray(empIndex,staffIndex).controls.length)" mat-button class="btn dcb-btn btn-remove-group" (click)="removeTaskTradeForm(empIndex,staffIndex,skillIndex)">Remove Task</button>
+                                                                                                  </div>
+                                                                                            </div>  
+                                                                                            
+                                                                                            <button *ngIf="staffIndex == 0 && skillIndex == 0" (click) = "applyAllStaff(empIndex)" mat-button class="btn dcb-btn" style = "margin-top:10px">Apply to All Staff</button>
+                                                                                      </div>
+                                                                                  </div>
+                                                                            
+                                                                        </ng-container>
+                                                                </div>
+                                                                <div class = "row" >  
+                                                                    <div class="col-md-2">
+                                                                        
+                                                                              
+                                                                                  <label class="label-total-hours">Staff Total Hours</label>
+                                                                                  <input  formControlName="totalHours" matInput placeholder="Hours" type="text">
+                                                                                
+                                                                                    <!-- <button  (click)= "addTaskTradeForm(empIndex,staffIndex)" mat-button class="btn dcb-btn">Add Task</button> -->
+                                                                      
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                      </ng-container>
+                                                 </div>
+                                                 <div class ="row" style="margin-top:0;" *ngIf="trade.get('staffCount').value"  style="opacity:0;height:0;width:0;overflow:hidden;">  
+                                                      <div class="col-md-2" style="margin-top:0;">
+                                                          <label class="label-total-hours">Trade Total Hours</label>
+                                                          <input  formControlName="totalHours" matInput placeholder="Hours" type="text">
+                                                      </div>       
+                                                </div>
+                                            </ng-container>
+
+                                        </div>
+                                  </div>
+                                  
+                                  <button 
+                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                      (mouseenter)="onButtonEnter($event.target)" 
+                                      (mouseleave)="onButtonOut($event.target)" 
+                                      (click)= "addTradeForm()" 
+                                      mat-button 
+                                      class="btn dcb-btn btn-compact">Add Trade
+                                  </button>
+                                  <!-- <button (click)= "openAddMultipleTradesDialog()" mat-button class="btn dcb-btn btn-compact">Add Multiple Trades</button> -->
+                                   <br>
+                                   <br>
+                                  <!-- <button  *ngIf="reportPreviewMode == false" mat-button class="btn dcb-btn"
+                                          (click)="openAddTradeDialog()">
+                                          <i class="material-icons">add</i> Add Trade to Global List
+                                  </button> -->
+
+                                  <button 
+                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                      (mouseenter)="onButtonEnter($event.target)" 
+                                      (mouseleave)="onButtonOut($event.target)" 
+                                      (click)= "saveStep1('default')" 
+                                      mat-button 
+                                      class="btn dcb-btn">Save Daily Report
+                                  </button>
+                                  <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Save and Download PDF</button>
+                                  <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Save and Preview PDF</button>
+                                </div>
+                                </div>
+                                
+                                <div class="card card-dcb dashboard-card tab-pane compact-layout" id="linkStaff" formArrayName="staffFormArray">
+                                  <div class="card-body full-card-body">
+                                  <span class="item-text">Employees on Site</span>
+                                  
+                                  <div class="row">
+                                    <div class="col-md-12" style="overflow-x: scroll;" *ngIf="hideArchive == true">
+                                      <br>
+                                        <span>Worker's Logs<span (click) = "showArchives()" class="btn-span" style="margin-left:15px;">See Archive List</span></span>
+                                        <br><br>
+                                        <div>
+                                          <mat-spinner *ngIf="timesheetImagefinishLoading == false" class="table-spinner" diameter="50"></mat-spinner>
+                                          <!-- <ng2-smart-table  *ngIf="timesheetImagefinishLoading == true" [settings]="workerSettings" [source]="dailyWorkerLogs" (userRowSelect)="onRowSelect($event)"></ng2-smart-table> -->
+                                          <table *ngIf="timesheetImagefinishLoading == true" datatable [dtOptions]="workerOptions" [dtTrigger]="workerDtTrigger"  (dtRowSelect)="onRowSelect($event)"  id="workerTable" style="width: 100%"></table>                                          
+                                          <button 
+                                              [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                              (mouseenter)="onButtonEnter($event.target)" 
+                                              (mouseleave)="onButtonOut($event.target)" 
+                                              (click)="approveTime()" 
+                                              mat-button class="btn dcb-btn btn-compact" 
+                                              style="margin-left:0 !important;margin-top: 5px;">Accept
+                                          </button>
+                                          <button (click)="rejectTime()" mat-button class="btn dcb-btn btn-compact dcb-btn-2" style="margin-left:0 !important;margin-top: 5px;">Reject</button>
+                                          <button (click)="archiveTime()" mat-button class="btn dcb-btn btn-compact dcb-btn-2" style="margin-left:0 !important;margin-top: 5px;">Archive</button>
+                                          <span style = "display: block;margin-top: 10px;font-size: 13px;">Note: Please save the report first before accepting/rejecting/archiving the worker's log</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="overflow-x: scroll;" *ngIf="hideArchive == false">
+                                      <br>
+                                        <span>Worker's Logs (Archive)<span (click) = "hideArchives()" class="btn-span" style="margin-left:15px;">Hide Archive List</span></span>
+                                        <br><br>
+                                        <div style="width: 1500px;">
+                                          <!-- <ng2-smart-table [settings]="workerSettingsArchive" [source]="dailyWorkerLogsArchive" (userRowSelect)="onRowSelect($event)"></ng2-smart-table> -->
+                                          <table  datatable [dtOptions]="workerOptionsArchive" [dtTrigger]="workerDtTriggerArchieve"  (dtRowSelect)="onRowSelect($event)" id="workerTableArchieve" style="width: 100%"></table>                                          
+                                          <button 
+                                              [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                              (mouseenter)="onButtonEnter($event.target)" 
+                                              (mouseleave)="onButtonOut($event.target)" 
+                                              (click)="unarchiveTime()" 
+                                              mat-button class="btn dcb-btn btn-compact" 
+                                              style="margin-left:0 !important;margin-top: 5px;">Unarchive
+                                          </button>
+                                          <span style = "display: block;margin-top: 10px;font-size: 13px;">Note: Please save the report first before accepting/rejecting/archiving the worker's log</span>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <br>
+                                  <!-- <button (click)= "addStaffForm()" mat-button class="btn dcb-btn btn-compact">Add Employee</button> -->
+                                  <button 
+                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                      (mouseenter)="onButtonEnter($event.target)" 
+                                      (mouseleave)="onButtonOut($event.target)" 
+                                      (click)= "openTableEmployeesAddDialog()" 
+                                      mat-button class="btn dcb-btn btn-compact">Add Employee
+                                  </button>
+                                  <br>
+                                  <br>
+                                  <div class="row" style="margin-left: -20px;margin-right: -20px;">
+                                      <div style="width: 100%;margin-bottom:15px;" *ngFor="let staff of staffFormArray().controls; let empIndex=index;">
+                                        <table style="width: 100%;" class="table-employees-header">
+                                          <tr>
+                                            <td style="padding-left: 20px;">
+                                              {{ getStaffName(staff.get('staffOnSite').value) }}
+                                            </td>
+                                            <td width="200px">
+                                              Total Hrs: {{ staff.get('totalHours').value }}
+                                            </td>
+                                            <td width="200px">
+                                              <span (click)= "removeStaffForm(empIndex)" mat-button class="btn-span">Remove Employee</span>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                        <div class="smart-table-holder">
+                                            <table class="smart-table-2  table-employees-holder">
+                                                <thead>
+                                                  <tr>
+                                                    <th class="action-col"></th>
+                                                    <th>Task No</th>
+                                                    <th>Description</th>
+                                                    <th width="200px">Start</th>
+                                                    <th width="200px">Break</th>
+                                                    <th width="200px">Finish</th>
+                                                    <th width="200px">Hours</th>
+                                                    <th class="action2-col" width="200px"></th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let task of taskStaffFormArray(empIndex).controls; let skillIndex=index">
+                                                      <ng-container [formGroupName]="empIndex" >
+                                                        <td class="action-col">
+                                                          <i (click) = "openTableEmployeesTaskEditDialog(empIndex,skillIndex,getStaffName(staff.get('staffOnSite').value))" class="material-icons">edit</i>
+                                                          <i (click)= "removeTaskStaffForm(empIndex,skillIndex)" class="material-icons">delete</i>
+                                                        </td>
+                                                        <td data-label="Task No">
+                                                          {{skillIndex+1}}
+                                                        </td>
+                                                        <td data-label="Description">
+                                                          <span> {{ task.get('taskDescription').value }}</span>
+                                                        </td>
+                                                        <td data-label="Start">
+                                                          <span> {{ task.get('start').value }}</span>
+                                                        </td>
+                                                        <td data-label="Break">
+                                                          <span> {{ task.get('break').value }}</span>
+                                                        </td>
+                                                        <td data-label="Finish">
+                                                          <span> {{ task.get('finish').value }}</span>
+                                                        </td>
+                                                        <td data-label="Hours">
+                                                          <span> {{ task.get('hours').value }}</span>
+                                                        </td>
+                                                        <td>
+                                                          <span (click)= "openTableEmployeesTaskAddDialog(empIndex,getStaffName(staff.get('staffOnSite').value))" mat-button class="btn-span"  *ngIf="taskStaffFormArray(empIndex).length == (skillIndex + 1)">Add Task</span>
+                                                        </td>
+                                                      </ng-container>
+                                                    </tr>
+                                                </tbody> 
+                                            </table>
+                                        </div>
+                                      </div>
+                                  </div>
+                     
+                                  <div class="row staff-form-holder" style="opacity:0;height:0;width:0;overflow:hidden;">
+
+                                          <div style = "padding-bottom:10px;border-bottom: 1px solid #ddd;margin-bottom:20px;" class="col-md-12" *ngFor="let staff of staffFormArray().controls; let empIndex=index;">
+
+                                                  <ng-container [formGroupName]="empIndex" >
+                                                      <div class ="row">
+                                                          <div class="col-md-4">
+                                                              <label>Employee Name</label>
+                                                              <mat-select (selectionChange)="selectEmployee(empIndex)" #singleSelect formControlName="staffOnSite" id="staffOnSite" placeholder="Employee Name" name="staffOnSite"  (click)="initializeFilterEmployees(empIndex)">
+                                                                      <mat-option>
+                                                                            <ngx-mat-select-search 
+                                                                              formControlName="search_control_employee"
+                                                                              placeholderLabel="Search..."
+                                                                              noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                                      </mat-option>
+                                                                      <mat-option *ngFor="let listStaff of filter_list_employees[empIndex] | async" [value]="listStaff.id">
+                                                                        <ng-container *ngIf="listStaff.type =='user-supervisor'">
+                                                                            {{ listStaff.staff_name}} (Supervisor)
+                                                                        </ng-container>
+                                                                        <ng-container *ngIf="listStaff.type =='user-altsupervisor'">
+                                                                          {{ listStaff.staff_name}} (Alt Supervisor)
+                                                                      </ng-container>
+                                                                        <ng-container *ngIf="listStaff.type =='user-worker'">
+                                                                          {{ listStaff.staff_name}} (Worker)
+                                                                        </ng-container>
+                                                                        <ng-container *ngIf="listStaff.type !='user-supervisor' && listStaff.type !='user-worker' && listStaff.type !='user-altsupervisor'">
+                                                                            {{ listStaff.staff_name}}
+                                                                        </ng-container>
+                                                                      </mat-option>
+                                                              </mat-select> 
+                                                              
+                                                          </div>
+                                                          <div class="col-md-4" style = "padding-top: 20px;">
+                                                              <button (click)= "removeStaffForm(empIndex)" mat-button class="btn dcb-btn btn-remove-group" style="margin-left:0 !important;margin-top: 5px;">Remove Staff</button>
+                                                          </div>
+                                                          
+                                                          <div class="col-md-12 staff-task-item" formArrayName="taskStaffFormArray">
+                                        
+                                                              <div *ngFor="let task of taskStaffFormArray(empIndex).controls; let skillIndex=index" [formGroupName]="skillIndex" >
+                                                                  <div class = "row">
+                                                                      <div class="col-md-12">
+                                                                        <label>Task No. {{skillIndex+1}}</label>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class = "row">
+                                                                      <div class="col-md-4">
+                                                                          <label>Description</label>
+                                                                          <input  matInput placeholder="Description" type="text" formControlName="taskDescription" (keydown.enter)="addTaskStaffForm(empIndex)">
+                                                                      </div>
+                                                                      <div class="col-md-6" style = "padding-top: 20px;">
+                                                                        <button (click)= "addTaskStaffForm(empIndex)" mat-button class="btn dcb-btn">Add Task</button>
+                                                                          <button mat-button class="btn dcb-btn btn-remove-group" (click)="removeTaskStaffForm(empIndex,skillIndex)">Remove Task</button>
+                                                                      </div>  
+                                                                  </div>
+                                                                  <div class = "row">
+                                                                      <div class="col-md-1" style = "max-width: 85px;">
+                                                                          <label>Detail</label>
+                                                                          <mat-checkbox formControlName="checkDetailStaff" class="example-margin"></mat-checkbox> 
+                                                                      </div>
+                                                                      <div class="col-md-1" *ngIf="task.get('checkDetailStaff').value === true" style = "min-width: 140px;">
+                                                                        <div>
+                                                                          <label>Start</label>
+                                                                          <input  formControlName="start"  (click)="changeTimeDialog('staff','start',empIndex, '', skillIndex,task.get('start').value)"/>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="col-md-1" *ngIf="task.get('checkDetailStaff').value === true" style = "min-width: 140px;">
+                                                                        <div>
+                                                                          <label>Break</label>
+                                                                          <mat-select formControlName="break" id="break" placeholder="Break" name="break" (selectionChange)="computeTimeStaff(empIndex, skillIndex)">
+                                                                              <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                                                              {{ breaktime.viewValue }}
+                                                                              </mat-option>
+                                                                          </mat-select>  
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="col-md-1" *ngIf="task.get('checkDetailStaff').value === true" style = "min-width: 140px;">
+                                                                        <div>
+                                                                          <label>Finish</label>
+                                                                          <input  formControlName="finish"  (click)="changeTimeDialog('staff','finish',empIndex, '', skillIndex,task.get('finish').value)"/>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="col-md-1" *ngIf="task.get('checkDetailStaff').value === true" style = "min-width: 140px;">
+                                                                        <label>Hours *</label>
+                                                                        <input matInput placeholder="Hours" type="number" formControlName="tempHours">
+                                                                      </div>
+                                                                      <div class="col-md-1" *ngIf="task.get('checkDetailStaff').value != true" style = "min-width: 140px;">
+                                                                          <label>Hours *</label>
+                                                                          <input (input)="computeStaffTotalHours(empIndex)"  matInput placeholder="Hours" type="number" formControlName="hours">
+                                                                      </div>
+                                                                  </div>          
+                                                              </div>
+                                      
+                                                          </div>   
+                                                    
+                                                      </div>
+
+                                                    <div class ="row">
+                                                        <div class="col-md-2">
+                                                          <label>Total Hours</label>
+                                                          <input  formControlName="totalHours" matInput placeholder="Hours" type="text">
+                                                        </div>
+                                                    </div>
+
+                                                  </ng-container> 
+                                          </div>
+                                  </div>
+                          
+                                    
+                                    <!-- <button (click)= "openAddMultipleEmployeesDialog()" mat-button class="btn dcb-btn btn-compact">Add Multiple Employees</button> -->
+                                  <!-- <button *ngIf="reportPreviewMode == false" mat-button class="btn dcb-btn"
+                                          (click)="openAddStaffDialog()">
+                                          <i class="material-icons">add</i> Add Staff to Global List
+                                  </button>  -->
+
+                                  <button 
+                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                      (mouseenter)="onButtonEnter($event.target)" 
+                                      (mouseleave)="onButtonOut($event.target)" 
+                                      (click)= "saveStep1('default')" 
+                                      mat-button 
+                                      class="btn dcb-btn">Save Daily Report
+                                  </button>
+
+                                  <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Save and Download PDF</button>
+                                  <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Save and Preview PDF</button>
+                                </div>
+                                </div>
+
+                              <div class="card card-dcb dashboard-card tab-pane compact-layout" id="linkVisitors" formArrayName="visitorFormArray">
+                                <div class="card-body">
+                                  <br>
+                                <span class="item-text">Visitors on Site</span>
+                                <div class="row staff-form-holder" >
+                                  
+                                    <table class="smart-table-2  table-employees-holder table-visitors-holder">
+                                        <thead>
+                                          <tr>
+                                            <th class="action-col"></th>
+                                            <th>Visitor Name</th>
+                                            <th>Reason</th>
+                                            <th>Duration</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let visitor of visitorFormArray().controls; let empIndex=index;">
+                                              <ng-container [formGroupName]="empIndex" >
+                                                <td class="action-col">
+                                                  <i (click) = "openTableVisitorEditDialog(empIndex,visitor.get('visitorsOnSite').value,visitor.get('reasonsOnSite').value,visitor.get('duration').value)" class="material-icons">edit</i>
+                                                  <i (click)= "removeVisitorForm(empIndex)" class="material-icons">delete</i>
+                                                </td>
+                                                <td data-label="Visitor Name">
+                                                  <span> {{ visitor.get('visitorsOnSite').value }}</span>
+                                                </td>
+                                                <td data-label="Reason">
+                                                  <span> {{ visitor.get('reasonsOnSite').value }}</span>
+                                                </td>
+                                                <td data-label="Duration">
+                                                  <span> {{ visitor.get('duration').value }}</span>
+                                                </td>
+                                              </ng-container>
+                                            </tr>
+                                        </tbody>
+                                        
+                                    </table>
+                                    
+
+                                    <div style="opacity:0;height:0;width:0;overflow:hidden;" class="col-md-12" *ngFor="let visitor of visitorFormArray().controls; let empIndex=index;" >
+                                                <ng-container [formGroupName]="empIndex" >
+                                                          <div class = "row">
+
+                                                              <div class="col-md-3">
+                                                                  <label>Visitor Name</label>
+                                                                      <mat-select  #singleSelect formControlName="visitorsOnSite" placeholder="Visitor Name" name="visitorsOnSite"  (click)="initializeFilterVisitors(empIndex)">
+                                                                              
+                                                                              <mat-option>
+                                                                                <ngx-mat-select-search 
+                                                                                  formControlName="search_control_visitor"
+                                                                                  placeholderLabel="Search..."
+                                                                                  noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                                              </mat-option>
+                                                                              <!-- <mat-option (click)="openAddVisitorDialog(empIndex)">-- Add New Visitor --</mat-option> -->
+                                                                              <mat-option *ngFor="let listVisitor of filter_list_visitors[empIndex] | async" [value]="listVisitor.visitor_name">
+                                                                                  <ng-container *ngIf="listVisitor.type =='user'">
+                                                                                    {{ listVisitor.visitor_name}} (Owner)
+                                                                                  </ng-container>
+                                                                                  <ng-container *ngIf="listVisitor.type !='user'">
+                                                                                      {{ listVisitor.visitor_name}}
+                                                                                  </ng-container>
+                                                                              </mat-option>
+                                                                              
+                                                                      </mat-select> 
+                                                              </div>
+                                                              <div class="col-md-4">
+                                                                    <label>Reason</label>
+                                                                    <mat-select  #singleSelect formControlName="reasonsOnSite" placeholder="Reasons" name="reasonsOnSite"  (click)="initializeFilterReasons(empIndex)">
+                                                                                        
+                                                                            <mat-option>
+                                                                              <ngx-mat-select-search 
+                                                                                formControlName="search_control_reason"
+                                                                                placeholderLabel="Search..."
+                                                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                                            </mat-option>
+                                                                            <mat-option (click)="openAddReasonDialog(empIndex)">-- Add New Reason --</mat-option>
+                                                                            <mat-option *ngFor="let listReason of filter_list_reasons[empIndex] | async" [value]="listReason.reason">
+                                                                  
+                                                                                    {{ listReason.reason}}
+                                                            
+                                                                            </mat-option>
+                                                                            
+                                                                    </mat-select> 
+                                                              </div>
+                                                              <div class="col-md-2">
+                                                                  <label>Duration</label>
+                                                                  <input  matInput placeholder="Duration" type="text" formControlName="duration" (keydown.enter)="addVisitorForm()">
+                                                              </div>
+                                                              <div class="col-md-3" style = "padding-top: 24px;">
+                                                                <button (click)= "removeVisitorForm(empIndex)" mat-button class="btn  dcb-btn btn-remove-group">Remove</button>  
+                                                              </div>
+                                                        </div>
+                                                       
+                                              </ng-container>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    (click)= "openTableVisitorAddDialog()"
+                                    mat-button 
+                                    class="btn dcb-btn btn-compact">Add Visitor
+                                </button>
+                                <!-- <button (click)= "addVisitorForm()" mat-button class="btn dcb-btn btn-compact">Add Visitor</button> -->
+
+                                <br>
+                                <br>
+
+
+                                <!-- <button *ngIf="reportPreviewMode == false" mat-button class="btn dcb-btn"
+                                          (click)="openAddVisitorDialog()">
+                                          <i class="material-icons">add</i> Add Visitor to Global List
+                                  </button> -->
+
+                                  <button 
+                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                      (mouseenter)="onButtonEnter($event.target)" 
+                                      (mouseleave)="onButtonOut($event.target)" 
+                                      (click)= "saveStep1('default')" 
+                                      mat-button 
+                                      class="btn dcb-btn">Save Daily Report
+                                  </button>
+
+                                  <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Save and Download PDF</button>
+                                  <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Save and Preview PDF</button>
+                              </div>
+                              </div>
+
+                              <div class="card card-dcb dashboard-card tab-pane compact-layout dailyproject-image-card" id="linkPhotos">
+                                <div class="card-body">
+
+                                  <div class="togglebutton" style="margin-bottom: 20px;" *ngIf="editForm.get('imageUpload').value != ''">
+                                    <label>
+                                      <input type="checkbox" [checked]="lockSwitchImageBool" (change)="lockSwitchImageBool = !lockSwitchImageBool">
+                                      <span [style.backgroundColor]="lockSwitchImageBool ? colorHlightDefault : ''" class="toggle"></span>
+                                      Lock Switching
+                                    </label>
+                                   
+                                  </div> 
+
+                                <span class="item-text">Add Photos</span>
+                                <div class ="image-masonry-container" formArrayName="imageUpload" cdkDropListGroup>
+                                        <!-- <div class="col-md-12">
+                                          <label>Photo</label>
+                                        </div>   -->
+                                        
+                                        <div cdkDropList [cdkDropListData]="i" *ngFor="let item of editForm.get('imageUpload')['controls']; let i = index;" [formGroupName]="i" >
+                                                <div
+                                                  cdkDrag [cdkDragDisabled]="lockSwitchImageBool"
+                                                  [cdkDragData]="i"
+                                                  (cdkDragEntered)="dragEntered($event)"
+                                                  class="example-box"
+                                                > 
+                                                      <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                                              <mat-label>Caption</mat-label>
+                                                              <input matInput placeholder="Caption" type="text" formControlName="passFirstName">
+                                                      </mat-form-field> -->
+                                                      <label>Caption</label>
+                                                      <input matInput maxlength="80" placeholder="Caption" type="text" formControlName="imageCaption">
+                                                      <span class="caption-hint"><span>(Max 80 characters)</span> <span>{{item.get('imageCaption').value.length || 0}}/80</span></span>
+                                                      <div class="fileinput fileinput-new text-center">
+                                                            <div class="fileinput-new thumbnail">
+                                                                <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.get('imageFile').value">
+                                                                <img (click)="enlargeImage($event,item.get('imageStamp').value)" data-toggle="modal" data-target="#myModal" [src]="item.get('imageFile').value" *ngIf="item.get('imageFile').value && item.get('imageFile').value !== ''">
+                                                              </div>
+                                                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                                            <div class = "file-size">
+                                                              {{ formatBytes(imageSize[i]) }}
+                                                            </div>
+                                                            <div>
+                                                                <!-- <span class="btn btn-change btn-file btn-compact">
+                                                                    <span class="fileinput-new">Select image</span>
+                                                                    <span class="fileinput-exists">Change</span>
+                                                                    <input accept="image/png, image/jpeg" type="file" name="..."  (change)="onFileChange($event,i)"/>
+                                                                </span> -->
+                                                                <!-- <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
+                                                                <span (click)= "removeImageUpload(i)" class="btn-remove-text">Remove Image</span>
+                                                                <!-- <button style = "margin-left: 0 !important;" (click)= "removeImageUpload(i)" mat-button class="btn btn-remove-img btn-compact"><i class="fa fa-times"></i> Remove</button>  -->
+                                                                <!-- <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a> -->
+                                                            </div>
+                                                      </div>
+
+
+                                                </div> 
+                                        </div>
+
+                                      <div class="row" style = "width:100%">
+                                          <div class="col-md-12">
+                                              <span 
+                                                  [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                  (mouseenter)="onButtonEnter($event.target)" 
+                                                  (mouseleave)="onButtonOut($event.target)" 
+                                                  class="btn dcb-btn btn-file  btn-compact">
+                                                  <span class="fileinput-new">Browse Images</span>
+                                                  <input accept="image/png, image/jpeg" type='file' (change)="onSelectFile($event)" multiple>
+                                              </span>
+                                              <br>
+                                              <br>
+
+                                          </div>
+                                          <div class="col-md-12">
+                                            
+                                            <!-- <button *ngIf="finishLoading == true && showUpdateUploadButton == false" (click)= "uploadPhotos()" mat-button class="btn dcb-btn">Save Photos</button>
+                                            <button *ngIf="finishLoading == true && showUpdateUploadButton == false" (click)= "uploaddownloadPdf()" mat-button class="btn dcb-btn">Save and Download PDF</button>
+                                            <button *ngIf="finishLoading == true && showUpdateUploadButton == false" (click)= "uploadpreviewPdf()" mat-button class="btn dcb-btn">Save and Preview PDF</button>
+
+                                            <button *ngIf="finishLoading == true && showUpdateUploadButton == true" (click)= "updatePhotos()" mat-button class="btn dcb-btn">Save Photos</button>
+                                            <button *ngIf="finishLoading == true && showUpdateUploadButton == true" (click)= "updatedownloadPdf()" mat-button class="btn dcb-btn">Save and Download PDF</button>
+                                            <button *ngIf="finishLoading == true && showUpdateUploadButton == true" (click)= "updatepreviewPdf()" mat-button class="btn dcb-btn">Save and Preview PDF</button> -->
+                                            
+                                            <button 
+                                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                (mouseenter)="onButtonEnter($event.target)" 
+                                                (mouseleave)="onButtonOut($event.target)" 
+                                                (click)= "saveStep1('default')" 
+                                                mat-button 
+                                                class="btn dcb-btn">Save Daily Report
+                                            </button>
+
+                                            <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Save and Download PDF</button>
+                                            <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Save and Preview PDF</button>
+                                          </div>
+                                      </div>
+                                </div> 
+                                
+                              </div>
+                              </div>
+
+
+                              <!-- <div class="card card-dcb dashboard-card tab-pane" id="linkWorker">
+                                <div class="card-body">
+                                    <div class="row">
+                                      <div class="col-md-12" style="overflow-x: scroll;">
+                                          <div style="width: 1500px;">
+                                            <ng2-smart-table [settings]="workerSettings" [source]="dailyWorkerLogs"></ng2-smart-table>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </div>
+                              </div> -->
+
+                            </div>
+
+                            
+                            <!-- <div class="row">
+                                <div class="col-md-3">
+                                      <label>Days Lost This Week</label>
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                            <input (input)="addLostDaysHrs()" placeholder="Days" type="number" formControlName="lostWeekDays" id="lostWeekDays">days
+                                          </div>
+                                          <div class="col-md-6">
+                                            <input (input)="addLostDaysHrs()" placeholder="Hours" type="number" formControlName="lostWeekHours" id="lostWeekHours">hours
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <label>Total Days Lost to Date on the Project</label>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                        <input placeholder="Days" type="number" formControlName="lostTotalDays" id="lostTotalDays" disabled>days
+                                      </div>
+                                      <div class="col-md-6">
+                                        <input placeholder="Hours" type="number" formControlName="lostTotalHours" id="lostTotalHours" disabled>hours
+                                      </div>
+                                </div>
+                            </div>
+                                <div class="col-md-3">
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                            <label>Aimed Completion Date</label>
+                                            <input placeholder="When do you aim to complete the task" type="text" formControlName="aimedComDate" id="aimedComDate" disabled>
+    
+                                            (dd/mm/yyyy)
+                                      </div>
+                                  </div>
+                                </div>
+                            </div> -->
+ 
+                            <!-- <div class="row">
+                                <div class="col-md-4">
+                                      <label>DCB Accomplishments This Week:</label>
+                                   
+                                      <div class= "chip-input-holder">
+                                        <mat-chip-list #chipList>
+                                            <mat-chip *ngFor="let DcbAccThisWeek of editForm.get('dcbAccThisWeek')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeDcbAccThisWeek(i)">
+                                                {{DcbAccThisWeek.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="Accomplishment this week"
+                                                  [matChipInputFor]="chipList"
+                                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                  [matChipInputAddOnBlur]="addOnBlur"
+                                                  (matChipInputTokenEnd)="addDcbAccThisWeek($event)" />
+                                        </mat-chip-list>
+                                      </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>DCB Accomplishments Next Week:</label>
+     
+                                    <div class= "chip-input-holder">
+                                      <mat-chip-list #chipList2>
+                                          <mat-chip *ngFor="let DcbAccNextWeek of editForm.get('dcbAccNextWeek')['controls']; let i = index;" [selectable]="selectable"
+                                              [removable]="removable" (removed)="removeDcbAccNextWeek(i)">
+                                              {{DcbAccNextWeek.value}}
+                                              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                          </mat-chip>
+                                          <input class="chip-input" placeholder="What do you want DCB staff to have completed?"
+                                                [matChipInputFor]="chipList2"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                [matChipInputAddOnBlur]="addOnBlur"
+                                                (matChipInputTokenEnd)="addDcbAccNextWeek($event)" />
+                                      </mat-chip-list>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <label>Sub Contractors Accomplishments This Week:</label>
+                                 
+                                  <div class= "chip-input-holder">
+                                    <mat-chip-list #chipList3>
+                                        <mat-chip *ngFor="let SubAccThisWeek of editForm.get('subAccThisWeek')['controls']; let i = index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="removeSubAccThisWeek(i)">
+                                            {{SubAccThisWeek.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+                                        <input class="chip-input" placeholder="What tasks did Sub Contractors staff get done this week?"
+                                              [matChipInputFor]="chipList3"
+                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                              [matChipInputAddOnBlur]="addOnBlur"
+                                              (matChipInputTokenEnd)="addSubAccThisWeek($event)" />
+                                    </mat-chip-list>
+                                  </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="row">
+                                 <div class="col-md-4">
+                                  <label>Sub Contractors Accomplishments Next Week:</label>
+                            
+                                  <div class= "chip-input-holder">
+                                    <mat-chip-list #chipList4>
+                                        <mat-chip *ngFor="let SubAccNextWeek of editForm.get('subAccNextWeek')['controls']; let i = index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="removeSubAccNextWeek(i)">
+                                            {{SubAccNextWeek.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+                                        <input class="chip-input" placeholder="What do you want Sub Contractors staff to have completed?"
+                                              [matChipInputFor]="chipList4"
+                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                              [matChipInputAddOnBlur]="addOnBlur"
+                                              (matChipInputTokenEnd)="addSubAccNextWeek($event)" />
+                                    </mat-chip-list>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                      <label>Consultants on Site This Week:</label>
+      
+                                      <div class= "chip-input-holder">
+                                        <mat-chip-list #chipList5>
+                                            <mat-chip *ngFor="let conSiteThisWeek of editForm.get('conSiteThisWeek')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeconSiteThisWeek(i)">
+                                                {{conSiteThisWeek.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="What consultants came on site this week?"
+                                                  [matChipInputFor]="chipList5"
+                                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                  [matChipInputAddOnBlur]="addOnBlur"
+                                                  (matChipInputTokenEnd)="addconSiteThisWeek($event)" />
+                                        </mat-chip-list>
+                                      </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Consultants Needed This Week:</label>
+                                    
+                                      <mat-chip-list #chipList6>
+                                          <mat-chip *ngFor="let conSiteNeedWeek of editForm.get('conSiteNeedWeek')['controls']; let i = index;" [selectable]="selectable"
+                                              [removable]="removable" (removed)="removeconSiteNeedWeek(i)">
+                                              {{conSiteNeedWeek.value}}
+                                              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                          </mat-chip>
+                                          <input class="chip-input" placeholder="Do you need anyone on site next week?"
+                                                [matChipInputFor]="chipList6"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                [matChipInputAddOnBlur]="addOnBlur"
+                                                (matChipInputTokenEnd)="addconSiteNeedWeek($event)" />
+                                      </mat-chip-list>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="row">
+                              <div class="col-md-4">
+                                <label>Requested Changes to the Project?</label>
+
+                                <div class= "chip-input-holder">
+                                  <mat-chip-list #chipList7>
+                                      <mat-chip *ngFor="let requestedChanges of editForm.get('requestedChanges')['controls']; let i = index;" [selectable]="selectable"
+                                          [removable]="removable" (removed)="removerequestedChanges(i)">
+                                          {{requestedChanges.value}}
+                                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                      </mat-chip>
+                                      <input class="chip-input" placeholder="Do you need anything varied?"
+                                            [matChipInputFor]="chipList7"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur"
+                                            (matChipInputTokenEnd)="addrequestedChanges($event)" />
+                                  </mat-chip-list>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <label>Clarification from Architect/Engineer</label>
+                               
+                                <div class= "chip-input-holder">
+                                  <mat-chip-list #chipList8>
+                                      <mat-chip *ngFor="let clarificationArchEng of editForm.get('clarificationArchEng')['controls']; let i = index;" [selectable]="selectable"
+                                          [removable]="removable" (removed)="removeclarificationArchEng(i)">
+                                          {{clarificationArchEng.value}}
+                                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                      </mat-chip>
+                                      <input class="chip-input" placeholder="Do you need information from the consultants?"
+                                            [matChipInputFor]="chipList8"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur"
+                                            (matChipInputTokenEnd)="addclarificationArchEng($event)" />
+                                  </mat-chip-list>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                  <label>Information Needed to Keep Things Moving:</label>
+                                  <div class= "chip-input-holder">
+                                    <mat-chip-list #chipList9>
+                                        <mat-chip *ngFor="let informationNeeded of editForm.get('informationNeeded')['controls']; let i = index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="removeinformationNeeded(i)">
+                                            {{informationNeeded.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+                                        <input class="chip-input" placeholder=""
+                                              [matChipInputFor]="chipList9"
+                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                              [matChipInputAddOnBlur]="addOnBlur"
+                                              (matChipInputTokenEnd)="addinformationNeeded($event)" />
+                                    </mat-chip-list>
+                                  </div>
+                              </div>
+                            </div> -->
+
+                            <!-- <div class ="row" formArrayName="customQuestion">
+                                <div class="col-md-12">
+                                  <label>Additional Questions:</label>
+                                </div>  
+                                
+                                <div class="col-md-3" *ngFor="let item of editForm.get('customQuestion')['controls']; let i = index;" [formGroupName]="i" >
+
+                                          <input [matAutocomplete]="autoPriceAdult" matInput placeholder="Custom Question" type="text" formControlName="custQuestion" class="input-custquestion">
+                                        
+                                          <mat-autocomplete #autoPriceAdult="matAutocomplete">
+                                                  <mat-option *ngFor="let option of customQuestions" [value]="option.question">
+                                                          {{option.question}}
+                                                  </mat-option>
+                                          </mat-autocomplete>
+                                          <input matInput placeholder="Answer" type="text" formControlName="custAnswer" class="input-custanswer">
+                                </div>
+                                <div class="col-md-12">
+                                  <button (click)= "addCustomQuestion()" mat-button class="btn dcb-btn">Add</button>
+                                  <button (click)= "removeLastCustomQuestion()" mat-button class="btn btn-remove-group">Remove</button>  
+                                </div>
+                          </div>  -->
+
+                            <!-- <div class ="row" formArrayName="imageUpload">
+                                    <div class="col-md-12">
+                                      <label>Photo</label>
+                                    </div>  
+                                    
+                                    <div class="col-md-3" *ngFor="let item of editForm.get('imageUpload')['controls']; let i = index;" [formGroupName]="i" >
+                                              <label>Caption</label>
+                                              <input matInput placeholder="Caption" type="text" formControlName="imageCaption">
+                    
+                                              <div class="fileinput fileinput-new text-center">
+                                                  <div class="fileinput-new thumbnail">
+                                                      <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!imageURL[i]">
+                                                      <img [src]="imageURL[i]" *ngIf="imageURL[i] && imageURL[i] !== ''">
+                                                  </div>
+                                                  <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                                  <div>
+                                                    {{ formatBytes(imageSize[i]) }}
+                                                  </div>
+                                                  <div>
+                                                      <span class="btn btn-change btn-file">
+                                                          <span class="fileinput-new">Select image</span>
+                                                          <span class="fileinput-exists">Change</span>
+                                                          <input accept="image/*" type="file" name="..."  (change)="onFileChange($event,i)"/>
+                                                      </span>
+                                                      
+                                                      <button (click)= "removeImageUpload(i)" mat-button class="btn btn-remove-img"><i class="fa fa-times"></i> Remove</button> 
+                                                   
+                                                  </div>
+                                            </div>
+                                  </div>
+                                  <div class="col-md-12">
+                                      <span class="btn dcb-btn btn-file">
+                                        <span class="fileinput-new">Add Multiple Images</span>
+                                        <input accept="image/*" type='file' (change)="onSelectFile($event)" multiple>
+                                    </span>
+                                  </div>
+                            </div>  -->
+                           
+                          </form>       
+                          <p style="font-style:italic; font-size:13px;margin-top:20px;">If the PDF doesn't appear after preview, please allow pop-ups in your browser's settings.</p>
+                      </div>
+                      <!-- <div class="card-footer">
+                        <div class="row">
+                          
+                        </div> -->
+                        
+                        
+                        <!-- <button (click)= "test()" mat-button class="btn btn-info">TEST</button> -->
+                        <!-- <button (click)= "saveStep1('default')()" mat-button class="btn dcb-btn btn-info">Save Daily Report</button> -->
+                        <!-- <button (click)= "submitForApproval()" mat-button class="btn dcb-btn">Submit For Approval</button> -->
+                          <!-- <div class="stats">
+                            <i class="material-icons">access_time</i> Modified last:&nbsp;<span style = "color:#000000">{{userNotes?.update_date_time}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;Modified by:&nbsp;<span style = "color:#000000">{{userNotes?.author}}</span>
+                          </div>
+                          <div class="stats">
+                            <a  href = "#" [routerLink]="'/notes'"><i style = "vertical-align: top" class="material-icons">access_time</i> View Version History</a>
+                         </div> -->
+                          <!-- <div class="stats">
+                            <i class="material-icons">access_time</i> Modified last: 25/10/2019  
+                          </div>
+                          <div class="stats">
+                            <i class="material-icons">access_time</i> Modified by: Sue de Graaf  
+                          </div> -->
+                      <!-- </div> -->
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+ <!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a style="color:#292929" download="image.jpg" href="{{imgSrc}}"><i class="material-icons">download</i>Download Image</a>
+        <!-- <h4 class="modal-title">Modal Header</h4> -->
+        <span #closebutton class="btn-span" data-dismiss="modal">Close</span>
+      </div>
+      <div class="modal-body">
+      <img
+      src="{{imgSrc}}"
+      style="max-width:100%;cursor:pointer"
+      class="modal-hover-opacity"
+    /> 
+      <span *ngIf="imgStampString">Uploaded at {{imgStampString}}</span>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- <p>Previously Updated By</p> -->

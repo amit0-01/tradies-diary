@@ -1,0 +1,85 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Images: {{logData.imageUpload}}</p>
+                <div class ="row">
+                        <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Caption</mat-label>
+                                        <input matInput placeholder="Caption" type="text" formControlName="passFirstName">
+                                </mat-form-field> -->
+                                <label>{{ item.imageCaption }}  </label>
+                                <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                        <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                        {{ formatBytes(item.imageSize) }}
+                                    </div>
+                                </div>
+                        </div>
+
+                </div> 
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="data.method=='update'">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Previous Images: {{prevData.imageUpload}}</p>
+                <!-- <div class ="row">
+                        <div class="col-md-6" *ngFor="let item of prevData.imageUpload" >
+                               
+                                <label>{{ item.imageCaption }}  </label>
+                                <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                        <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                        {{ formatBytes(item.imageSize) }}
+                                    </div>
+                                </div>
+                        </div>
+
+                </div>  -->
+            </div>
+            <div class="col-md-6">
+                <p>Current Images:  {{logData.imageUpload}}</p>
+                <!-- <div class ="row">
+                        <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                                <label>{{ item.imageCaption }}  </label>
+                                <div class="fileinput fileinput-new text-center">
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                        <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div>
+                                        {{ formatBytes(item.imageSize) }}
+                                    </div>
+                                </div>
+                        </div>
+
+                </div>  -->
+            </div>
+        </div>
+        <br>
+    </ng-container>
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

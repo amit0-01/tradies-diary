@@ -1,0 +1,17 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="editForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>ID</mat-label>
+                        <input matInput value="{{data.id}}" placeholder="ID" type="text" disabled>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Custom Question</mat-label>
+                        <input formControlName="question" id="question" placeholder="Custom Question" matInput  type="text">
+                </mat-form-field>
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button class = "btn dcb-btn" (click)="updateQuestion()" mat-button cdkFocusInitial  [disabled]="editForm.pristine">Update Custom Question</button>
+</div>

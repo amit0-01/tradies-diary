@@ -1,0 +1,76 @@
+<h1 mat-dialog-title>Update User</h1>
+<div mat-dialog-content>
+        <form [formGroup]="editForm">
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>ID</mat-label>
+                        <input matInput value="{{data.id}}" placeholder="ID" type="text" disabled>
+                </mat-form-field> -->
+                <br>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Email Address</mat-label>
+                        <input formControlName="userEmail" id="userEmail" placeholder="Email Address" matInput  type="text" disabled>
+                </mat-form-field>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>First Name</mat-label>
+                        <input formControlName="userFirstName" id="userFirstName" placeholder="First Name" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Last Name</mat-label>
+                        <input formControlName="userLastName" id="userLastName" placeholder="Last Name" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>User Role</mat-label>
+                        <mat-select formControlName="userRole" id="userRole" placeholder="User Role" name="pickupChoice">
+                                <mat-option *ngFor="let pickupChoice of pickupChoices" [value]="pickupChoice.value">
+                                {{ pickupChoice.viewValue }}
+                                </mat-option>
+                        </mat-select>
+                        <!-- <input matInput formControlName="fest_comp" id="fest_comp" placeholder="Company" type="text"> -->
+                </mat-form-field>
+                <mat-form-field *ngIf="editForm.get('userRole').value === 'project_worker' || editForm.get('userRole').value === 'project_supervisor'" class="mat-full-width" appearance="outline">
+                        <mat-label>Employee Number</mat-label>
+                        <input formControlName="userStaffNo" id="userStaffNo" placeholder="Employee Number" matInput  type="text">
+                </mat-form-field>
+                <!-- <div class="togglebutton">
+                        <label>
+                                <input type="checkbox" formControlName="userShowTime">
+                                <span class="toggle"></span>
+                                Add Time Shift
+                        </label>
+                </div> -->
+                <mat-form-field *ngIf="(editForm.get('userShowTime').value == true || editForm.get('userShowTime').value  == '1') && (editForm.get('userRole').value === 'project_worker' || editForm.get('userRole').value === 'project_supervisor')" class="mat-full-width" appearance="outline">
+                        <mat-label>Start</mat-label>
+                        <input  formControlName="userStart" matInput (click)="changeTimeDialog('start',editForm.get('userStart').value)"/>
+                        <!-- <input [ngxTimepicker]="startPicker" formControlName="start" id="start" placeholder="Start" matInput  type="text">
+                        <ngx-material-timepicker #startPicker [enableKeyboardInput]="true"></ngx-material-timepicker> -->
+                </mat-form-field>
+                <mat-form-field *ngIf="(editForm.get('userShowTime').value == true || editForm.get('userShowTime').value  == '1') && (editForm.get('userRole').value === 'project_worker' || editForm.get('userRole').value === 'project_supervisor')" class="mat-full-width" appearance="outline">
+                        <mat-label>Break</mat-label>
+                        <mat-select formControlName="userBreak" id="userBreak" placeholder="Break" name="break">
+                                <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                {{ breaktime.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> 
+                <mat-form-field *ngIf="(editForm.get('userShowTime').value == true || editForm.get('userShowTime').value  == '1') && (editForm.get('userRole').value === 'project_worker' || editForm.get('userRole').value === 'project_supervisor')" class="mat-full-width" appearance="outline">
+                        <mat-label>Finish</mat-label>
+                        <input  formControlName="userFinish" matInput (click)="changeTimeDialog('finish',editForm.get('userFinish').value)"/>
+                        <!-- <input [ngxTimepicker]="finishPicker" formControlName="finish" id="finish" placeholder="Finish" matInput  type="text">
+                        <ngx-material-timepicker #finishPicker></ngx-material-timepicker > -->
+                </mat-form-field> 
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Mobile Number</mat-label>
+                        <input formControlName="userMobile" id="userMobile" placeholder="Mobile Number" matInput  type="text">
+                </mat-form-field> 
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)"  
+                class = "btn dcb-btn"
+                (click)="updateUser()"
+                mat-button cdkFocusInitial  [disabled]="editForm.pristine">Update User</button>
+</div>

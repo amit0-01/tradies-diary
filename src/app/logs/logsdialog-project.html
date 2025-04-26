@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p>First Name : {{logData.projectName}}</p>
+                <p>Client Name : {{logData.clientName}}</p>
+                <p>Job Number : {{logData.jobNumber}}</p>
+                <p>Project Address : {{logData.projectAddress}}</p>
+                <p>Country Code : {{logData.countryCode}}</p>
+                <p>Zip Code : {{logData.zipcode}}</p>
+                <p>Project Status : {{logData.projectStatus}}</p>
+                <p>Project Owner : {{logData.projectOwner}}</p>
+                <p>Project Worker : {{logData.projectWorker}}</p>
+                <p>PDF Background : {{logData.bgName}}</p>
+                <p>Site Supervisor : {{logData.siteSupervisor}}</p>
+                <p>Aimed Completion Date : {{logData.aimedComDate}}</p>
+                <p>Lost Total Days : {{logData.lostTotalDays}}</p>
+                <p>Lost Total Hours : {{logData.lostTotalHours}}</p>
+                <p>Client Email : {{logData.clientEmail}}</p>
+                <p>Client Email (CC) : {{logData.clientEmailCC}}</p>
+                <p>Client Email (BCC) : {{logData.clientEmailBCC}}</p>
+                <p>Direct Folder Email : {{logData.directFolderEmail}}</p>
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+    </ng-container>
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

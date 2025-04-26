@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Add New Visitor</h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Visitor Name</label>
+                                <input formControlName="visitorName" id="visitorName" placeholder="Name" matInput  type="text">
+                        </div>
+                </div>                
+                <!-- <br/>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Visitor Name</mat-label>
+                        <input formControlName="visitorName" id="visitorName" placeholder="Name" matInput  type="text">
+                </mat-form-field>    -->
+        </form>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button  (click)= "addNewVisitor()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add Visitor to Global List</button>
+</div>

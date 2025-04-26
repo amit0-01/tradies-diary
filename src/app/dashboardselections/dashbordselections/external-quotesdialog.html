@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>External Quotes</h1>
+<div mat-dialog-content>
+        <!-- <form [formGroup]="addFestForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>New Unit of Measurement</label>
+                                <input formControlName="uom" id="uom" placeholder="UOM" matInput  type="text">
+                        </div>
+                </div> 
+        </form>  -->
+
+        <div class="pdf-container">
+                <a [href]="pdfSrc" target ="_blank"  *ngFor="let pdfSrc of pdfSrcs; index as i">
+                        <div class="pdf-holder">
+                        
+                                        <pdf-viewer
+                                        [src]="pdfSrc"
+                                        [rotation]="0"
+                                        [original-size]="false"
+                                        [show-all]="false"
+                                        [fit-to-page]="false"
+                                        [zoom]="1"
+                                        [zoom-scale]="'page-width'"
+                                        [stick-to-page]="false"
+                                        [render-text]="false"
+                                        [external-link-target]="'blank'"
+                                        [autoresize]="true"
+                                        [show-borders]="true"
+                                        style="width: 220px;height: 300px;;"
+                                        ></pdf-viewer>
+                                        <div class="overlay">
+                                                <a [href]="pdfSrc" target ="_blank" class="icon" title="User Profile">
+                                                <i class="fa fa-search"></i>
+                                                </a>
+                                        </div>
+                                
+                        </div>
+                </a>
+        </div>
+
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <!-- <button  (click)= "addNewUom()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add UOM to Global List</button> -->
+</div>

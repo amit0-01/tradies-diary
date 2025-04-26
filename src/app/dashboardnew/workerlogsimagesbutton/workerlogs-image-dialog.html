@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Uploaded Images</h1>
+<div mat-dialog-content>
+    <div class="row">
+          <div class="col-md-3" *ngFor="let imageUpload of imageUploads">
+                <div class="card card-product">
+                    <div class="card-header card-header-image" data-header-animation="false">
+                          <img style = "width: 100%;" class="img" [src]="imageUpload.imageFile">
+                    </div>
+                    <div class="card-body">
+                          <h4 class="card-title">{{imageUpload.imageCaption}}</h4> 
+                    </div>  
+                    <div class="card-footer">
+                        <div class="stats">
+                          <span>Image Size: {{formatBytes(imageUpload.imageSize)}}</span>
+                        </div>
+                    </div>      
+                </div>
+          </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

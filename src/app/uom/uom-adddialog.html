@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Add New Unit of Measurement</h1>
+<div mat-dialog-content class="table-pop">
+        <form [formGroup]="addFestForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Unit of Measurement</label>
+                                <input formControlName="uom" id="uom" placeholder="Unit of Measurement" matInput  type="text">
+                        </div>
+                </div> 
+        </form>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button  
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        (click)= "createFBUom()" 
+        class = "btn dcb-btn" 
+        mat-button cdkFocusInitial 
+        [disabled]="!addFestForm.valid">Add UOM</button>
+</div>

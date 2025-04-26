@@ -1,0 +1,34 @@
+
+<div class="main-content dashboard-content dailyproject-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-12">
+                <div class="card card-dcb dashboard-card">
+                      <div class="card-header card-header-text card-header-success">
+                      </div>
+                      <div class="card-body compact-layout compact-layout-common">
+                            <form [formGroup]="editForm"  class="dcb-form">  
+                                <div class="row">
+                                    <div class="col-md-3 col-lg-2">
+                                        <label  style = "border-color:#292929;font-weight:bold">Project *</label>
+                                         <mat-select style = "border-color:#292929" (selectionChange)="projectSelect()" formControlName="projectId" id="projectId" placeholder="Select Project" name="projectId"  #singleSelect>
+                                                        <mat-option>
+                                                                <ngx-mat-select-search 
+                                                                        [formControl]="search_control_project"
+                                                                        placeholderLabel="Search..."
+                                                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                        </mat-option>
+                                                        <mat-option *ngFor="let projectName of projectDataService.filter_list_projects | async" [value]="projectName.id">
+                                                            {{ projectName.projectName }}
+                                                        </mat-option>
+                                                </mat-select>
+                                    </div>
+                                </div>
+                            </form>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+               

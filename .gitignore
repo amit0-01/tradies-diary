@@ -1,0 +1,8 @@
+/.angular/cache
+node_modules
+dist
+.firebase/hosting.ZGlzdFxkZW1v.cache
+*.cache
+*.cache
+src/serviceAccount.json
+

@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+            <div class="row">
+                <div class="col-md-12">
+                    <p *ngIf="logData.userName">Username : {{logData.userName}}</p>
+                    <p>First Name : {{logData.firstName}}</p>
+                    <p>Last Name : {{logData.lastName}}</p>
+                    <p>Email : {{logData.email}}</p>
+                    <p>Role : {{logData.role}}</p>
+                    <p>Employee No. : {{logData.staffNo}}</p>
+                </div>
+            </div>
+            <br>
+    </ng-container>
+    <ng-container *ngIf="data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+    </ng-container>
+  
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

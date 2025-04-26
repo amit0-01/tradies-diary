@@ -1,0 +1,205 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-12">
+                <div class="card card-dcb dashboard-card  compact-layout compact-layout-common">
+                        <div class="card-body">
+                            <div class = "row">
+                                <div class="col-md-12">
+                                    <h1>Selections for {{projectData?.projectName}}</h1>
+                                </div>
+                                  <!-- MAT SELECT FOR PROJECTS START -->
+                                  <div class="col-md-3 col-lg-2">
+                                    <form [formGroup]="editForm">
+                                    <label  style = "border-color:#292929;font-weight:bold">Change Project *</label>
+                                     <mat-select style = "border-color:#292929" (selectionChange)="projectSelect($event)" formControlName="projectId" id="projectId" placeholder="Select Project" name="projectId"  #singleSelect>
+                                                    <mat-option>
+                                                            <ngx-mat-select-search 
+                                                                    [formControl]="search_control_project"
+                                                                    placeholderLabel="Search..."
+                                                                    noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let projectName of projectDataService.filter_list_projects | async" [value]="projectName.id">
+                                                        {{ projectName.projectName }}
+                                                    </mat-option>
+                                    </mat-select>
+                                </form>
+                                </div>
+                                <!-- MAT SELECT FOR PROJECTS END -->
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button mat-button 
+                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                        (mouseenter)="onButtonEnter($event.target)" 
+                                        (mouseleave)="onButtonOut($event.target)" 
+                                        class="btn dcb-btn"
+                                        [routerLink]="['/selections/project/'+passID.id+'/create']">Add New Selection
+                                    </button> 
+                                </div>
+                                 
+                                <!-- SEARCH FILTER BY NAME -->
+
+                                <!-- <div class="col">
+                                    <div class="holder-filter-by"> 
+                                        <label><i class="material-icons">filter_alt</i> Filter by Name</label>
+                                        <input matInput placeholder="Enter Name" formControlName="nameFilter" (input)="searchByNameFilterSelection($event)">
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="col">
+                                    <form [formGroup]="filterSelectionsForm" class="dcb-form" style="justify-content: flex-end;display: flex;">
+                                        <div class="filter-holder w-100">
+                                               
+                                                    <div class="holder-filter-by fliter_tab"> 
+                                                        <label><i class="material-icons">filter_alt</i> Filter by</label>
+                                                        <mat-select placeholder="Select Filter Type" [(value)]="selected" name="searchChoice" #singleSelect>
+                                                            <mat-option (click)="filterSelectionsForm.reset()"
+                                                                *ngFor="let searchChoice of searchChoices"
+                                                                [value]="searchChoice.value">
+                                                                {{ searchChoice.viewValue }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </div>
+    
+                                                    <div class="holder-filter-with fliter_tab">
+                                                        
+                                                        <ng-container *ngIf="selected; else notShow">
+
+                                                            <label *ngIf="selected == 'status'"><i class="material-icons">filter_alt</i>Select Status</label>
+                                                            <mat-select *ngIf="selected == 'status'" (selectionChange)="filterSelections()" formControlName="status" id="status" name="status">
+                                                                    <mat-option *ngFor="let _varStatus of varStatus" [value]="_varStatus.value">
+                                                                    {{ _varStatus.viewValue }}
+                                                                    </mat-option>
+                                                            </mat-select>
+
+                                                            <label *ngIf="selected == 'due_date'"><i class="material-icons">filter_alt</i>Enter Date</label>
+                                                            <ng-container  *ngIf="selected == 'due_date'">
+                                                                <input (dateChange)="filterSelections()" matInput [matDatepicker]="pickerflight"
+                                                                placeholder="Enter Due Date (dd/mm/yyyy)" (click)="pickerflight.open()" formControlName="dueDate">
+                                                                <mat-datepicker-toggle matSuffix [for]="pickerflight"  style = "display: none;">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #pickerflight></mat-datepicker>
+                                                            </ng-container>
+
+        
+                                                        </ng-container>
+    
+                                                        <ng-template #notShow>
+    
+                                                            <label><i class="material-icons">filter_alt</i> Select Value</label>
+                                                            <input matInput placeholder="Select Filter Type first" type="text" disabled>
+    
+                                                        </ng-template>
+    
+                                                    </div>
+
+                                                    <div class="holder-filter-by fliter_tab"> 
+                                                        <label><i class="material-icons">filter_alt</i> Filter by Name</label>
+                                                        <app-search [Data]="Data" (searchResults)="onSearchResults($event)"></app-search>
+                                                    </div>
+    
+    
+    
+                                                    <button 
+                                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                        (mouseenter)="onButtonEnter($event.target)" 
+                                                        (mouseleave)="onButtonOut($event.target)" 
+                                                        (click)="reset()" 
+                                                        mat-button class="btn dcb-btn  btn-compact">
+                                                        Reset
+                                                    </button>
+    
+                                        </div>
+                                    </form>
+                                </div> -->
+                            </div>
+                            
+                            <div class = "row">
+                                <div class="col-md-12 table">
+                    
+                                        <!-- <ng2-smart-table [settings]="selectionSettings" [source]="source"></ng2-smart-table> -->
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="DataTables_Table_0" class="row-border hover"></table>
+
+                                   
+                                </div>
+                                <!-- <div class="w-100 d-flex justify-content-center">
+                                    <button 
+                                    *ngIf="!loading" 
+                                    (click)="getAllSelections()" 
+                                    [disabled]="disable_next" 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)"  
+                                    class="btn dcb-btn btn-sm float-right btn-compact">
+                                    Load more
+                                  </button>      
+                                  <h1 *ngIf="loading">Loading...</h1>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- <div class="card-footer pb-4">
+                           
+                            <span class="btn-span" routerLink="/selections/">Back</span>
+                            <div class="text-center" *ngIf="listmode == 'default'">
+                                <button
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)"  
+                                    class="btn dcb-btn btn-sm float-left btn-compact" 
+                                    (click)="prevPage()"
+                                    [disabled]="disable_prev || !(pagination_clicked_count>0)">Previous</button> 
+                                <span class="page-num-indicator">Page no: {{pagination_clicked_count+1}}</span>
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)"  
+                                    class="btn dcb-btn btn-sm float-right btn-compact" 
+                                    (click)="nextPage()" 
+                                    [disabled]="disable_next">Next</button>
+                            </div>
+                            
+                            <div class="text-center" *ngIf="listmode == 'filter-status'">
+                                <button
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    class="btn dcb-btn btn-sm float-left btn-compact" 
+                                    (click)="prevPageFilterStatus()"
+                                    [disabled]="disable_prev || !(pagination_clicked_count>0)">Previous</button>
+                                <span class="page-num-indicator">Page no: {{pagination_clicked_count+1}}</span>
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)"
+                                    class="btn dcb-btn btn-sm float-right btn-compact" 
+                                    (click)="nextPageFilterStatus()"
+                                    [disabled]="disable_next">Next</button>
+                            </div>
+
+                            <div class="text-center" *ngIf="listmode == 'filter-duedate'">
+                                <button
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    class="btn dcb-btn btn-sm float-left btn-compact" 
+                                    (click)="prevPageFilterDueDate()"
+                                    [disabled]="disable_prev || !(pagination_clicked_count>0)">Previous</button> 
+                                <span class="page-num-indicator">Page no: {{pagination_clicked_count+1}}</span>
+                                <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)"
+                                    class="btn dcb-btn btn-sm float-right btn-compact"
+                                    (click)="nextPageFilterDueDate()"
+                                    [disabled]="disable_next">Next</button>
+                            </div>
+                            <span class="btn-span">&nbsp;</span>
+                        </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   
+

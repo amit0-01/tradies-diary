@@ -1,0 +1,21 @@
+
+<div class="wrapper diary-app">
+    <div class="sidebar" data-image="./assets/img/sidebar-1.jpg">
+        <app-sidebar-cmp></app-sidebar-cmp>
+        <div class="sidebar-background" style="background-image: url(assets/img/sidebar-1.jpg)"></div>
+
+        
+    </div>
+    <div class="main-panel">
+        <app-navbar-cmp></app-navbar-cmp>
+        <router-outlet></router-outlet>
+        <div *ngIf="!isMap()">
+            <app-footer-cmp></app-footer-cmp>
+        </div>
+        <span style="cursor:pointer;margin-left:10px;font-size:15px;" (dblclick)= "gotoChangelog()">version 3.6.0</span>
+        <button *ngIf="showtop == true" id="btn-top" (click)="scrollToTop()"><i class="material-icons">arrow_upward</i></button>
+        <button  *ngIf="showbottom == true" id="btn-top" (click)="scrollToBottom()"><i class="material-icons">arrow_downward</i></button>
+    </div>
+   
+    <!-- <app-fixedplugin></app-fixedplugin> -->
+</div>

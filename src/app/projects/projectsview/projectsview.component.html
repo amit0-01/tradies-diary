@@ -1,0 +1,473 @@
+<div class="main-content dashboard-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-dcb dashboard-card">
+          <div class="card-header card-header-text card-header-success">
+          </div>
+          <div class="card-body compact-layout compact-layout-common">
+            <form [formGroup]="editForm" class="dcb-form" [ngClass]="{'form-submitted': formSubmitted}">
+
+              <div class="row">
+                <div class="col-md-5">
+                      <div class="fileinput fileinput-new text-center">
+                            <div class="fileinput-new thumbnail" style = "max-width: 500px;">
+                                <img src="./assets/img/image_placeholder.jpg" alt="..." *ngIf="!imageURL">
+                                <img [src]="imageURL" *ngIf="imageURL && imageURL !== ''">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                            <div>
+                              {{ formatBytes(imageSize) }}
+                            </div>
+                            <!-- <div>
+                                <span class="btn btn-change btn-file">
+                                    <span class="fileinput-new">Select image</span>
+                                    <span class="fileinput-exists">Change</span>
+                                    <input accept="image/*" type="file" name="..."  (change)="onFileChange($event)"/>
+                                </span>
+                            </div> -->
+                      </div>
+                  <!-- <button (click)= "addImageUpload()" mat-button class="btn btn-info">Add</button> -->
+                  <!-- <button (click)= "removeLastImageUpload()" mat-button class="btn btn-remove-group">Remove</button>   -->
+                </div>
+
+                <div class="col-md-7">
+                    <div class="row">
+
+                        <div class="col-lg-5 col-md-7">
+                          <label>Project Name</label>
+                          {{ projectData?.projectName }}
+                          <!-- <input formControlName="projectName" id="projectName" placeholder="Project Name" matInput type="text"> -->
+                        </div>
+
+                        <!-- <div class="col-lg-3 col-md-4">
+                          <label>Project Status *</label>
+                          <mat-select formControlName="projectStatus" id="projectStatus" placeholder="Project Status"
+                            name="projectStatus">
+                            <mat-option *ngFor="let StatusOption of statusOption" [value]="StatusOption.value">
+                              {{ StatusOption.viewValue }}
+                            </mat-option>
+                          </mat-select>
+                        </div> -->
+
+                        <div class="col-lg-3 col-md-6">
+                          <label>Job Number</label>
+                          {{ projectData?.jobNumber }}
+                          <!-- <input formControlName="jobNumber" id="jobNumber" placeholder="Job Number" matInput type="text"> -->
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                          <label>Client Name/s</label>
+                          {{ projectData?.clientName }}
+                          <!-- <input formControlName="clientName" id="clientName" placeholder="Client Name" matInput  type="text"> -->
+                          <!-- <tag-input id="clientName" formControlName="clientName" [editable]="true" placeholder="Client Name"
+                            secondaryPlaceholder="Client Name" [modelAsStrings]="true" addOnBlur="true">
+                          </tag-input> -->
+                        </div>
+
+                        <div class="col-md-8">
+                          <label>Project Address</label>
+                          {{ projectData?.projectAddress }}
+                          <!-- <input  class = "hide-me" formControlName="projectAddress" id="projectAddress" placeholder="Project Address" matInput
+                            type="text">
+                            <input class = "hide-me" formControlName="latitude" id="latitude" placeholder="Latitude" matInput
+                            type="text">
+                            <input class = "hide-me" formControlName="longitude" id="longitude" placeholder="Longitude" matInput
+                            type="text">
+                              <input matInput 
+                              [value]= "editForm.get('projectAddress').value"
+                              matGoogleMapsAutocomplete
+                              (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                              (onLocationSelected)="onLocationSelected($event)"> -->
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                          <label>Site Supervisor</label>
+                          {{  supervisorName }}
+                          <!-- <mat-select formControlName="siteSupervisor" id="siteSupervisor" placeholder="Who's running the show?"
+                            name="siteSupervisor" #singleSelect>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_supervisor"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let siteSupervisor of filter_list_supervisors | async" [value]="siteSupervisor.id">
+                              {{ siteSupervisor.name }}
+                            </mat-option>
+                          </mat-select> -->
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                          <label>Project Owner/s</label>
+                          <div *ngFor="let item of setProjectOwners">
+                            {{ item.name }} 
+                         </div>
+                          <!-- <mat-select [formControl]="projectOwnerControl" placeholder="Project Owner" multiple #multiSelect>
+                            <mat-select-trigger>
+                              <mat-chip-set>
+                                <mat-chip *ngFor="let topping of projectOwnerControl.value;  index as i" [removable]="true"
+                                  (removed)="onToppingRemoved(topping, i)">
+                                  {{ topping?.name }}
+                                  <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-set>
+                            </mat-select-trigger>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_owner"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option (onSelectionChange)="ownerSelectChange($event)" *ngFor="let topping of  filter_list_owners | async"  [value]="topping">{{topping.name}}</mat-option>
+                          </mat-select> -->
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                          <label>Project Worker/s</label>
+                          <div *ngFor="let item of setProjectWorkers">
+                            {{ item.name }} 
+                         </div>
+                          <!-- <mat-select [formControl]="projectWorkerControl" placeholder="Project Worker" multiple #multiSelect>
+        
+                            <mat-select-trigger>
+                              <mat-chip-set>
+                                <mat-chip *ngFor="let topping2 of projectWorkerControl.value; index as i" [removable]="true"
+                                  (removed)="onToppingRemoved2(i)">
+                                  {{ topping2.name }}
+                                  <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-set>
+                            </mat-select-trigger>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_worker"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let topping2 of filter_list_workers | async" [value]="topping2">{{topping2.name}}
+                            </mat-option>
+                          </mat-select> -->
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                          <label>Alt Supervisor/s</label>
+                          <div *ngFor="let item of setAltSupervisors">
+                            {{ item.name }} 
+                         </div>
+
+                          <!-- <mat-select [formControl]="altSupervisorControl" placeholder="Alt Supervisors" multiple #multiSelect>
+        
+                            <mat-select-trigger>
+                              <mat-chip-set>
+                                <mat-chip *ngFor="let topping3 of altSupervisorControl.value; index as i" [removable]="true"
+                                  (removed)="onToppingRemoved3(i)">
+                                  {{ topping3.name }}
+                                  <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                              </mat-chip-set>
+                            </mat-select-trigger>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_worker"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let topping3 of filter_list_altsupervisors | async" [value]="topping3">{{topping3.name}}
+                            </mat-option>
+                          </mat-select> -->
+                        </div>
+
+                        
+
+                        <!-- <div class="col-lg-4 col-md-6">
+                          <label>Country *</label>
+                          <mat-select formControlName="countryCode" id="countryCode" placeholder="Country" name="countryCode" #singleSelect>
+                            <mat-option>
+                              <ngx-mat-select-search 
+                                [formControl]="search_control_country"
+                                placeholderLabel="Search..."
+                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let country of filter_list_countries | async" [value]="country.code">
+                              {{ country.name }}
+                            </mat-option>
+                          </mat-select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                          <label>Zip Code *</label>
+                          <input formControlName="zipcode" id="zipcode" placeholder="Zip Code" matInput type="text">
+                        </div> -->
+
+                        
+
+                        <!-- <div class="col-md-4">
+                            <label>Alt Supervisor</label>
+                            <mat-select formControlName="altSupervisor" id="altSupervisor" placeholder="Who's the relief supervisor?"
+                              name="altSupervisor" #singleSelect>
+                              
+                              <mat-option>
+                                <ngx-mat-select-search 
+                                  [formControl]="search_control_altsupervisor"
+                                  placeholderLabel="Search..."
+                                  noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                              </mat-option>
+                              <mat-option [value]="0">None</mat-option>
+                              <mat-option *ngFor="let altSupervisor of filter_list_altsupervisors | async" [value]="altSupervisor.id">
+                                {{ altSupervisor.name }}
+                              </mat-option>
+                            </mat-select>
+                        </div> -->
+
+                        
+
+
+                        <div class="col-lg-4 col-md-6">
+                          <label>Expected Completion Date</label>
+                          {{ projectData?.aimedComDate.toDate() | date:'dd/MM/yyyy' }}
+                          <!-- <input matInput [matDatepicker]="picker3" placeholder="Expected Completion Date" type="text"
+                            formControlName="aimedComDate" id="aimedComDate" (click)="picker3.open()">
+                          <mat-datepicker-toggle matSuffix [for]="picker3" style="display: none;"></mat-datepicker-toggle>
+                          <mat-datepicker #picker3></mat-datepicker> -->
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                          <label>Total Days Lost to Date on the Project</label>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <!-- <input (input)="addLostDaysHrs()" placeholder="Days" type="number" formControlName="lostTotalDays"
+                                id="lostTotalDays">days -->
+                                {{ projectData?.lostTotalDays }} days
+                            </div>
+                            <div class="col-md-6">
+                              <!-- <input (input)="addLostDaysHrs()" placeholder="Hours" type="number"
+                                formControlName="lostTotalHours" id="lostTotalHours">hours -->
+                                {{ projectData?.lostTotalHours }} hours
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- <div class="col-lg-4 col-md-6">
+                          <label>Adjusted Completion Date</label>
+                          <input placeholder="" type="text" value="{{adjustedDate}}" disabled>
+                          (dd/mm/yyyy)
+                        </div> -->
+                          <!-- <input matInput [matDatepicker]="picker3" placeholder="When do you aim to complete the task" type="text" formControlName="aimedComDate"
+                                      id="aimedComDate" (click)="picker3.open()">
+                                      <mat-datepicker-toggle matSuffix [for]="picker3" style = "display: none;"></mat-datepicker-toggle>
+                                      <mat-datepicker #picker3></mat-datepicker> -->
+                    </div>
+                </div>
+
+              </div>
+
+
+              <!-- <mat-form-field class="example-full-width" appearance="outline">
+                         <label>Client Email Address</label> 
+                        <input formControlName="clientEmail" id="clientEmail" placeholder="Client Email Address" matInput  type="text">
+                </mat-form-field> -->
+
+              <div class="row">
+
+                <div class="col-md-6">
+                  <label>Client Email Addresses</label>
+                  <div *ngFor="let item of projectData?.clientEmail">
+                    {{ item }} 
+                 </div>
+                  <!-- <tag-input id="clientEmail" formControlName="clientEmail" [editable]="true" placeholder="Client Email"
+                  secondaryPlaceholder="Client Email" [modelAsStrings]="true" addOnBlur="true">
+                </tag-input> -->
+                  <!-- <div class="chip-input-holder">
+                    <mat-chip-grid #chipList>
+                      <mat-chip *ngFor="let ClientEmail of editForm.get('clientEmail')['controls']; let i = index;"
+                       [removable]="removable" (removed)="removeClientEmail(i)">
+                        {{ClientEmail.value}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input class="chip-input" placeholder="Client Email Addresses" [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="addClientEmail($event)" />
+                    </mat-chip-grid>
+                  </div> -->
+                </div>
+                <div class="col-md-6">
+                  <label>Client Email Addresses (CC)</label>
+                  <div *ngFor="let item of projectData?.clientEmailCC">
+                    {{ item }} 
+                 </div>
+                  <!-- <tag-input id="clientEmailCC" formControlName="clientEmailCC" [editable]="true" placeholder="Client Email Addresses (CC)"
+                  secondaryPlaceholder="Client Email Addresses (CC)" [modelAsStrings]="true" addOnBlur="true">
+                </tag-input> -->
+                  <!-- <div class="chip-input-holder">
+                    <mat-chip-grid #chipList2>
+                      <mat-chip *ngFor="let ClientEmailCC of editForm.get('clientEmailCC')['controls']; let i = index;"
+                       [removable]="removable" (removed)="removeClientEmailCC(i)">
+                        {{ClientEmailCC.value}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input class="chip-input" placeholder="Client Email Addresses (CC)" [matChipInputFor]="chipList2"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="addClientEmailCC($event)" />
+                    </mat-chip-grid>
+                  </div> -->
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-6">
+                  <label>Client Email Addresses (BCC)</label>
+                  <div *ngFor="let item of projectData?.clientEmailBCC">
+                    {{ item }} 
+                 </div>
+                  <!-- <tag-input id="clientEmailBCC" formControlName="clientEmailBCC" [editable]="true" placeholder="Client Email Addresses (BCC)"
+                  secondaryPlaceholder="Client Email Addresses (BCC)" [modelAsStrings]="true" addOnBlur="true">
+                </tag-input> -->
+                  <!-- <div class="chip-input-holder">
+                    <mat-chip-grid #chipList3>
+                      <mat-chip
+                        *ngFor="let ClientEmailBCC of editForm.get('clientEmailBCC')['controls']; let i = index;"
+                       [removable]="removable" (removed)="removeClientEmailBCC(i)">
+                        {{ClientEmailBCC.value}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input class="chip-input" placeholder="Client Email Addresses (BCC)" [matChipInputFor]="chipList3"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="addClientEmailBCC($event)" />
+                    </mat-chip-grid>
+                  </div> -->
+                </div>
+                <div class="col-md-6">
+                  <label>Direct Folder Email</label>
+                  <div *ngFor="let item of projectData?.directFolderEmail">
+                    {{ item }} 
+                 </div>
+                  <!-- <tag-input id="directFolderEmail" formControlName="directFolderEmail" [editable]="true" placeholder="Direct Folder Email"
+                  secondaryPlaceholder="Direct Folder Email" [modelAsStrings]="true" addOnBlur="true">
+                </tag-input> -->
+                  <!-- <div class="chip-input-holder">
+                    <mat-chip-grid #chipList4>
+                      <mat-chip
+                        *ngFor="let DirectFolderEmail of editForm.get('directFolderEmail')['controls']; let i = index;"
+                         [removable]="removable" (removed)="removeDirectFolderEmail(i)">
+                        {{DirectFolderEmail.value}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input class="chip-input" placeholder="Direct Folder Email" [matChipInputFor]="chipList4"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="addDirectFolderEmail($event)" />
+                    </mat-chip-grid>
+                  </div> -->
+                </div>
+              </div>
+
+              <div class="row" style="opacity:0;height:0;z-index:0;">
+                <div class="col-md-12">
+                  <label>Background Photo for PDF</label>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="fileinput fileinput-new text-center project-bg-selection">
+                    <div class="fileinput-new thumbnail">
+                      <img [src]="selectedBG">
+                      <!-- <img [src]="imageURL" *ngIf="imageURL && imageURL !== ''"> -->
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                    <!-- <div>
+                                        {{ formatBytes(imageSize) }}
+                                      </div>
+                                      <div>
+                                          <span class="btn btn-change btn-file">
+                                              <span class="fileinput-new">Select image</span>
+                                              <span class="fileinput-exists">Change</span>
+                                              <input type="file" name="..."  (change)="onFileChange($event)" />
+                                          </span>
+                                          <a href="/images/background.psd" download="background.psd" mat-button class="btn btn-remove-img"> Download PSD </a>  -->
+                    <!-- <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
+                    <!-- <button (click)= "removeImageUpload(i)" mat-button class="btn btn-remove-img"><i class="fa fa-times"></i> Remove</button>  -->
+                    <!-- <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a> -->
+                    <!-- </div> -->
+
+                    <label>Background Image for Project PDF</label>
+                    <mat-select (selectionChange)="bgSelect($event.value)" formControlName="bgName" id="bgName"
+                      placeholder="Project Background" name="bgName">
+                      <mat-option *ngFor="let projectBackground of projectBackgrounds"
+                        [value]="projectBackground.value">
+                        {{ projectBackground.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <div class="col-md-9 text-right">
+                  <div class="fileinput fileinput-new project-bg-choices">
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf">
+                      Default Background
+                    </div>
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf2">
+                      Background 2
+                    </div>
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf3">
+                      Background 3
+                    </div>
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf4">
+                      Background 4
+                    </div>
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf5">
+                      Background 5
+                    </div>
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf6">
+                      Background 6
+                    </div>
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf7">
+                      Background 7
+                    </div>
+                    <div class="fileinput-new thumbnail margin-5">
+                      <img [src]="pdfImage.bgpdf8">
+                      Background 8
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </form>
+
+
+
+          </div>
+          <div class="card-footer">
+            <!-- <button *ngIf = "projectStatus == 'active'" (click)="saveStep1()" class="btn dcb-btn" mat-button cdkFocusInitial>Update Project</button> -->
+            <!-- <button *ngIf = "projectStatus == 'active'" class="btn dcb-btn" (click)="modalArchiveProject()" mat-button cdkFocusInitial>Archive Project</button> -->
+            <!-- <button *ngIf = "projectStatus == 'complete'" class="btn dcb-btn" (click)="modalUnArchiveProject()" mat-button cdkFocusInitial>Unarchive Project</button> -->
+            <!-- <button (click)= "generatePdf()" mat-button class="btn dcb-btn btn-primary">Preview PDF</button> -->
+            <!-- <button (click)= "test()" mat-button class="btn btn-info">TEST</button> -->
+            <!-- <button (click)= "addReport()" mat-button class="btn dcb-btn btn-primary">Save Report</button> -->
+            <!-- <button (click)= "submitForApproval()" mat-button class="btn dcb-btn btn-primary">Submit For Approval</button> -->
+            <!-- <div class="stats">
+      <i class="material-icons">access_time</i> Modified last:&nbsp;<span style = "color:#000000">{{userNotes?.update_date_time}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;Modified by:&nbsp;<span style = "color:#000000">{{userNotes?.author}}</span>
+    </div>
+    <div class="stats">
+      <a  href = "#" [routerLink]="'/notes'"><i style = "vertical-align: top" class="material-icons">access_time</i> View Version History</a>
+   </div> -->
+            <!-- <div class="stats">
+      <i class="material-icons">access_time</i> Modified last: 25/10/2019  
+    </div>
+    <div class="stats">
+      <i class="material-icons">access_time</i> Modified by: Sue de Graaf  
+    </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+  
+        <!-- <button  (click)= "addMultipleTrades()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="projectTradeControl.value == ''">Add Trades</button>
+        <button mat-button (click)="onNoClick()">Cancel</button> -->
+
+
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Trades</mat-label>
+                        <mat-select [formControl]="projectTradeControl" placeholder="Trades" multiple #multiSelect>
+
+                                <mat-select-trigger>
+                                  <mat-chip-list>
+                                    <mat-chip *ngFor="let topping2 of projectTradeControl.value; index as i" [removable]="true"
+                                      (removed)="onToppingRemoved2(i)">
+                                      {{ topping2.name }}
+                                      <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                  </mat-chip-list>
+                                </mat-select-trigger>
+  
+                                <mat-option>
+                                  <ngx-mat-select-search 
+                                    [formControl]="search_control_trade"
+                                    placeholderLabel="Search..."
+                                    noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let topping2 of filter_list_trades | async" [value]="topping2">{{topping2.name}}
+                                </mat-option>
+  
+                        </mat-select>
+
+                </mat-form-field>    -->
+                <timepicker [(ngModel)]="mytime" [showMeridian]="true"></timepicker>
+ 
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button 
+      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+      (mouseenter)="onButtonEnter($event.target)" 
+      (mouseleave)="onButtonOut($event.target)"   
+      (click)= "setTime()" 
+      class = "btn dcb-btn" 
+      mat-button cdkFocusInitial>Set</button>
+</div>

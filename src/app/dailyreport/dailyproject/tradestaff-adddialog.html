@@ -1,0 +1,47 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <input formControlName="staffID" id="staffID" type="hidden">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Trade Staff Name</mat-label>
+                        <input formControlName="staffName" id="staffName" placeholder="Trade Staff Name" matInput  type="text">
+                </mat-form-field>  
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Trade Staff Phone</mat-label>
+                        <input formControlName="phone" id="phone" placeholder="Phone" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Trade Category</mat-label>
+                        <mat-select formControlName="tradecategory" id="tradecategory" placeholder="Trade Category" name="tradecategory">
+                                <mat-option (click)="openAddTradeCategoryDialog()">-- Add New Trade Category --</mat-option>
+                                <mat-option *ngFor="let listCategory of listCategories" [value]="listCategory.id">
+                                {{ listCategory.trade_category }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> -->
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Start</mat-label>
+                        <input  matInput formControlName="start" (click)="changeTimeDialog('start',addFestForm.get('start').value)"/>
+                        <!-- <input [ngxTimepicker]="startPicker" formControlName="start" id="start" placeholder="Start" matInput  type="text">
+                        <ngx-material-timepicker #startPicker [enableKeyboardInput]="true"></ngx-material-timepicker> -->
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Break</mat-label>
+                        <mat-select formControlName="break" id="break" placeholder="Break" name="break">
+                                <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                {{ breaktime.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Finish</mat-label>
+                        <input  matInput formControlName="finish" (click)="changeTimeDialog('finish',addFestForm.get('finish').value)"/>
+                        <!-- <input [ngxTimepicker]="finishPicker" formControlName="finish" id="finish" placeholder="Finish" matInput  type="text">
+                        <ngx-material-timepicker #finishPicker></ngx-material-timepicker > -->
+                </mat-form-field>  
+        </form>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button  (click)= "addNewTradeStaff()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add Trade Staff to Global List</button>
+</div>

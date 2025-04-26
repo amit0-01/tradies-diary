@@ -1,0 +1,231 @@
+<h1 mat-dialog-title>Add New Product</h1>
+<div mat-dialog-content class="table-pop">
+        <form [formGroup]="addFestForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Product Name</label>
+                                <input formControlName="productName" id="productName" placeholder="Name" matInput  type="text">
+                        </div>
+                </div>  
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Size Type</label>
+                                <mat-select formControlName="productSizeType" id="productSizeType" placeholder="Size Type" name="sizeType" disableOptionCentering>
+                                        <mat-option *ngFor="let sizeTypeChoice of sizeTypeChoices" [value]="sizeTypeChoice.value">
+                                        {{ sizeTypeChoice.viewValue }}
+                                        </mat-option>
+                                </mat-select>
+                        </div>
+                </div>   
+                <div class = "row">
+                        <div class="col-md-12">   
+                                <label>Unit Measurement</label>
+                                <mat-select formControlName="productUnit" id="productUnit" placeholder="Unit" name="unit">
+                                        <ng-container *ngFor="let unitMeasurement of unitMeasurements" >
+                                                <mat-option [value]="unitMeasurement.value" *ngIf="unitMeasurement.type == addFestForm.get('productSizeType').value">
+                                                        {{ unitMeasurement.viewValue }}
+                                                </mat-option>
+                                        </ng-container> 
+                                </mat-select> 
+                        </div>
+                </div>  
+                <div class = "row">
+                        <div class="col-md-12">      
+                                <label>Unit Cost</label>
+                                <input formControlName="productCost" id="productCost" placeholder="Cost" matInput  type="text">
+                        </div>
+                </div>    
+                <div class = "row">
+                        <div class="col-md-12">       
+                                <label>Brand</label>
+                                <input formControlName="productBrand" id="productBrand" placeholder="Brand" matInput  type="text">
+                        </div>
+                </div>   
+                <div class = "row">
+                        <div class="col-md-12">  
+                                <label>SKU</label>
+                                <input formControlName="productSku" id="productSku" placeholder="SKU" matInput  type="text">
+                        </div>
+                </div>  
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Supplier</label>
+                                <mat-select formControlName="productSupplier" id="productSupplier" placeholder="Supplier" name="supplier">
+                                        <mat-option>
+                                                <ngx-mat-select-search 
+                                                        [formControl]="search_control_supplier"
+                                                        placeholderLabel="Search..."
+                                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <!-- <mat-option (click)="openAddSuppliersDialog()">-- Add New Supplier --</mat-option> -->
+                                        <mat-option *ngFor="let listSupplier of filter_list_suppliers | async" [value]="listSupplier.supplierID">
+                                        {{ listSupplier.supplierName }}
+                                        </mat-option>
+                                </mat-select> 
+                        </div>
+                </div>    
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Category</label>
+                                <mat-select formControlName="productCategory" id="productCategory" placeholder="Category" name="category">
+                                        <mat-option>
+                                                <ngx-mat-select-search 
+                                                        [formControl]="search_control_category"
+                                                        placeholderLabel="Search..."
+                                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <!-- <mat-option (click)="openAddCategoriesDialog()">-- Add New Category --</mat-option> -->
+                                        <mat-option *ngFor="let listCategory of filter_list_categories | async" [value]="listCategory.prodCategoryID">
+                                        {{ listCategory.prodCategoryName }}
+                                        </mat-option>
+                                </mat-select> 
+                        </div>
+                </div>    
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Cost Centre</label>
+                                <mat-select formControlName="productCostcentre" id="productCostcentre" placeholder="Cost Centre" name="costCentre">
+                                        <mat-option>
+                                                <ngx-mat-select-search 
+                                                        [formControl]="search_control_costcentre"
+                                                        placeholderLabel="Search..."
+                                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <!-- <mat-option (click)="openAddCostCentresDialog()">-- Add New Cost Code --</mat-option> -->
+                                        <mat-option *ngFor="let listCostCentre of filter_list_costcentres | async" [value]="listCostCentre.costcentreID">
+                                        {{ listCostCentre.costcentreName }}
+                                        </mat-option>
+                                </mat-select>  
+                        </div>
+                </div> 
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Cost Centre</label>  
+                                <mat-select formControlName="productStage" id="productStage" placeholder="Stage" name="stage">
+                                        <mat-option>
+                                                <ngx-mat-select-search 
+                                                        [formControl]="search_control_stage"
+                                                        placeholderLabel="Search..."
+                                                        noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <!-- <mat-option (click)="openAddStageDialog()">-- Add New Stage --</mat-option> -->
+                                        <mat-option *ngFor="let listStage of filter_list_stages | async" [value]="listStage.stageID">
+                                        {{ listStage.stageName }}
+                                        </mat-option>
+                                </mat-select>
+                        </div>
+                </div> 
+
+<!-- 
+                <br/>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Product Name</mat-label>
+                        <input formControlName="productName" id="productName" placeholder="Name" matInput  type="text">
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Size Type</mat-label>
+                        <mat-select formControlName="productSizeType" id="productSizeType" placeholder="Size Type" name="sizeType" disableOptionCentering>
+                                <mat-option *ngFor="let sizeTypeChoice of sizeTypeChoices" [value]="sizeTypeChoice.value">
+                                {{ sizeTypeChoice.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline" *ngIf="addFestForm.get('productSizeType').value != 'item'">
+                        <mat-label>Unit Measurement</mat-label>
+                        <mat-select formControlName="productUnit" id="productUnit" placeholder="Unit" name="unit">
+                                <ng-container *ngFor="let unitMeasurement of unitMeasurements" >
+                                        <mat-option [value]="unitMeasurement.value" *ngIf="unitMeasurement.type == addFestForm.get('productSizeType').value">
+                                                {{ unitMeasurement.viewValue }}
+                                        </mat-option>
+                                </ng-container> 
+                        </mat-select>  
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Unit Cost</mat-label>
+                        <input formControlName="productCost" id="productCost" placeholder="Cost" matInput  type="text">
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Brand</mat-label>
+                        <input formControlName="productBrand" id="productBrand" placeholder="Brand" matInput  type="text">
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>SKU</mat-label>
+                        <input formControlName="productSku" id="productSku" placeholder="SKU" matInput  type="text">
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Supplier</mat-label>
+
+                        <mat-select formControlName="productSupplier" id="productSupplier" placeholder="Supplier" name="supplier">
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_supplier"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option> -->
+                                <!-- <mat-option (click)="openAddSuppliersDialog()">-- Add New Supplier --</mat-option> -->
+                                <!--<mat-option *ngFor="let listSupplier of filter_list_suppliers | async" [value]="listSupplier.supplierID">
+                                {{ listSupplier.supplierName }}
+                                </mat-option>
+                        </mat-select>  
+
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="productCategory" id="productCategory" placeholder="Category" name="category">
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_category"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>-->
+                                <!-- <mat-option (click)="openAddCategoriesDialog()">-- Add New Category --</mat-option> -->
+                               <!--  <mat-option *ngFor="let listCategory of filter_list_categories | async" [value]="listCategory.prodCategoryID">
+                                {{ listCategory.prodCategoryName }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Cost Centre</mat-label>
+                        <input formControlName="costCentre" id="costCentre" placeholder="Cost Centre" matInput  type="text"> -->
+                          <!-- <mat-select formControlName="productCostcentre" id="productCostcentre" placeholder="Cost Centre" name="costCentre">
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_costcentre"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option> -->
+                                <!-- <mat-option (click)="openAddCostCentresDialog()">-- Add New Cost Code --</mat-option> -->
+                                <!-- <mat-option *ngFor="let listCostCentre of filter_list_costcentres | async" [value]="listCostCentre.costcentreID">
+                                {{ listCostCentre.costcentreName }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field>  -->
+                <!-- <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Stage</mat-label> -->
+                        <!-- <input formControlName="stage" id="stage" placeholder="Stage" matInput  type="text"> -->
+                         <!--<mat-select formControlName="productStage" id="productStage" placeholder="Stage" name="stage">
+                                <mat-option>
+                                        <ngx-mat-select-search 
+                                                [formControl]="search_control_stage"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>-->
+                                <!-- <mat-option (click)="openAddStageDialog()">-- Add New Stage --</mat-option> -->
+                                 <!--<mat-option *ngFor="let listStage of filter_list_stages | async" [value]="listStage.stageID">
+                                {{ listStage.stageName }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field>  -->
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button  
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)" 
+                (click)= "addNewProduct()"  
+                class = "btn dcb-btn" 
+                mat-button cdkFocusInitial>Add Product
+        </button>
+</div>

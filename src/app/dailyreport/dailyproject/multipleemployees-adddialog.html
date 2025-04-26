@@ -1,0 +1,46 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+<!--         
+        <button  (click)= "addMultipleEmployees()" class = "btn dcb-btn" mat-button cdkFocusInitial [disabled]="projectEmployeeControl.value == ''">Add Employees</button>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+
+        <form [formGroup]="addFestForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Employees</mat-label>
+           
+                        <mat-select [formControl]="projectEmployeeControl" placeholder="Employees" multiple #multiSelect>
+
+                                <mat-select-trigger>
+                                  <mat-chip-list>
+                                    <mat-chip *ngFor="let topping2 of projectEmployeeControl.value; index as i" [removable]="true"
+                                      (removed)="onToppingRemoved2(i)">
+                                      {{ topping2.staff_name }}
+                                      <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                  </mat-chip-list>
+                                </mat-select-trigger>
+  
+                                <mat-option>
+                                  <ngx-mat-select-search 
+                                    [formControl]="search_control_employee"
+                                    placeholderLabel="Search..."
+                                    noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                </mat-option>
+              
+                                <mat-option *ngFor="let topping2 of filter_list_employees | async" [value]="topping2">
+                                      <ng-container *ngIf="topping2.type =='user-supervisor'">
+                                        {{ topping2.staff_name}} (Supervisor)
+                                      </ng-container>
+                                      <ng-container *ngIf="topping2.type =='user-worker'">
+                                        {{ topping2.staff_name}} (Worker)
+                                      </ng-container>
+                                      <ng-container *ngIf="topping2.type !='user-supervisor' && topping2.type !='user-worker'">
+                                        {{ topping2.staff_name}}
+                                      </ng-container>
+                                </mat-option>
+  
+                        </mat-select>
+
+                </mat-form-field>   
+        </form> -->
+</div>

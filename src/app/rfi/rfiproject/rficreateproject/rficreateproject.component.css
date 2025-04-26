@@ -1,0 +1,9 @@
+.gap-40px{
+    gap: 30px;
+}
+
+
+.editButton{
+    text-decoration: underline;
+    cursor: pointer;
+}

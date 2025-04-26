@@ -1,0 +1,28 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+      <div class = "row">
+          <div class="col-md-12">
+              <div class="card card-dcb dashboard-card">
+                <div class="card-body">
+                    <h3>Diary Options</h3>
+                          <br>
+                            
+                    <form [formGroup]="settingsForm" class="dcb-form" (keydown.enter)="$event.preventDefault()">
+
+                            <div class="togglebutton">
+                                <!-- <label>
+                                <input type="checkbox" formControlName="globalListEmployee" (change)="toggleGlobalListEmployee()">
+                                <span class="toggle"></span>
+                                    Global List Employee
+                                </label> -->
+                            </div> 
+                            <br>
+                            <!-- <button (click)= "updateSettings()" mat-button class="btn dcb-btn">Update Settings</button> -->
+                    </form>
+                </div>
+                      
+              </div>
+        </div>
+    </div>
+</div>
+</div>

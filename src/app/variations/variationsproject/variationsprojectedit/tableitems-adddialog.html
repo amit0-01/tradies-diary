@@ -1,0 +1,159 @@
+<!-- <h1 mat-dialog-title>Add Item</h1> -->
+<div mat-dialog-content class=" table-pop">
+        <form [formGroup]="addFestForm" class="dcb-form">
+                <div class = "row add_items">
+                        <div class="col-md-12" style="display:flex;align-items: center;">
+                                <h1 style="color:#000000de;color:#000000de;" class="pt-2">Add Item</h1>
+                        </div>
+                        <div class="col-md-12" style="text-align: center;">
+                                <label *ngIf="addFestForm.get('hasImage').value == true"
+                                (click)="enlargeImage.enlargeImage(addFestForm.get('itemImage').value)">Image
+                                        <i style="color: rgb(7, 113, 222);
+                                        display: inline-block;
+                                        margin-left:2px;
+                                        font-size: 17px;
+                                        " *ngIf="addFestForm.get('hasImage').value == true" class="material-icons"
+                                        (click)="enlargeImage.enlargeImage(addFestForm.get('itemImage').value)" data-toggle="modal" data-target="#myModal"
+                                        >task</i>
+                                        <i style="color: #f44336;
+                                        display: inline-block;
+                                        margin-left:2px;
+                                        font-size: 17px;
+                                        cursor: pointer;
+                                        " *ngIf="addFestForm.get('hasImage').value == true" class="material-icons" (click)="resetImage()">delete</i>
+                                </label>
+             
+                                <div class="fileinput fileinput-new text-center" style="display:block;margin-bottom:0;">
+                                <div>     
+                                <div 
+                                class="uploaded_div rounded text-center bg-light text-muted cursor-pointer" 
+                                style="min-height: 68px; padding: 10px 0px 0px 0; cursor: pointer;" 
+                                (drop)="onDrop($event)" 
+                                (click)="fileInput.click()">
+                                <h5>Drag Files Here</h5>
+                                <p>Or click to select files</p>
+                                </div>
+                                <span 
+                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                (mouseenter)="onButtonEnter($event.target)" 
+                                (mouseleave)="onButtonOut($event.target)" 
+                                class="btn btn-change btn-file dcb-btn btn-compact d-none">
+                                <span class="fileinput-new">Select image</span>
+                                <!-- <span class="fileinput-exists">Change</span> -->
+                                <input #fileInput accept="image/*" type="file" name="..." (change)="onFileChange($event)" />
+                                </span>
+                                </div>
+                                </div>
+  
+                        </div>
+                </div>
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Item Description*</label>
+                                <!-- <tag-input 
+                                id="description"
+                                formControlName="description"
+                                [editable]="true"
+                                placeholder="Description"
+                                secondaryPlaceholder="Description"
+                                addOnBlur="true"
+                                [modelAsStrings]="true"
+                                >
+                                </tag-input>
+                                <span style="font-style: italic;">You can add description by pressing enter on your keyboard.</span> -->
+                                <quill-editor [styles]="{height: '70px'}" formControlName="description" id="description"></quill-editor>
+                        </div>
+                </div>
+                <div class = "row">
+                        <div class="col-md-4">
+                                <label>Item Name</label>
+                                <input matInput placeholder="Item Name" type="text" formControlName="itemName">
+                        </div>
+                        <div class="col-md-4">
+                                <label>Supplier Name</label>
+                                <mat-select  #singleSelect formControlName="supplier" placeholder="Supplier" id="supplier">
+                                        <mat-option>
+                                                <ngx-mat-select-search 
+                                                  [formControl]="search_control_trade"
+                                                  placeholderLabel="Search..."
+                                                  noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let listTrade of filter_list_trades | async" [value]="listTrade.id">
+                                                {{ listTrade.tradeCompanyName }}
+                                        </mat-option>
+                                </mat-select> 
+                        </div>
+                        <div class="col-md-4">
+                                <label>Image Caption</label>
+                                <input matInput placeholder="Image Caption" type="text" formControlName="imageCaption">
+                        </div>
+                </div>
+                <div class="variant-ctrl-holder">
+                        <div class="variant-ctrl">
+                                <label>Quantity*</label>
+                                <input matInput placeholder="Quantity" type="text" formControlName="quantity" (input)="onComputeTotal()">
+                        </div>
+                        <div class="variant-ctrl variant-ctrl-uom">
+                                <label>Unit of Measurement</label>
+
+                                <mat-select panelClass="fit-content"  #singleSelect id="uom" formControlName="uom" placeholder="UOM" name="uom"  (click)="initializeFilterUom()">
+                                                                                        
+                                        <mat-option>
+                                          <ngx-mat-select-search 
+                                          [formControl]="search_control_uom"
+                                            placeholderLabel="Search..."
+                                            noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option (click)="openAddUomDialog()">-Add New-</mat-option>
+                                        <mat-option *ngFor="let listUom of filter_list_uom | async" [value]="listUom.uom">
+                              
+                                                {{ listUom.uom}}
+                        
+                                        </mat-option>
+                                        
+                                </mat-select> 
+
+                                <!-- <mat-select formControlName="uom" id="uom" placeholder="UOM" name="uom">
+                                        <ng-container *ngFor="let unitMeasurement of unitMeasurements" >
+                                                <mat-option [value]="unitMeasurement.value">
+                                                        {{ unitMeasurement.viewValue }}
+                                                </mat-option>
+                                        </ng-container> 
+                                </mat-select>  -->
+                        </div>
+                        <div class="variant-ctrl">
+                                <label>Unit Cost*</label>
+                                <input matInput placeholder="Unit Cost" type="text" formControlName="unitCost" (input)="onComputeTotal()">
+                        </div>
+                        <div class="variant-ctrl">
+                                <label>Builder's Margin(%)*</label>
+                                <input matInput placeholder="%" type="text" formControlName="buildersMargin" (input)="onComputeTotal()">
+                        </div>
+                        <div class="variant-ctrl">
+                                <label>Subtotal</label>
+                                <input placeholder="Subtotal" type="hidden" formControlName="subTotal">
+                                <input matInput placeholder="GST" type="text" [value]="addFestForm.get('subTotal').value"  readonly>
+                        </div>
+                        <div class="variant-ctrl">
+                                <label>GST</label>
+                                <input placeholder="GST" type="hidden" formControlName="gst">
+                                <input matInput placeholder="GST" type="text" [value]="addFestForm.get('gst').value"  readonly>
+                        </div>
+                        <div class="variant-ctrl">
+                                <label>Item Total</label>
+                                <input  placeholder="Item Total" type="hidden" formControlName="itemTotal">
+                                <input matInput placeholder="Total" type="text" [value]="addFestForm.get('itemTotal').value"  readonly>
+                        </div>
+                </div>
+        </form>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)"   
+        class = "btn dcb-btn" 
+        (click)="addNewItem()" 
+        mat-button cdkFocusInitial>Save Item</button>
+</div>

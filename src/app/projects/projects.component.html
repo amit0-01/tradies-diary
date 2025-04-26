@@ -1,0 +1,48 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-12">
+                <div class="card card-dcb dashboard-card">
+                        <div class="card-header card-header-text card-header-info">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <!-- <button mat-button class="btn dcb-btn btn-primary"
+                                            (click)="openAddDialog()">
+                                            <i class="material-icons">add</i> Add Project
+                                    </button>   -->
+                                    <br>
+                                    <button 
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)" 
+                                            mat-button class="btn dcb-btn"
+                                            [routerLink]="['/projects/create']">
+                                            Add New Project
+                                    </button>
+                                <!-- </div>
+                                <div class="col-md-2 ml-auto text-right" *ngIf="isSupervisor!=true">
+                                    <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(isChecked?'all':'active')">
+                                                <span class="toggle"></span>
+                                                All Projects
+                                            </label>
+                                    </div>
+                                </div>  -->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: scroll;">
+                                    <div style="color: black; width: 1590px;">
+                                            <!-- <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table> -->
+                                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="DataTables_Table_0" ></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

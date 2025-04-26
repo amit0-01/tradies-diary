@@ -1,0 +1,43 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-lg-6 col-sm-12 col-md-12">
+                <div class="card card-dcb dashboard-card">
+                        <div class="card-header card-header-text card-header-info">
+                                    <button 
+                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                        (mouseenter)="onButtonEnter($event.target)" 
+                                        (mouseleave)="onButtonOut($event.target)" 
+                                        mat-button class="btn dcb-btn"
+                                        (click)="openAddDialog()">Add New Cost Centre
+                                    </button>   
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: scroll;">
+                                    <!-- <div style="width: 744px;"> -->
+                                        <div>
+                                        <!-- <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table> -->
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="DataTables_Table_0" class="row-border hover"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <!-- <button mat-button class="btn dcb-btn"
+                                    (click)="downloadCSV()">
+                                    <i class="material-icons">download</i> Download CSV
+                            </button> 
+                            
+                            <div>
+                                <h5>Import CSV File</h5>
+                                <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
+                            </div> -->
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   

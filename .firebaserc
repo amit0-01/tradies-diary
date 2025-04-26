@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "tradies-diary",
+    "staging": "tradies-testing-444503",
+    "production": "tradies-diary"
+  },
+  "targets": {},
+  "etags": {}
+}

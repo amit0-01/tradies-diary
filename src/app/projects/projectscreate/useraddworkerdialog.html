@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Add New Worker</h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <br/>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Email Address</mat-label>
+                        <input  (blur)="checkFBUserExist()" formControlName="userEmail" id="userEmail" placeholder="Email Address" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>First Name</mat-label>
+                        <input formControlName="userFirstName" id="userFirstName" placeholder="First Name" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Last Name</mat-label>
+                        <input formControlName="userLastName" id="userLastName" placeholder="Last Name" matInput  type="text">
+                </mat-form-field>
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>User Role</mat-label>
+                        <mat-select formControlName="role" id="role" placeholder="User Role" name="pickupChoice">
+                                <mat-option *ngFor="let pickupChoice of pickupChoices" [value]="pickupChoice.value">
+                                {{ pickupChoice.viewValue }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field> -->
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Employee Number</mat-label>
+                        <input formControlName="userStaffNo" id="userStaffNo" placeholder="Employee Number" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>New Password</mat-label>
+                        <input formControlName="password" id="password" placeholder="New Password" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Confirm New Password</mat-label>
+                        <input formControlName="confirm_password" id="confirm_password" placeholder="Confirm New Password" matInput  type="text">
+                </mat-form-field>
+                <div *ngIf="g.confirm_password.touched && g.confirm_password.invalid" class="alert alert-danger">
+                        <span>Password and Confirm Password must be match.</span>
+                </div>
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)"  
+                (click)= "addNewUserWorker()" 
+                class = "btn dcb-btn" 
+                mat-button cdkFocusInitial 
+                [disabled]="!addFestForm.valid">Create Worker
+        </button>
+</div>

@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Select Weather</h1>
+<div mat-dialog-content class="dcb-form">
+
+      <mat-select (selectionChange)="changeAllDayWeather()" placeholder="Select Weather" name="weatherAllDay" [(ngModel)]="selectedWeather">
+        <mat-option *ngFor="let weatherOption of weatherOptions" [value]="weatherOption.value">
+          {{ weatherOption.viewValue }}
+        </mat-option>
+      </mat-select>
+      <input style = "margin-top:20px" *ngIf="isOthersAllDay == 'show'" placeholder="Please Specify" type="text" [(ngModel)]="selectedOthers">
+
+</div>
+<div mat-dialog-actions>
+  <!-- <p>
+    Selected: {{test2.selectedOptions.selected.length}}
+  </p> -->
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <!-- <button mat-button (click)="onNoClick()" class = "btn dcb-btn">Cancel</button> -->
+  <button 
+      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+      (mouseenter)="onButtonEnter($event.target)" 
+      (mouseleave)="onButtonOut($event.target)" 
+      (click)="clear()" 
+      class = "btn dcb-btn" 
+      mat-button cdkFocusInitial>Clear
+  </button>
+  <button 
+      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+      (mouseenter)="onButtonEnter($event.target)" 
+      (mouseleave)="onButtonOut($event.target)" 
+      (click)="updateWeather()" 
+      class = "btn dcb-btn" 
+      mat-button cdkFocusInitial>Set
+  </button>
+</div>

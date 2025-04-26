@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Photos from Diary</h1>
+<div mat-dialog-content>
+    <form [formGroup]="imageForm" class="dcb-form">
+        <div class ="row multi-select-design" formArrayName="imageUpload">                
+                <div class="col-md-3" *ngFor="let item of imageForm.get('imageUpload')['controls']; let i = index;" [formGroupName]="i" >
+                        <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Caption</mat-label>
+                                <input matInput placeholder="Caption" type="text" formControlName="passFirstName">
+                        </mat-form-field> -->
+                        <label>Caption</label>
+                        <input matInput placeholder="Caption" type="text" formControlName="imageCaption">
+
+                        <div class="fileinput fileinput-new text-center">
+                            <div class="fileinput-new thumbnail">
+                                <!-- <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!imageURL[i]"> -->
+                                <input id="myCheckbox{{i}}" type="checkbox" (change)="selectThisImage(i,$event)">
+                                <label class = "label-img-select" for="myCheckbox{{i}}">
+                                    <img [src]="imageURL[i]" *ngIf="imageURL[i] && imageURL[i] !== ''">
+                                </label>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                            <div>
+                                {{ formatBytes(imageSize[i]) }}
+                            </div>
+                            <!-- <div>
+                                <span class="btn btn-change btn-file">
+                                    <span class="fileinput-new">Select image</span>
+                                    <span class="fileinput-exists">Change</span>
+                                    <input accept="image/*" type="file" name="..."  (change)="onFileChange($event,i)"/>
+                                </span>
+                              
+                                <button (click)= "removeImageUpload(i)" mat-button class="btn btn-remove-img"><i class="fa fa-times"></i> Remove</button> 
+             
+                            </div> -->
+                            <!-- <button (click)= "selectImage(i)" mat-button class="btn dcb-btn">Add</button>  -->
+
+
+                            
+                        </div>
+            </div>
+            <div class="col-md-12">
+                <!-- <span class="btn dcb-btn btn-primary btn-file">
+                    <span class="fileinput-new">Add Multiple Images</span>
+                    <input accept="image/*" type='file' (change)="onSelectFile($event)" multiple>
+                </span> -->
+                <!-- <button (click)= "addImageUpload()" mat-button class="btn btn-info">Add Single Image</button> -->
+                <!-- <button (click)= "removeLastImageUpload()" mat-button class="btn btn-remove-group">Remove</button>   -->
+            </div>
+        </div> 
+    </form>
+</div>
+<div mat-dialog-actions>
+    <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        (click)= "selectImages()" 
+        mat-button class="btn dcb-btn">Add Images
+    </button>
+</div>

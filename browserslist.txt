@@ -1,0 +1,71 @@
+🛠️ Option 1: Use Angular 12 (if possible)
+Angular 12 still supports differential loading — it generates both modern (ES2015) and legacy (ES5) builds. Downgrading might be the quickest path if backward compatibility is critical and you're not using features from newer versions.
+
+🛠️ Option 2: Create a custom ES5 build in Angular 13+
+Install Babel
+
+bash
+Copy
+Edit
+npm install --save-dev @babel/core @babel/preset-env babel-loader
+Create a custom Webpack config (e.g., extra-webpack.config.js)
+
+js
+Copy
+Edit
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [['@babel/preset-env', { targets: '> 0.25%, not dead' }]],
+          },
+        },
+      },
+    ],
+  },
+};
+Use Angular Builders like @angular-builders/custom-webpack
+
+bash
+Copy
+Edit
+npm install @angular-builders/custom-webpack
+Edit angular.json to use custom Webpack builder
+
+json
+Copy
+Edit
+"architect": {
+  "build": {
+    "builder": "@angular-builders/custom-webpack:browser",
+    "options": {
+      "customWebpackConfig": {
+        "path": "./extra-webpack.config.js"
+      },
+      ...
+    }
+  }
+}
+Transpile code to ES5 in Babel Set target to "es5" in tsconfig.json if needed:
+
+json
+Copy
+Edit
+"target": "es5",
+✅ Final Note:
+Test on:
+
+iOS 10 Safari
+
+IE11 (if needed)
+
+Old Android WebView
+
+And make sure polyfills (like core-js) are in place.
+
+Want me to help you set this up step-by-step in your project?

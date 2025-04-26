@@ -1,0 +1,26 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+<mat-selection-list #test2 [(ngModel)]="selectedOptions">
+    <mat-list-option *ngFor="let visitor of visitorListModal" [value]="visitor">
+      {{visitor}}
+    </mat-list-option>
+  </mat-selection-list>
+  <div *ngIf="emptyMessage == true">
+      <p>No Visitors for this week</p>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <!-- <p>
+    Selected: {{test2.selectedOptions.selected.length}}
+  </p> -->
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button 
+      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+      (mouseenter)="onButtonEnter($event.target)" 
+      (mouseleave)="onButtonOut($event.target)" 
+      *ngIf="emptyMessage == false" 
+      [mat-dialog-close]="selectedOptions" 
+      class = "btn dcb-btn" 
+      mat-button cdkFocusInitial>Add Visitors
+  </button>
+</div>

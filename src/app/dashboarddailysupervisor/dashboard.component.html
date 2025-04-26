@@ -1,0 +1,96 @@
+<div class="main-content dashboard-content tab-container compact-layout">
+    <!-- <button  mat-button class="btn btn-primary dcb-btn" (click)="testEmail()">
+        <i class="material-icons">preview</i> Test Email Design
+    </button> -->
+    <div class="container-fluid">
+        <ul class="dashboard-tab nav nav-pills nav-pills-warning nav-pills-icons" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" role="tablist">
+                  <i class="material-icons">info</i> Daily Report
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/dashboard-weekly-supervisor']" role="tablist">
+                  <i class="material-icons">wb_cloudy</i> Weekly Report
+                </a>
+              </li>
+        </ul>
+        <div class="tab-content">
+                <div class="card card-dcb dashboard-card tab-pane active" id="linkDailyReport">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-10 text-left">
+                                <h2>{{selectedProject?.projectName}}<span (click) = "openDailyProjectSelect()" class="btn-span" style="margin-left:15px;">Change Project</span></h2>
+                                <!-- <button (click)="openDailyProjectSelect()"  mat-button
+                                    class="btn dcb-btn">
+                                    Add/Edit New Daily Report
+                                </button>
+                                <button (click)="openDailyDateSelect()" (click)="filterReports()"  mat-button
+                                    class="btn dcb-btn">
+                                    View Previous Daily Report
+                                </button> -->
+                                <!-- <button 
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    [routerLink]="['/daily-report']" 
+                                    mat-button
+                                    class="btn dcb-btn">
+                                    <i class="material-icons">add</i> Add New Daily Report
+                                </button> -->
+                            </div>
+                            <div class="col-md-2 text-right mt-2">                         
+                                    <!-- <mat-select  placeholder="Filter by Project"  (selectionChange)="filterDailyReports($event.value)">
+                                        <mat-option value="">Select Project</mat-option>
+                                        <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                        {{ projectName.project_name }}
+                                        </mat-option>
+                                </mat-select> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                                <div class="col-md-12 respo-table" style="overflow-x: scroll;">
+                                    <div>
+                                        <table datatable [dtOptions]="dailyReportOptions" [dtTrigger]="dtTrigger" id="datatable_0" class="row-border hover"></table>
+                                    <!-- <ng2-smart-table [settings]="dailyReportSettings" [source]="dailySource" -->
+                                        <!-- ></ng2-smart-table> -->
+                                        
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer pb-4" style="justify-content: center;">
+                        <!-- <button (click)= "loadMore()"  mat-button class="btn dcb-btn">
+                            <i class="material-icons">list</i> &nbsp; Load More Reports
+                        </button> -->
+
+                        <!-- <div class="text-center">
+                            <button 
+                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                (mouseenter)="onButtonEnter($event.target)" 
+                                (mouseleave)="onButtonOut($event.target)" 
+                                class="btn dcb-btn btn-sm float-left btn-compact" 
+                                (click)="prevPage()"
+                                [disabled]="disable_prev || !(pagination_clicked_count>0)">Previous
+                            </button> 
+                            <span class="page-num-indicator">Page no: {{pagination_clicked_count+1}}</span>
+                            <button
+                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                (mouseenter)="onButtonEnter($event.target)" 
+                                (mouseleave)="onButtonOut($event.target)"  
+                                class="btn dcb-btn btn-sm float-right btn-compact" 
+                                (click)="nextPage()" 
+                                [disabled]="disable_next">Next
+                            </button>
+                        </div> -->
+
+                    </div>
+                    
+                </div> 
+
+        </div>
+    </div>
+</div>
+

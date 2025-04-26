@@ -1,0 +1,43 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Company Name</mat-label>
+                        <input formControlName="companyName" id="companyName" placeholder="Company Name" matInput  type="text">
+                </mat-form-field> 
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Trade</mat-label>
+                        <input formControlName="trade" id="trade" placeholder="Trade" matInput  type="text">
+                </mat-form-field>   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input formControlName="name" id="name" placeholder="Name" matInput  type="text">
+                </mat-form-field>  
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Email Address</mat-label>
+                        <input formControlName="email" id="email" placeholder="Email Address" matInput  type="text">
+                </mat-form-field>  
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Phone</mat-label>
+                        <input formControlName="phone" id="phone" placeholder="Phone" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Default Hours</mat-label>
+                        <input formControlName="defaultHours" id="defaultHours" placeholder="Default Hours" matInput  type="text">
+                </mat-form-field>   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Default Costcode</mat-label>
+                        <!-- <input formControlName="costCentre" id="costCentre" placeholder="Cost Centre" matInput  type="text"> -->
+                        <mat-select formControlName="defaultCostcode" id="defaultCostcode" placeholder="Default Costcode" name="defaultCostcode">
+                                <mat-option (click)="openAddCostCentresDialog()">-- Add New Cost Code --</mat-option>
+                                <mat-option *ngFor="let listCostCentre of listCostCentres" [value]="listCostCentre.id">
+                                {{ listCostCentre.costcentre_name }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field>    
+        </form>
+</div>
+<div mat-dialog-actions>
+  <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+  <button  (click)= "addNewTrade()" class = "btn dcb-btn btn-primary" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Add Trade to Global List</button>
+</div>

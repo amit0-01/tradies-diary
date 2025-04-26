@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Company Name : {{logData.tradeCompanyName}}</p>
+                <p>Trade : {{logData.trade}}</p>
+                <p>Name : {{logData.tradeName}}</p>
+                <p>Email : {{logData.tradeEmail}}</p>
+                <p>Phone : {{logData.tradePhone}}</p>
+                <p>Default CostCode : {{logData.tradedefaultCostcode}}</p>
+
+                <p>Staff</p>
+                    <div class ="row">
+                        <div class="col-md-3" >Staff Name</div>
+                        <div class="col-md-3" >Start</div>
+                        <div class="col-md-3" >Break</div>
+                        <div class="col-md-3" >Finish</div>
+                    </div> 
+                    <hr>
+                    <div class ="row" *ngFor="let item of logData.staffFormArray" >
+                            <div class="col-md-3" >
+                                {{item.staffName }}
+                            </div>
+                            <div class="col-md-3" >
+                                {{item.start }}
+                            </div>
+                            <div class="col-md-3" >
+                                {{item.break }}
+                            </div>
+                            <div class="col-md-3" >
+                                {{item.finish }}
+                            </div>
+                    </div> 
+
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+    </ng-container>
+
+    <ng-container *ngIf="data.method=='delete'"> 
+        <p>Deleted Data:</p>
+        <pre>{{prevData | json}}</pre>
+        <!-- <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff> -->
+    </ng-container>
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

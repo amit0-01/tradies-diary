@@ -1,0 +1,7 @@
+.table{
+    overflow-x: scroll;
+}
+
+:host ::ng-deep .material-icons {
+    font-size: 13px;
+  }

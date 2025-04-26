@@ -1,0 +1,55 @@
+
+<router-outlet></router-outlet>
+
+<ngx-progress-overlay></ngx-progress-overlay>
+<ngx-spinner type="ball-clip-rotate"></ngx-spinner>
+
+<!-- 
+<ng-container *ngIf="routerLoading == true && message != 'true' && message != 'pdf' && message != 'loadslow' && message != 'saveslow'">
+      <ngx-loading-spinner
+      [threshold]="250"
+      [timeout]="100000"
+      [zIndex] = "9999999999"
+      [loadingText]="'Loading...Please wait'"
+    ></ngx-loading-spinner>
+</ng-container>
+<ng-container *ngIf="routerLoading == false && message != 'true' && message != 'pdf' && message != 'loadslow' && message != 'saveslow'">
+  <ngx-loading-spinner
+  [threshold]="250"
+  [timeout]="10000"
+  [zIndex] = "9999999999"
+  [loadingText]="'Loading...'"
+></ngx-loading-spinner>
+</ng-container>
+<ng-container *ngIf="message == 'pdf'">
+  <ngx-loading-spinner
+  [threshold]="250"
+  [timeout]="9999999999"
+  [zIndex] = "9999999999"
+  [loadingText]="'Generating PDF...Please wait'"
+></ngx-loading-spinner>
+</ng-container>
+<ng-container *ngIf="message == 'true'">
+  <ngx-loading-spinner
+  [threshold]="250"
+  [timeout]="9999999999"
+  [zIndex] = "9999999999"
+  [loadingText]="'Preparing your images...'"
+></ngx-loading-spinner>
+</ng-container>
+<ng-container *ngIf="message == 'loadslow'">
+  <ngx-loading-spinner
+  [threshold]="250"
+  [timeout]="9999999999"
+  [zIndex] = "9999999999"
+  [loadingText]="'Loading...Please wait.'"
+></ngx-loading-spinner>
+</ng-container>
+<ng-container *ngIf="message == 'saveslow'">
+  <ngx-loading-spinner
+  [threshold]="250"
+  [timeout]="9999999999"
+  [zIndex] = "9999999999"
+  [loadingText]="'Saving...Please wait.'"
+></ngx-loading-spinner>
+</ng-container> -->

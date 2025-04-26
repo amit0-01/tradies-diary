@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>Add Visitor</h1>
+<div mat-dialog-content class=" table-pop">
+        <form [formGroup]="addFestForm" class="dcb-form">
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>ID</mat-label>
+                        <input matInput value="{{data.id}}" placeholder="ID" type="text" disabled>
+                </mat-form-field> -->
+                <!-- <br/>
+                <mat-form-field class="mat-full-width" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input formControlName="visitorName" id="visitorName" placeholder="Name" matInput  type="text">
+                </mat-form-field> -->
+                <div class = "row">
+
+                        <div class="col-md-5">
+                                <label>Visitor Name</label>
+                                        <mat-select  #singleSelect formControlName="visitorsOnSite" placeholder="Visitor Name" name="visitorsOnSite">
+                                                        
+                                                        <mat-option>
+                                                              <ngx-mat-select-search 
+                                                                [formControl]="search_control_visitor"
+                                                                placeholderLabel="Search..."
+                                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                        </mat-option>
+                                                        <mat-option (click)="openAddVisitorDialog()">-- Add New Visitor --</mat-option>
+                                                        <mat-option *ngFor="let listVisitor of filter_list_visitors | async" [value]="listVisitor.visitor_name">
+                                                                <ng-container *ngIf="listVisitor.type =='user'">
+                                                                      {{ listVisitor.visitor_name}} (Owner)
+                                                                </ng-container>
+                                                                <ng-container *ngIf="listVisitor.type !='user'">
+                                                                        {{ listVisitor.visitor_name}}
+                                                                </ng-container>
+                                                        </mat-option>
+                                                        
+                                        </mat-select> 
+                        </div>
+                        <div class="col-md-5">
+                                      <label>Reason</label>
+                                      <mat-select  #singleSelect formControlName="reasonsOnSite" placeholder="Reasons" name="reasonsOnSite">
+                                                                              
+                                                      <mat-option>
+                                                        <ngx-mat-select-search 
+                                                                [formControl]="search_control_reason"
+                                                              placeholderLabel="Search..."
+                                                              noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                                      </mat-option>
+                                                      <mat-option (click)="openAddReasonDialog()">-- Add New Reason --</mat-option>
+                                                      <mat-option *ngFor="let listReason of filter_list_reasons | async" [value]="listReason.reason">
+                                                                {{ listReason.reason}}
+                                                      </mat-option>
+                                                      
+                                      </mat-select> 
+                        </div>
+                        <div class="col-md-2">
+                                <label>Duration</label>
+                                <input  matInput type="text" formControlName="duration">
+                        </div>
+              </div>
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)" 
+                class = "btn dcb-btn btn-compact" 
+                (click)="addNewVisitor()" 
+                mat-button cdkFocusInitial  
+                [disabled]="addFestForm.pristine">Add Visitor
+        </button>
+</div>

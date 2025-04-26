@@ -1,0 +1,106 @@
+<div class="main-content dashboard-content tab-container">
+    <iframe style = "width:0;height:0;" src="" name = "myIframe"></iframe>
+    <!-- <button  mat-button class="btn btn-primary dcb-btn" (click)="testEmail()">
+        <i class="material-icons">preview</i> Test Email Design
+    </button> -->
+    <div class="container-fluid">
+        <ul class="dashboard-tab nav nav-pills nav-pills-warning nav-pills-icons" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#linkDailyReport" role="tablist">
+                  <i class="material-icons">info</i> Daily Report
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#linkWeeklyReport" role="tablist">
+                  <i class="material-icons">wb_cloudy</i> Weekly Report
+                </a>
+              </li>
+        </ul>
+        <div class="tab-content">
+                <div class="card card-dcb dashboard-card tab-pane active" id="linkDailyReport">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-10 text-left">
+                                <button (click)="openDailyProjectSelect()"  mat-button
+                                    class="btn dcb-btn">
+                                    Add/Edit New Daily Report
+                                </button>
+                                <button (click)="openDailyDateSelect()" (click)="filterReports()"  mat-button
+                                    class="btn dcb-btn">
+                                    View Previous Daily Report
+                                </button>
+                            </div>
+                            <div class="col-md-2 text-right mt-2">                         
+                                    <mat-select  placeholder="Filter by Project"  (selectionChange)="filterDailyReports($event.value)">
+                                        <mat-option value="">Select Project</mat-option>
+                                        <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                        {{ projectName.project_name }}
+                                        </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                                <div class="col-md-12" style="overflow-x: scroll;">
+                                    <div style="width: 1590px;">
+
+                                    <ng2-smart-table [settings]="dailyReportSettings" [source]="dailySource"
+                                        ></ng2-smart-table>
+                                        
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <!-- <div class="card-footer">
+                        <button  mat-button class="btn btn-primary dcb-btn">
+                            <i class="material-icons">preview</i> View All Daily Report
+                        </button>
+                    </div> -->
+                </div> 
+
+                <div class="card card-dcb dashboard-card tab-pane" id="linkWeeklyReport">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-10 text-left">
+                                <button [routerLink]="['/weekly-report']"  mat-button
+                                    class="btn dcb-btn">
+                                    <i class="material-icons">add</i> Add New Weekly Report
+                                </button>
+                                <!-- <button (click)="filterReports()"  mat-button
+                                    class="btn btn-primary dcb-btn">
+                                    <i class="material-icons">edit</i> Edit This Week’s Report
+                                </button> -->                            
+                            </div>
+                            <div class="col-md-2 text-right mt-2">                         
+                                    <mat-select  placeholder="Filter by Project"  (selectionChange)="newfilterWeeklyReports($event.value)">
+                                        <mat-option value="">Select Project</mat-option>
+                                        <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                        {{ projectName.project_name }}
+                                        </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12" style="overflow-x: scroll;">
+                                <div style="width: 1590px;">
+                                    <ng2-smart-table [settings]="weeklyReportSettings" [source]="weeklySource"
+                                    (userRowSelect)="onRowSelect($event)"></ng2-smart-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer" style = "padding-bottom: 10px;">
+                        <button  mat-button class="btn dcb-btn" [routerLink]="['/report-weekly']">
+                            <i class="material-icons">preview</i> View All Weekly Reports
+                        </button>
+                       <br> <br>
+                    </div>
+                </div> 
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Add New Selection Group Name</h1>
+<div mat-dialog-content class="table-pop">
+        <form [formGroup]="addFestForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Selection Group Name</label>
+                                <input formControlName="groupName" id="groupName" placeholder="Selection Group Name" matInput  type="text">
+                        </div>  
+                </div>
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button  
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)" 
+                (click)= "createFBVarGroupName()" 
+                class = "btn dcb-btn" 
+                mat-button cdkFocusInitial 
+                [disabled]="!addFestForm.valid">Add Selection Group Name
+        </button>
+</div>

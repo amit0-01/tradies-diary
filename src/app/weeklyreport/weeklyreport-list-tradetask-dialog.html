@@ -1,0 +1,27 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+<mat-selection-list  #yearSelect="ngModel" [(ngModel)]="selectedOptions">
+  <div style = "display: flex;padding-left: 16px;text-align: right;width: 100%;padding-right: 8px;"><span style = "margin-right: auto;font-weight: bold;">Select All </span><mat-checkbox  (click)="selectAll(checkAll.checked, yearSelect, test)" #checkAll></mat-checkbox></div>
+    <mat-list-option *ngFor="let shoe of test" [value]="shoe">
+      {{shoe}}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+<div *ngIf="emptyMessage == true">
+  <p>No Trade's task for this week</p>
+</div>
+<div mat-dialog-actions>
+  <!-- <p>
+    Selected: {{test2.selectedOptions.selected.length}}
+  </p> -->
+    <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        *ngIf="emptyMessage == false" 
+        [mat-dialog-close]="selectedOptions"  
+        class = "btn dcb-btn" 
+        mat-button cdkFocusInitial>Add Tasks
+    </button>
+</div>

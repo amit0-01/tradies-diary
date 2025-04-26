@@ -1,0 +1,138 @@
+<div class="main-content dashboard-content">
+    <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-dcb  dashboard-card">
+                        <div class="card-header card-header-text card-header-success">
+                        </div>
+                        <div class="card-body compact-layout compact-layout-common">
+                            
+                                <form [formGroup]="addFestForm"  class="dcb-form">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Company Name</label>
+                                                <input formControlName="tradeCompanyName" id="tradeCompanyName" placeholder="Company Name" matInput  type="text">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Trade</label>
+                                                <input formControlName="trade" id="trade" placeholder="Trade" matInput  type="text">  
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Name</label>
+                                                <input  (input)="onTradeWorkerName()" formControlName="tradeName" id="tradeName" placeholder="Name" matInput  type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Email Address</label>
+                                                <input formControlName="tradeEmail" id="tradeEmail" placeholder="Email Address" matInput  type="text">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Phone</label>
+                                                <input formControlName="tradePhone" id="tradePhone" placeholder="Phone" matInput  type="text">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Default Costcode</label>
+                                                <mat-select formControlName="tradedefaultCostcode" id="tradedefaultCostcode" placeholder="Default Costcode" name="tradedefaultCostcode">
+                                                        <!-- <mat-option (click)="openAddCostCentresDialog()">-- Add New Cost Code --</mat-option> -->
+                                                        <mat-option *ngFor="let listCostCentre of listCostCentres" [value]="listCostCentre.costcentreID">
+                                                        {{ listCostCentre.costcentreName }}
+                                                        </mat-option>
+                                                </mat-select>  
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Default Hours</label>
+                                                <input formControlName="defaultHours" id="defaultHours" placeholder="Default Hours" matInput  type="text">
+                                            </div>
+                                            
+                                        </div> -->
+                                        <div formArrayName="staffFormArray">
+                                            <div style = "padding-bottom:10px;border-bottom: 1px solid #ddd;margin-bottom:5px;" class="col-md-12" *ngFor="let staff of staffFormArray().controls; let empIndex=index;">
+                                                <ng-container [formGroupName]="empIndex" >
+                                                    <div class ="row">
+                                                        <input formControlName="staffID" id="staffID" type="hidden">
+                                                        <div class="col-md-3">
+                                                            <label>Staff Name</label>
+                                                            <input matInput placeholder="Staff Name" type="text" formControlName="staffName">
+                                                        </div>
+                                                        <div class="col-md-1"  style = "min-width: 140px;">
+                                                            <div>
+                                                                <label>Start</label>
+                                                                <input  formControlName="start" matInput (click)="changeTimeDialog('start',empIndex,staff.get('start').value)"/>
+                                                                <!-- <input [ngxTimepicker]="startPicker" formControlName="start">
+                                                                <ngx-material-timepicker #startPicker [enableKeyboardInput]="true"></ngx-material-timepicker> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1" style = "min-width: 140px;">
+                                                            <div>
+                                                                <label>Break</label>
+                                                                <mat-select formControlName="break" id="break" placeholder="Break" name="break">
+                                                                        <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                                                        {{ breaktime.viewValue }}
+                                                                        </mat-option>
+                                                                </mat-select>  
+                                                                <!-- <input [ngxTimepicker]="breakPicker" formControlName="break" [format]="24">
+                                                                <ngx-material-timepicker #breakPicker (closed)="computeTime()"></ngx-material-timepicker> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1" style = "min-width: 140px;">
+                                                            <div>
+                                                                <label>Finish</label>
+                                                                <input  formControlName="finish" matInput (click)="changeTimeDialog('finish',empIndex,staff.get('finish').value)"/>
+                                                                <!-- <input [ngxTimepicker]="finishPicker" formControlName="finish">
+                                                                <ngx-material-timepicker #finishPicker></ngx-material-timepicker > -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4" style = "min-width: 140px;">
+                                                            <button 
+                                                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                                (mouseenter)="onButtonEnter($event.target)" 
+                                                                (mouseleave)="onButtonOut($event.target)" 
+                                                                (click)= "duplicateStaffForm(empIndex)" 
+                                                                mat-button class="btn dcb-btn  btn-compact"
+                                                                style="margin-left:0 !important;">Duplicate Time
+                                                            </button>
+
+                                                            <button  
+                                                                (click)= "removeStaffForm(empIndex)"
+                                                                mat-button class="btn dcb-btn dcb-btn-2 btn-compact"
+                                                                style="margin-left:10px !important;">Remove Staff
+                                                            </button>  
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <button 
+                                                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                                (mouseenter)="onButtonEnter($event.target)" 
+                                                (mouseleave)="onButtonOut($event.target)" 
+                                                (click)= "addStaffForm()" 
+                                                mat-button class="btn dcb-btn  btn-compact">Add Staff
+                                            </button>
+                                        </div>
+
+                                </form>
+                        </div>
+                        <div class="card-footer">
+                                <button  
+                                    [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                    (mouseenter)="onButtonEnter($event.target)" 
+                                    (mouseleave)="onButtonOut($event.target)" 
+                                    (click)= "updateFBTrades()" 
+                                    class = "btn dcb-btn" 
+                                    mat-button cdkFocusInitial 
+                                    [disabled]="!addFestForm.valid">Update Trade
+                                </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</div>
+
+

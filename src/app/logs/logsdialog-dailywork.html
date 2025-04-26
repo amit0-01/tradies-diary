@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>Details</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="data.method=='create'">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Date : {{logData.selectedDate}}</p>
+                <p>Project Name : {{logData.projectName}}</p>
+                <p>Start : {{logData.start}}</p>
+                <p>Break : {{logData.break}}</p>
+                <p>Finish : {{logData.finish}}</p>
+                <p>Accomplishments: {{logData.accomplishments}}</p>
+                <p>Images: {{logData.imageUpload}}</p>
+                
+                    <!-- <div class ="row">
+                            <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                                    <label>{{ item.imageCaption }}  </label>
+                                    <div class="fileinput fileinput-new text-center">
+                                        <div class="fileinput-new thumbnail">
+                                            <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                            <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                        <div>
+                                            {{ formatBytes(item.imageSize) }}
+                                        </div>
+                                    </div>
+                            </div>
+        
+                    </div>  -->
+
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <ng-container *ngIf="data.method=='update'">
+        <td-ngx-text-diff
+        [left]="left"
+        [right]="right"
+        (compareResults)="onCompareResults($event)"
+        ></td-ngx-text-diff>
+        <!-- <br>  <br>
+        <p>Images</p> -->
+                
+        <!-- <div class ="row">
+                <div class="col-md-6" *ngFor="let item of logData.imageUpload" >
+                        <label>{{ item.imageCaption }}  </label>
+                        <div class="fileinput fileinput-new text-center">
+                            <div class="fileinput-new thumbnail">
+                                <img src="./assets/img/image_placeholder.jpg" alt="..."  *ngIf="!item.imageFile">
+                                <img [src]="item.imageFile" *ngIf="item.imageFile !== ''">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                            <div>
+                                {{ formatBytes(item.imageSize) }}
+                            </div>
+                        </div>
+                </div>
+
+        </div>  -->
+
+    </ng-container>
+</div>
+<div mat-dialog-actions>
+    <button 
+        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+        (mouseenter)="onButtonEnter($event.target)" 
+        (mouseleave)="onButtonOut($event.target)" 
+        mat-button 
+        class = "btn dcb-btn" 
+        (click)="onNoClick()">Close
+    </button>
+</div>

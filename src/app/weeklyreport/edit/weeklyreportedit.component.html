@@ -1,0 +1,971 @@
+<div class="main-content dashboard-content dailyproject-content">
+    <div class="container-fluid">
+      <div class = "row">
+          <div class="col-md-12">
+              <div class="card card-dcb dashboard-card">
+                      <div class="card-header card-header-text card-header-success" *ngIf="editForm.get('reportNumber').value">
+                          <div class="card-text">
+                              Weekly Progress Report ID: {{ editForm.get('reportNumber').value }}
+                          </div> 
+                          <div class="header-tool" *ngIf="pdfLink">
+                            <!-- <a target="_blank" href="{{pdfLink}}"><i class="material-icons">picture_as_pdf</i><span>Download PDF Report</span></a> -->
+                            <!-- <span class="copy-tool" (click) = "copyPdfLink()"><i class="material-icons">content_copy</i><span>Copy PDF Link</span></span> -->
+                            <span class="copy-tool" (click) = "saveStep1('download')"><i class="material-icons">picture_as_pdf</i><span>Save & Download PDF Report</span></span>
+                            <span class="copy-tool" (click) = "saveStep1('copy')"><i class="material-icons">content_copy</i><span>Save & Copy PDF Link</span></span>
+                          </div>
+                          
+                      </div>
+                      <div class="card-body compact-layout compact-layout-common">
+                        <form [formGroup]="editForm" class="dcb-form">
+                            <div class="row">
+                                
+                                <div class="col-md-3 col-lg-2">
+                                    <label>Project</label>
+                                    <input matInput [value]='pdfProjectName' disabled>
+                                    <!-- <input  placeholder="What site is this report for" type="text" formControlName="projectName"
+                                    id="projectName"> -->
+                                    <!-- <mat-select disabled (selectionChange)="projectSelect($event.value)" formControlName="projectName" id="projectName" placeholder="What site is this report for" name="projectName">
+                                            <mat-option *ngFor="let projectName of projectNames" [value]="projectName.id">
+                                            {{ projectName.project_name }}
+                                            </mat-option>
+                                    </mat-select> -->
+                                </div>
+                                <div class="col-md-3 col-lg-2">
+                                  <label>Site Supervisor</label>
+                                  <input matInput [value]='pdfSupervisorName' disabled>
+                                  <!-- <input placeholder="Who's running the show?" type="text" formControlName="siteSupervisor"
+                                  id="siteSupervisor"> -->
+                                  <!-- <mat-select formControlName="siteSupervisor" id="siteSupervisor" placeholder="Who's running the show?" name="siteSupervisor">
+                                          <mat-option *ngFor="let siteSupervisor of siteSupervisors" [value]="siteSupervisor.id">
+                                          {{ siteSupervisor.supervisor_name }}
+                                          </mat-option>
+                                  </mat-select> -->
+                                </div>
+                                <div class="col-md-3 col-lg-6"></div>
+                                <div class="col-md-3 col-lg-2">
+                                    <label>Week Ending</label>
+
+                                    <input style="border-color: #000000;" matInput (dateChange)="changeDate()" [matDatepickerFilter]="disableWeekend" [matDatepicker]="picker2" placeholder="Week Ending Date" type="text" formControlName="weekendDate"
+                                    id="weekendDate" (click)="picker2.open()" [max]="max_date">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2" style = "display: none;"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+      
+                                    <!-- <input matInput [matDatepicker]="picker2" placeholder="Friday's Date" type="text" formControlName="fridayDate"
+                                    id="fridayDate" (click)="picker2.open()">
+                                    -->
+                              </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                      <label>Weather</label>
+                                      <div class="column-weather-holder">
+                                        
+                                      <div class="column-weather">
+                                        <label class= "weather-label">Monday<span (click) = "openSetWeatherDialog('monday')" class="btn-span" style="margin-left:15px;">Update</span></label>
+                                        <div class="weather-list">
+
+                                          <ng-container *ngIf="!editForm.get('weatherMonday').value">
+
+                                              <p *ngIf="mondayData?.weatherPerfect">Perfect Weather <img [src]="getWeatherIcon('weatherPerfect')"> </p>
+                                              <p *ngIf="mondayData?.weatherAllDay =='weatherOthers'">All Day - {{ getWeatherName(mondayData?.weatherOthersAllDay) }} </p>
+                                              <p *ngIf="mondayData?.weatherAllDay && mondayData?.weatherAllDay !='weatherOthers'">All Day - {{ getWeatherName(mondayData?.weatherAllDay) }} <img [src]="getWeatherIcon(mondayData?.weatherAllDay)"> </p>
+                                              <p *ngIf="mondayData?.weatherMorning =='weatherOthers'">Morning - {{ getWeatherName(mondayData?.weatherOthersMorning) }} </p>
+                                              <p *ngIf="mondayData?.weatherMorning && mondayData?.weatherMorning !='weatherOthers'">Morning - {{ getWeatherName(mondayData?.weatherMorning) }} <img [src]="getWeatherIcon(mondayData?.weatherMorning)"> </p>
+                                              <p *ngIf="mondayData?.weatherMidDay =='weatherOthers'">Midday - {{ getWeatherName(mondayData?.weatherOthersMidDay) }} </p>
+                                              <p *ngIf="mondayData?.weatherMidDay && mondayData?.weatherMidDay !='weatherOthers'">Midday - {{ getWeatherName(mondayData?.weatherMidDay) }} <img [src]="getWeatherIcon(mondayData?.weatherMidDay)"> </p>
+                                              <p *ngIf="mondayData?.weatherAfternoon =='weatherOthers'">Afternoon - {{ getWeatherName(mondayData?.weatherOthersAfternoon) }} </p>
+                                              <p *ngIf="mondayData?.weatherAfternoon && mondayData?.weatherAfternoon !='weatherOthers'">Afternoon - {{ getWeatherName(mondayData?.weatherAfternoon) }} <img [src]="getWeatherIcon(mondayData?.weatherAfternoon)"> </p>
+                                              <p *ngIf="mondayData?.weatherEvening =='weatherOthers'">Evening - {{ getWeatherName(mondayData?.weatherOthersEvening) }} </p>
+                                              <p *ngIf="mondayData?.weatherEvening && mondayData?.weatherEvening !='weatherOthers'">Evening - {{ getWeatherName(mondayData?.weatherEvening) }} <img [src]="getWeatherIcon(mondayData?.weatherEvening)"> </p>
+                                              <p *ngIf="mondayData?.weatherOnOff =='weatherOthers'">On Off - {{ getWeatherName(mondayData?.weatherOthersOnOff) }} </p>
+                                              <p *ngIf="mondayData?.weatherOnOff && mondayData?.weatherOnOff !='weatherOthers'">On Off - {{ getWeatherName(mondayData?.weatherOnOff) }} <img [src]="getWeatherIcon(mondayData?.weatherOnOff)"> </p>
+                                              <p *ngIf="mondayData?.weatherRestOfDay =='weatherOthers'">Rest of Day: - {{ getWeatherName(mondayData?.weatherOthersRestOfDay) }} </p>
+                                              <p *ngIf="mondayData?.weatherRestOfDay && mondayData?.weatherRestOfDay !='weatherOthers'">Rest of Day: - {{ getWeatherName(mondayData?.weatherRestOfDay) }} <img [src]="getWeatherIcon(mondayData?.weatherRestOfDay)"> </p>
+                                          </ng-container>
+
+                                          <p *ngIf="editForm.get('weatherMonday').value && editForm.get('weatherMonday').value != 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherMonday').value) }} <img [src]="getWeatherIcon(editForm.get('weatherMonday').value)"> </p>
+                                          <p *ngIf="editForm.get('weatherMonday').value == 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherOthersMonday').value) }} </p>
+                                        
+                                        </div>
+                                        
+                                        <input class = "hide-me" type="text" formControlName="weatherMonday" id="weatherMonday">
+                                        <input class = "hide-me" type="text" formControlName="weatherOthersMonday" id="weatherOthersMonday">
+
+                                    </div>
+                                    <div class="column-weather">
+                                        <label class= "weather-label">Tuesday<span (click) = "openSetWeatherDialog('tuesday')" class="btn-span" style="margin-left:15px;">Update</span></label>
+                                        <div class="weather-list">
+
+                                          <ng-container *ngIf="!editForm.get('weatherTuesday').value">
+                                              <p *ngIf="tuesdayData?.weatherPerfect">Perfect Weather <img [src]="getWeatherIcon('weatherPerfect')"> </p>
+                                              <p *ngIf="tuesdayData?.weatherAllDay =='weatherOthers'">All Day - {{ getWeatherName(tuesdayData?.weatherOthersAllDay) }} </p>
+                                              <p *ngIf="tuesdayData?.weatherAllDay && tuesdayData?.weatherAllDay !='weatherOthers'">All Day - {{ getWeatherName(tuesdayData?.weatherAllDay) }} <img [src]="getWeatherIcon(tuesdayData?.weatherAllDay)"> </p>
+                                              <p *ngIf="tuesdayData?.weatherMorning =='weatherOthers'">Morning - {{ getWeatherName(tuesdayData?.weatherOthersMorning) }} </p>
+                                              <p *ngIf="tuesdayData?.weatherMorning && tuesdayData?.weatherMorning !='weatherOthers'">Morning - {{ getWeatherName(tuesdayData?.weatherMorning) }} <img [src]="getWeatherIcon(tuesdayData?.weatherMorning)"> </p>
+                                              <p *ngIf="tuesdayData?.weatherMidDay =='weatherOthers'">Midday - {{ getWeatherName(tuesdayData?.weatherOthersMidDay) }} </p>
+                                              <p *ngIf="tuesdayData?.weatherMidDay && tuesdayData?.weatherMidDay !='weatherOthers'">Midday - {{ getWeatherName(tuesdayData?.weatherMidDay) }} <img [src]="getWeatherIcon(tuesdayData?.weatherMidDay)"> </p>
+                                              <p *ngIf="tuesdayData?.weatherAfternoon =='weatherOthers'">Afternoon - {{ getWeatherName(tuesdayData?.weatherOthersAfternoon) }} </p>
+                                              <p *ngIf="tuesdayData?.weatherAfternoon && tuesdayData?.weatherAfternoon !='weatherOthers'">Afternoon - {{ getWeatherName(tuesdayData?.weatherAfternoon) }} <img [src]="getWeatherIcon(tuesdayData?.weatherAfternoon)"> </p>
+                                              <p *ngIf="tuesdayData?.weatherEvening =='weatherOthers'">Evening - {{ getWeatherName(tuesdayData?.weatherOthersEvening) }} </p>
+                                              <p *ngIf="tuesdayData?.weatherEvening && tuesdayData?.weatherEvening !='weatherOthers'">Evening - {{ getWeatherName(tuesdayData?.weatherEvening) }} <img [src]="getWeatherIcon(tuesdayData?.weatherEvening)"> </p>
+                                              <p *ngIf="tuesdayData?.weatherOnOff =='weatherOthers'">On Off - {{ getWeatherName(tuesdayData?.weatherOthersOnOff) }} </p>
+                                              <p *ngIf="tuesdayData?.weatherOnOff && tuesdayData?.weatherOnOff !='weatherOthers'">On Off - {{ getWeatherName(tuesdayData?.weatherOnOff) }} <img [src]="getWeatherIcon(tuesdayData?.weatherOnOff)"> </p>
+                                              <p *ngIf="tuesdayData?.weatherRestOfDay =='weatherOthers'">Rest of Day: - {{ getWeatherName(tuesdayData?.weatherOthersRestOfDay) }} </p>
+                                              <p *ngIf="tuesdayData?.weatherRestOfDay && tuesdayData?.weatherRestOfDay !='weatherOthers'">Rest of Day: - {{ getWeatherName(tuesdayData?.weatherRestOfDay) }} <img [src]="getWeatherIcon(tuesdayData?.weatherRestOfDay)"> </p>
+                                          </ng-container>
+
+                                          <p *ngIf="editForm.get('weatherTuesday').value && editForm.get('weatherTuesday').value != 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherTuesday').value) }} <img [src]="getWeatherIcon(editForm.get('weatherTuesday').value)"> </p>
+                                          <p *ngIf="editForm.get('weatherTuesday').value == 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherOthersTuesday').value) }} </p>
+
+                                        </div> 
+
+                                        <input class = "hide-me" type="text" formControlName="weatherTuesday" id="weatherTuesday">
+                                        <input class = "hide-me" type="text" formControlName="weatherOthersTuesday" id="weatherOthersTuesday">
+
+                                    </div>
+                                    <div class="column-weather">
+                                        <label class= "weather-label">Wednesday<span (click) = "openSetWeatherDialog('wednesday')" class="btn-span" style="margin-left:15px;">Update</span></label>
+                                        <div class="weather-list">
+
+                                          <ng-container *ngIf="!editForm.get('weatherWednesday').value">
+                                            
+                                              <p *ngIf="wednesdayData?.weatherPerfect">Perfect Weather <img [src]="getWeatherIcon('weatherPerfect')"> </p>
+                                              <p *ngIf="wednesdayData?.weatherAllDay =='weatherOthers'">All Day - {{ getWeatherName(wednesdayData?.weatherOthersAllDay) }} </p>
+                                              <p *ngIf="wednesdayData?.weatherAllDay && wednesdayData?.weatherAllDay !='weatherOthers'">All Day - {{ getWeatherName(wednesdayData?.weatherAllDay) }} <img [src]="getWeatherIcon(wednesdayData?.weatherAllDay)"> </p>
+                                              <p *ngIf="wednesdayData?.weatherMorning =='weatherOthers'">Morning - {{ getWeatherName(wednesdayData?.weatherOthersMorning) }} </p>
+                                              <p *ngIf="wednesdayData?.weatherMorning && wednesdayData?.weatherMorning !='weatherOthers'">Morning - {{ getWeatherName(wednesdayData?.weatherMorning) }} <img [src]="getWeatherIcon(wednesdayData?.weatherMorning)"> </p>
+                                              <p *ngIf="wednesdayData?.weatherMidDay =='weatherOthers'">Midday - {{ getWeatherName(wednesdayData?.weatherOthersMidDay) }} </p>
+                                              <p *ngIf="wednesdayData?.weatherMidDay && wednesdayData?.weatherMidDay !='weatherOthers'">Midday - {{ getWeatherName(wednesdayData?.weatherMidDay) }} <img [src]="getWeatherIcon(wednesdayData?.weatherMidDay)"> </p>
+                                              <p *ngIf="wednesdayData?.weatherAfternoon =='weatherOthers'">Afternoon - {{ getWeatherName(wednesdayData?.weatherOthersAfternoon) }} </p>
+                                              <p *ngIf="wednesdayData?.weatherAfternoon && wednesdayData?.weatherAfternoon !='weatherOthers'">Afternoon - {{ getWeatherName(wednesdayData?.weatherAfternoon) }} <img [src]="getWeatherIcon(wednesdayData?.weatherAfternoon)"> </p>
+                                              <p *ngIf="wednesdayData?.weatherEvening =='weatherOthers'">Evening - {{ getWeatherName(wednesdayData?.weatherOthersEvening) }} </p>
+                                              <p *ngIf="wednesdayData?.weatherEvening && wednesdayData?.weatherEvening !='weatherOthers'">Evening - {{ getWeatherName(wednesdayData?.weatherEvening) }} <img [src]="getWeatherIcon(wednesdayData?.weatherEvening)"> </p>
+                                              <p *ngIf="wednesdayData?.weatherOnOff =='weatherOthers'">On Off - {{ getWeatherName(wednesdayData?.weatherOthersOnOff) }} </p>
+                                              <p *ngIf="wednesdayData?.weatherOnOff && wednesdayData?.weatherOnOff !='weatherOthers'">On Off - {{ getWeatherName(wednesdayData?.weatherOnOff) }} <img [src]="getWeatherIcon(wednesdayData?.weatherOnOff)"> </p>
+                                              <p *ngIf="wednesdayData?.weatherRestOfDay =='weatherOthers'">Rest of Day: - {{ getWeatherName(wednesdayData?.weatherOthersRestOfDay) }} </p>
+                                              <p *ngIf="wednesdayData?.weatherRestOfDay && wednesdayData?.weatherRestOfDay !='weatherOthers'">Rest of Day: - {{ getWeatherName(wednesdayData?.weatherRestOfDay) }} <img [src]="getWeatherIcon(wednesdayData?.weatherRestOfDay)"> </p>
+                                          
+                                          </ng-container>
+
+                                          <p *ngIf="editForm.get('weatherWednesday').value && editForm.get('weatherWednesday').value != 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherWednesday').value) }} <img [src]="getWeatherIcon(editForm.get('weatherSaturday').value)"> </p>
+                                          <p *ngIf="editForm.get('weatherWednesday').value == 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherOthersWednesday').value) }} </p>
+
+                                        </div> 
+                                        
+                                        <input class = "hide-me" type="text" formControlName="weatherWednesday" id="weatherWednesday">
+                                        <input class = "hide-me" type="text" formControlName="weatherOthersWednesday" id="weatherOthersWednesday">
+
+                                    </div>
+                                    <div class="column-weather">
+                                        <label class= "weather-label">Thursday<span (click) = "openSetWeatherDialog('thursday')" class="btn-span" style="margin-left:15px;">Update</span></label>
+                                        <div class="weather-list">
+
+                                          <ng-container *ngIf="!editForm.get('weatherThursday').value">
+
+                                              <p *ngIf="thursdayData?.weatherPerfect">Perfect Weather <img [src]="getWeatherIcon('weatherPerfect')"> </p>
+                                              <p *ngIf="thursdayData?.weatherAllDay =='weatherOthers'">All Day - {{ getWeatherName(thursdayData?.weatherOthersAllDay) }} </p>
+                                              <p *ngIf="thursdayData?.weatherAllDay && thursdayData?.weatherAllDay !='weatherOthers'">All Day - {{ getWeatherName(thursdayData?.weatherAllDay) }} <img [src]="getWeatherIcon(thursdayData?.weatherAllDay)"> </p>
+                                              <p *ngIf="thursdayData?.weatherMorning =='weatherOthers'">Morning - {{ getWeatherName(thursdayData?.weatherOthersMorning) }} </p>
+                                              <p *ngIf="thursdayData?.weatherMorning && thursdayData?.weatherMorning !='weatherOthers'">Morning - {{ getWeatherName(thursdayData?.weatherMorning) }} <img [src]="getWeatherIcon(thursdayData?.weatherMorning)"> </p>
+                                              <p *ngIf="thursdayData?.weatherMidDay =='weatherOthers'">Midday - {{ getWeatherName(thursdayData?.weatherOthersMidDay) }} </p>
+                                              <p *ngIf="thursdayData?.weatherMidDay && thursdayData?.weatherMidDay !='weatherOthers'">Midday - {{ getWeatherName(thursdayData?.weatherMidDay) }} <img [src]="getWeatherIcon(thursdayData?.weatherMidDay)"> </p>
+                                              <p *ngIf="thursdayData?.weatherAfternoon =='weatherOthers'">Afternoon - {{ getWeatherName(thursdayData?.weatherOthersAfternoon) }} </p>
+                                              <p *ngIf="thursdayData?.weatherAfternoon && thursdayData?.weatherAfternoon !='weatherOthers'">Afternoon - {{ getWeatherName(thursdayData?.weatherAfternoon) }} <img [src]="getWeatherIcon(thursdayData?.weatherAfternoon)"> </p>
+                                              <p *ngIf="thursdayData?.weatherEvening =='weatherOthers'">Evening - {{ getWeatherName(thursdayData?.weatherOthersEvening) }} </p>
+                                              <p *ngIf="thursdayData?.weatherEvening && thursdayData?.weatherEvening !='weatherOthers'">Evening - {{ getWeatherName(thursdayData?.weatherEvening) }} <img [src]="getWeatherIcon(thursdayData?.weatherEvening)"> </p>
+                                              <p *ngIf="thursdayData?.weatherOnOff =='weatherOthers'">On Off - {{ getWeatherName(thursdayData?.weatherOthersOnOff) }} </p>
+                                              <p *ngIf="thursdayData?.weatherOnOff && thursdayData?.weatherOnOff !='weatherOthers'">On Off - {{ getWeatherName(thursdayData?.weatherOnOff) }} <img [src]="getWeatherIcon(thursdayData?.weatherOnOff)"> </p>
+                                              <p *ngIf="thursdayData?.weatherRestOfDay =='weatherOthers'">Rest of Day: - {{ getWeatherName(thursdayData?.weatherOthersRestOfDay) }} </p>
+                                              <p *ngIf="thursdayData?.weatherRestOfDay && thursdayData?.weatherRestOfDay !='weatherOthers'">Rest of Day: - {{ getWeatherName(thursdayData?.weatherRestOfDay) }} <img [src]="getWeatherIcon(thursdayData?.weatherRestOfDay)"> </p>
+                                            
+                                          </ng-container>
+
+                                          <p *ngIf="editForm.get('weatherThursday').value && editForm.get('weatherThursday').value != 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherThursday').value) }} <img [src]="getWeatherIcon(editForm.get('weatherThursday').value)"> </p>
+                                          <p *ngIf="editForm.get('weatherThursday').value == 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherOthersThursday').value) }} </p>
+
+                                        </div> 
+
+                                        <input class = "hide-me" type="text" formControlName="weatherThursday" id="weatherThursday">
+                                        <input class = "hide-me" type="text" formControlName="weatherOthersThursday" id="weatherOthersThursday">
+
+                                    </div>
+                                    <div class="column-weather">
+                                        <label class= "weather-label">Friday<span (click) = "openSetWeatherDialog('friday')" class="btn-span" style="margin-left:15px;">Update</span></label>
+                                        <div class="weather-list">
+
+                                          <ng-container *ngIf="!editForm.get('weatherFriday').value">
+
+                                              <p *ngIf="fridayData?.weatherPerfect">Perfect Weather <img [src]="getWeatherIcon('weatherPerfect')"> </p>
+                                              <p *ngIf="fridayData?.weatherAllDay =='weatherOthers'">All Day - {{ getWeatherName(fridayData?.weatherOthersAllDay) }} </p>
+                                              <p *ngIf="fridayData?.weatherAllDay && fridayData?.weatherAllDay !='weatherOthers'">All Day - {{ getWeatherName(fridayData?.weatherAllDay) }} <img [src]="getWeatherIcon(fridayData?.weatherAllDay)"> </p>
+                                              <p *ngIf="fridayData?.weatherMorning =='weatherOthers'">Morning - {{ getWeatherName(fridayData?.weatherOthersMorning) }} </p>
+                                              <p *ngIf="fridayData?.weatherMorning && fridayData?.weatherMorning !='weatherOthers'">Morning - {{ getWeatherName(fridayData?.weatherMorning) }} <img [src]="getWeatherIcon(fridayData?.weatherMorning)"> </p>
+                                              <p *ngIf="fridayData?.weatherMidDay =='weatherOthers'">Midday - {{ getWeatherName(fridayData?.weatherOthersMidDay) }} </p>
+                                              <p *ngIf="fridayData?.weatherMidDay && fridayData?.weatherMidDay !='weatherOthers'">Midday - {{ getWeatherName(fridayData?.weatherMidDay) }} <img [src]="getWeatherIcon(fridayData?.weatherMidDay)"> </p>
+                                              <p *ngIf="fridayData?.weatherAfternoon =='weatherOthers'">Afternoon - {{ getWeatherName(fridayData?.weatherOthersAfternoon) }} </p>
+                                              <p *ngIf="fridayData?.weatherAfternoon && fridayData?.weatherAfternoon !='weatherOthers'">Afternoon - {{ getWeatherName(fridayData?.weatherAfternoon) }} <img [src]="getWeatherIcon(fridayData?.weatherAfternoon)"> </p>
+                                              <p *ngIf="fridayData?.weatherEvening =='weatherOthers'">Evening - {{ getWeatherName(fridayData?.weatherOthersEvening) }} </p>
+                                              <p *ngIf="fridayData?.weatherEvening && fridayData?.weatherEvening !='weatherOthers'">Evening - {{ getWeatherName(fridayData?.weatherEvening) }} <img [src]="getWeatherIcon(fridayData?.weatherEvening)"> </p>
+                                              <p *ngIf="fridayData?.weatherOnOff =='weatherOthers'">On Off - {{ getWeatherName(fridayData?.weatherOthersOnOff) }} </p>
+                                              <p *ngIf="fridayData?.weatherOnOff && fridayData?.weatherOnOff !='weatherOthers'">On Off - {{ getWeatherName(fridayData?.weatherOnOff) }} <img [src]="getWeatherIcon(fridayData?.weatherOnOff)"> </p>
+                                              <p *ngIf="fridayData?.weatherRestOfDay =='weatherOthers'">Rest of Day: - {{ getWeatherName(fridayData?.weatherOthersRestOfDay) }} </p>
+                                              <p *ngIf="fridayData?.weatherRestOfDay && fridayData?.weatherRestOfDay !='weatherOthers'">Rest of Day: - {{ getWeatherName(fridayData?.weatherRestOfDay) }} <img [src]="getWeatherIcon(fridayData?.weatherRestOfDay)"> </p>
+                                            
+                                          </ng-container>
+
+                                          <p *ngIf="editForm.get('weatherFriday').value && editForm.get('weatherFriday').value != 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherFriday').value) }} <img [src]="getWeatherIcon(editForm.get('weatherFriday').value)"> </p>
+                                          <p *ngIf="editForm.get('weatherFriday').value == 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherOthersFriday').value) }} </p>
+
+                                        </div> 
+
+                                        <input class = "hide-me" type="text" formControlName="weatherFriday" id="weatherFriday">
+                                        <input class = "hide-me" type="text" formControlName="weatherOthersFriday" id="weatherOthersFriday">
+
+                                    </div>
+
+                                    <div class="column-weather">
+                                      <label class= "weather-label">Saturday<span (click) = "openSetWeatherDialog('saturday')" class="btn-span" style="margin-left:15px;">Update</span></label>
+                                      <div class="weather-list">
+
+                                        <ng-container *ngIf="!editForm.get('weatherSaturday').value">
+                                            
+                                        <p *ngIf="saturdayData?.weatherPerfect">Perfect Weather <img [src]="getWeatherIcon('weatherPerfect')"> </p>
+                                        <p *ngIf="saturdayData?.weatherAllDay =='weatherOthers'">All Day - {{ getWeatherName(saturdayData?.weatherOthersAllDay) }} </p>
+                                        <p *ngIf="saturdayData?.weatherAllDay && saturdayData?.weatherAllDay !='weatherOthers'">All Day - {{ getWeatherName(saturdayData?.weatherAllDay) }} <img [src]="getWeatherIcon(saturdayData?.weatherAllDay)"> </p>
+                                        <p *ngIf="saturdayData?.weatherMorning =='weatherOthers'">Morning - {{ getWeatherName(saturdayData?.weatherOthersMorning) }} </p>
+                                        <p *ngIf="saturdayData?.weatherMorning && saturdayData?.weatherMorning !='weatherOthers'">Morning - {{ getWeatherName(saturdayData?.weatherMorning) }} <img [src]="getWeatherIcon(saturdayData?.weatherMorning)"> </p>
+                                        <p *ngIf="saturdayData?.weatherMidDay =='weatherOthers'">Midday - {{ getWeatherName(saturdayData?.weatherOthersMidDay) }} </p>
+                                        <p *ngIf="saturdayData?.weatherMidDay && saturdayData?.weatherMidDay !='weatherOthers'">Midday - {{ getWeatherName(saturdayData?.weatherMidDay) }} <img [src]="getWeatherIcon(saturdayData?.weatherMidDay)"> </p>
+                                        <p *ngIf="saturdayData?.weatherAfternoon =='weatherOthers'">Afternoon - {{ getWeatherName(saturdayData?.weatherOthersAfternoon) }} </p>
+                                        <p *ngIf="saturdayData?.weatherAfternoon && saturdayData?.weatherAfternoon !='weatherOthers'">Afternoon - {{ getWeatherName(saturdayData?.weatherAfternoon) }} <img [src]="getWeatherIcon(saturdayData?.weatherAfternoon)"> </p>
+                                        <p *ngIf="saturdayData?.weatherEvening =='weatherOthers'">Evening - {{ getWeatherName(saturdayData?.weatherOthersEvening) }} </p>
+                                        <p *ngIf="saturdayData?.weatherEvening && saturdayData?.weatherEvening !='weatherOthers'">Evening - {{ getWeatherName(saturdayData?.weatherEvening) }} <img [src]="getWeatherIcon(saturdayData?.weatherEvening)"> </p>
+                                        <p *ngIf="saturdayData?.weatherOnOff =='weatherOthers'">On Off - {{ getWeatherName(saturdayData?.weatherOthersOnOff) }} </p>
+                                        <p *ngIf="saturdayData?.weatherOnOff && saturdayData?.weatherOnOff !='weatherOthers'">On Off - {{ getWeatherName(saturdayData?.weatherOnOff) }} <img [src]="getWeatherIcon(saturdayData?.weatherOnOff)"> </p>
+                                        <p *ngIf="saturdayData?.weatherRestOfDay =='weatherOthers'">Rest of Day: - {{ getWeatherName(saturdayData?.weatherOthersRestOfDay) }} </p>
+                                        <p *ngIf="saturdayData?.weatherRestOfDay && saturdayData?.weatherRestOfDay !='weatherOthers'">Rest of Day: - {{ getWeatherName(saturdayData?.weatherRestOfDay) }} <img [src]="getWeatherIcon(saturdayData?.weatherRestOfDay)"> </p>
+                                      
+                                      </ng-container>
+
+                                        <p *ngIf="editForm.get('weatherSaturday').value && editForm.get('weatherSaturday').value != 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherSaturday').value) }} <img [src]="getWeatherIcon(editForm.get('weatherSaturday').value)"> </p>
+                                        <p *ngIf="editForm.get('weatherSaturday').value == 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherOthersSaturday').value) }} </p>
+                                      
+                                      </div> 
+
+                                      <input class = "hide-me" type="text" formControlName="weatherSaturday" id="weatherSaturday">
+                                      <input class = "hide-me" type="text" formControlName="weatherOthersSaturday" id="weatherOthersSaturday">
+                                  
+                                  </div>
+                                  <div class="column-weather">
+                                    <label class= "weather-label">Sunday<span (click) = "openSetWeatherDialog('sunday')" class="btn-span" style="margin-left:15px;">Update</span></label>
+                                    <div class="weather-list">
+
+                                      <ng-container *ngIf="!editForm.get('weatherSunday').value">
+
+                                          <p *ngIf="sundayData?.weatherPerfect">Perfect Weather <img [src]="getWeatherIcon('weatherPerfect')"> </p>
+                                          <p *ngIf="sundayData?.weatherAllDay =='weatherOthers'">All Day - {{ getWeatherName(sundayData?.weatherOthersAllDay) }} </p>
+                                          <p *ngIf="sundayData?.weatherAllDay && sundayData?.weatherAllDay !='weatherOthers'">All Day - {{ getWeatherName(sundayData?.weatherAllDay) }} <img [src]="getWeatherIcon(sundayData?.weatherAllDay)"> </p>
+                                          <p *ngIf="sundayData?.weatherMorning =='weatherOthers'">Morning - {{ getWeatherName(sundayData?.weatherOthersMorning) }} </p>
+                                          <p *ngIf="sundayData?.weatherMorning && sundayData?.weatherMorning !='weatherOthers'">Morning - {{ getWeatherName(sundayData?.weatherMorning) }} <img [src]="getWeatherIcon(sundayData?.weatherMorning)"> </p>
+                                          <p *ngIf="sundayData?.weatherMidDay =='weatherOthers'">Midday - {{ getWeatherName(sundayData?.weatherOthersMidDay) }} </p>
+                                          <p *ngIf="sundayData?.weatherMidDay && sundayData?.weatherMidDay !='weatherOthers'">Midday - {{ getWeatherName(sundayData?.weatherMidDay) }} <img [src]="getWeatherIcon(sundayData?.weatherMidDay)"> </p>
+                                          <p *ngIf="sundayData?.weatherAfternoon =='weatherOthers'">Afternoon - {{ getWeatherName(sundayData?.weatherOthersAfternoon) }} </p>
+                                          <p *ngIf="sundayData?.weatherAfternoon && sundayData?.weatherAfternoon !='weatherOthers'">Afternoon - {{ getWeatherName(sundayData?.weatherAfternoon) }} <img [src]="getWeatherIcon(sundayData?.weatherAfternoon)"> </p>
+                                          <p *ngIf="sundayData?.weatherEvening =='weatherOthers'">Evening - {{ getWeatherName(sundayData?.weatherOthersEvening) }} </p>
+                                          <p *ngIf="sundayData?.weatherEvening && sundayData?.weatherEvening !='weatherOthers'">Evening - {{ getWeatherName(sundayData?.weatherEvening) }} <img [src]="getWeatherIcon(sundayData?.weatherEvening)"> </p>
+                                          <p *ngIf="sundayData?.weatherOnOff =='weatherOthers'">On Off - {{ getWeatherName(sundayData?.weatherOthersOnOff) }} </p>
+                                          <p *ngIf="sundayData?.weatherOnOff && sundayData?.weatherOnOff !='weatherOthers'">On Off - {{ getWeatherName(sundayData?.weatherOnOff) }} <img [src]="getWeatherIcon(sundayData?.weatherOnOff)"> </p>
+                                          <p *ngIf="sundayData?.weatherRestOfDay =='weatherOthers'">Rest of Day: - {{ getWeatherName(sundayData?.weatherOthersRestOfDay) }} </p>
+                                          <p *ngIf="sundayData?.weatherRestOfDay && sundayData?.weatherRestOfDay !='weatherOthers'">Rest of Day: - {{ getWeatherName(sundayData?.weatherRestOfDay) }} <img [src]="getWeatherIcon(sundayData?.weatherRestOfDay)"> </p>
+                                        
+                                      </ng-container>
+
+                                    <p *ngIf="editForm.get('weatherSunday').value && editForm.get('weatherSunday').value != 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherSunday').value) }} <img [src]="getWeatherIcon(editForm.get('weatherSunday').value)"> </p>
+                                    <p *ngIf="editForm.get('weatherSunday').value == 'weatherOthers'">All Day - {{ getWeatherName(editForm.get('weatherOthersSunday').value) }} </p>
+                                  
+                                    
+                                    </div> 
+
+                                    <input class = "hide-me" type="text" formControlName="weatherSunday" id="weatherSunday">
+                                    <input class = "hide-me" type="text" formControlName="weatherOthersSunday" id="weatherOthersSunday">
+
+                                </div>
+                                
+                              </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row">
+                                <div class="col-md-12">
+                                  <label>Weather</label>
+                                  <mat-grid-list [cols]="breakpoint" rowHeight="333px" (window:resize)="onResize($event)">
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeAllWeekWeather()"  formControlName="weatherAllWeek" id="weatherAllWeek">
+                                          <label>All Week</label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersAllWeek == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersAllWeek" id="weatherOthersAllWeek">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherSaturday" id="weatherSaturday">
+                                          <label>Saturday <span style = "cursor:pointer" (click)= "getDiaryWeather('Saturday')"><i class="material-icons">preview</i></span></label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersSaturday == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersSaturday" id="weatherOthersSaturday">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherSunday" id="weatherSunday">
+                                          <label>Sunday <span style = "cursor:pointer" (click)= "getDiaryWeather('Sunday')"><i class="material-icons">preview</i></span></label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersSunday == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersSunday" id="weatherOthersSunday">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherMonday" id="weatherMonday">
+                                          <label>Monday <span style = "cursor:pointer" (click)= "getDiaryWeather('Monday')"><i class="material-icons">preview</i></span></label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersMonday == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersMonday" id="weatherOthersMonday">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherTuesday" id="weatherTuesday">
+                                          <label>Tuesday <span style = "cursor:pointer" (click)= "getDiaryWeather('Tuesday')"><i class="material-icons">preview</i></span></label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersTuesday == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersTuesday" id="weatherOthersTuesday">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherWednesday" id="weatherWednesday">
+                                          <label>Wednesday <span style = "cursor:pointer" (click)= "getDiaryWeather('Wednesday')"><i class="material-icons">preview</i></span></label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersWednesday == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersWednesday" id="weatherOthersWednesday">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherThursday" id="weatherThursday">
+                                          <label>Thursday <span style = "cursor:pointer" (click)= "getDiaryWeather('Thursday')"><i class="material-icons">preview</i></span></label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersThursday == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersThursday" id="weatherOthersThursday">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                      <mat-grid-tile>
+                                        <mat-radio-group aria-label="Select an option" class="example-radio-group radio-days" (change)="changeDayWeather()" formControlName="weatherFriday" id="weatherFriday">
+                                          <label>Friday <span style = "cursor:pointer" (click)= "getDiaryWeather('Friday')"><i class="material-icons">preview</i></span></label>
+                                          <mat-radio-button value="weatherSunny"><span>Sunny</span><img src="./assets/img/weather-icons/sunny.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherRainy"><span>Rainy</span><img src="./assets/img/weather-icons/rainy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherCloudy"><span>Cloudy</span><img src="./assets/img/weather-icons/cloudy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherStormy"><span>Stormy</span><img src="./assets/img/weather-icons/stormy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherSnowy"><span>Snowy</span><img src="./assets/img/weather-icons/snowy.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherPartial"><span>Full and Partial</span><img src="./assets/img/weather-icons/full-and-partial.png"></mat-radio-button>
+                                          <mat-radio-button value="weatherOthers"><span>Other</span></mat-radio-button>
+                                          <input *ngIf="isOthersFriday == 'show'" placeholder="Please Specify" type="text" formControlName="weatherOthersFriday" id="weatherOthersFriday">
+                                        </mat-radio-group>
+                                      </mat-grid-tile>
+                                  </mat-grid-list>
+                                </div>
+                            </div> -->
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                      <label>Days Lost This Week</label>
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                            <input (input)="addLostDaysHrs()" placeholder="Days" type="number" formControlName="lostWeekDays" id="lostWeekDays">
+                                          </div>
+                                          <div class="col-md-6">
+                                            <input (input)="addLostDaysHrs()" placeholder="Hours" type="number" formControlName="lostWeekHours" id="lostWeekHours">
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <label>Total Days Lost to Date on the Project</label>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                        <input placeholder="Days" type="number" formControlName="lostTotalDays" id="lostTotalDays" disabled>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <input placeholder="Hours" type="number" formControlName="lostTotalHours" id="lostTotalHours" disabled>
+                                      </div>
+                                </div>
+                            </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                          <div class="col-md-12">
+                                              <label>Aimed Completion Date</label>
+                                              <input placeholder="When do you aim to complete the task" type="text" formControlName="aimedComDate" id="aimedComDate" disabled>
+                                              <!-- <input matInput [matDatepicker]="picker3" placeholder="When do you aim to complete the task" type="text" formControlName="aimedComDate"
+                                              id="aimedComDate" (click)="picker3.open()">
+                                              <mat-datepicker-toggle matSuffix [for]="picker3" style = "display: none;"></mat-datepicker-toggle>
+                                              <mat-datepicker #picker3></mat-datepicker> -->
+                                              <!-- (dd/mm/yyyy) -->
+                                          </div>
+                                    </div>   
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                      <label>Tasks This Week:<span *ngIf="showAddTaskWorkerButton == true" (click) = "openTaskListDialog()" class="btn-span" style="margin-left:15px;">Add Task From Employees</span></label>
+                                      <!-- <input placeholder="Accomplishment this week" type="text"> -->
+                                      <!-- <div class= "chip-input-holder">
+                                        <mat-chip-list #chipList>
+                                            <mat-chip *ngFor="let DcbAccThisWeek of editForm.get('dcbAccThisWeek')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeDcbAccThisWeek(i)">
+                                                {{DcbAccThisWeek.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="Accomplishment this week"
+                                                  [matChipInputFor]="chipList"
+                                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                  [matChipInputAddOnBlur]="addOnBlur"
+                                                  (matChipInputTokenEnd)="addDcbAccThisWeek($event)" />
+                                        </mat-chip-list>
+                                      </div> -->
+                                      <tag-input 
+                                          id="dcbAccThisWeek"
+                                          formControlName="dcbAccThisWeek"
+                                          [editable]="true"
+                                          placeholder="Add Accomplishments"
+                                          secondaryPlaceholder="Add Accomplishments"
+                                          addOnBlur="true"
+                                          addOnPaste ="true"
+                                          [modelAsStrings]="true"
+                                          blinkIfDupe ="true"
+                                          theme="dark"
+                                          [dragZone]="'zone1'"
+                                        >
+                                        </tag-input>
+
+                                        <!-- <button *ngIf="showAddTaskWorkerButton == true" mat-button class="btn dcb-btn"
+                                                (click)="openTaskListDialog()">
+                                                Add Task From Employees
+                                        </button>  -->
+                                        <!-- <button mat-button class="btn dcb-btn btn-compact btn-compact-2"
+                                                (click)="openTaskListDialog()">
+                                                Add Task From Employees
+                                        </button> -->
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Tasks Next Week:</label>
+                                    <!-- <input  placeholder="What do you want DCB staff to have completed?" type="text"> -->
+                                    <!-- <div class= "chip-input-holder">
+                                      <mat-chip-list #chipList2>
+                                          <mat-chip *ngFor="let DcbAccNextWeek of editForm.get('dcbAccNextWeek')['controls']; let i = index;" [selectable]="selectable"
+                                              [removable]="removable" (removed)="removeDcbAccNextWeek(i)">
+                                              {{DcbAccNextWeek.value}}
+                                              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                          </mat-chip>
+                                          <input class="chip-input" placeholder="What do you want DCB staff to have completed?"
+                                                [matChipInputFor]="chipList2"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                [matChipInputAddOnBlur]="addOnBlur"
+                                                (matChipInputTokenEnd)="addDcbAccNextWeek($event)" />
+                                      </mat-chip-list>
+                                    </div> -->
+                                    <tag-input 
+                                          id="dcbAccNextWeek"
+                                          formControlName="dcbAccNextWeek"
+                                          [editable]="true"
+                                          placeholder="Add Accomplishments"
+                                          secondaryPlaceholder="Add Accomplishments"
+                                          addOnBlur="true"
+                                          addOnPaste ="true"
+                                          [modelAsStrings]="true"
+                                          blinkIfDupe ="true"
+                                          theme="dark"
+                                          [dragZone]="'zone1'"
+                                        >
+                                    </tag-input>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Trades Tasks This Week:<span *ngIf="showAddTaskTradeButton == true" (click) = "openTradeTaskListDialog()" class="btn-span" style="margin-left:15px;"> Add Task From Trades</span></label>
+                                  <!-- <input placeholder="What tasks did Sub Contractors staff get done this week?" type="text"> -->
+                                  <!-- <div class= "chip-input-holder">
+                                    <mat-chip-list #chipList3>
+                                        <mat-chip *ngFor="let SubAccThisWeek of editForm.get('subAccThisWeek')['controls']; let i = index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="removeSubAccThisWeek(i)">
+                                            {{SubAccThisWeek.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+                                        <input class="chip-input" placeholder="What tasks did Sub Contractors staff get done this week?"
+                                              [matChipInputFor]="chipList3"
+                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                              [matChipInputAddOnBlur]="addOnBlur"
+                                              (matChipInputTokenEnd)="addSubAccThisWeek($event)" />
+                                    </mat-chip-list>
+                                  </div> -->
+                                  <tag-input 
+                                            id="subAccThisWeek"
+                                            formControlName="subAccThisWeek"
+                                            [editable]="true"
+                                            placeholder="Add Accomplishments"
+                                            secondaryPlaceholder="Add Accomplishments"
+                                            addOnBlur="true"
+                                            addOnPaste ="true"
+                                            [modelAsStrings]="true"
+                                            blinkIfDupe ="true"
+                                            theme="dark"
+                                            [dragZone]="'zone1'"
+                                          >
+                                    </tag-input>
+                                    <!-- <button 
+                                            *ngIf="showAddTaskTradeButton == true"
+                                            [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                            (mouseenter)="onButtonEnter($event.target)" 
+                                            (mouseleave)="onButtonOut($event.target)" 
+                                            mat-button class="btn dcb-btn"
+                                            (click)="openTradeTaskListDialog()">
+                                            Add Task From Trades
+                                    </button>  -->
+                                    <!-- <button mat-button class="btn dcb-btn  btn-compact btn-compact-2"
+                                            (click)="openTradeTaskListDialog()">
+                                            Add Task From Trades
+                                    </button> -->
+                                </div>
+                            <!-- </div>
+                            <div class="row"> -->
+                                 <div class="col-md-6">
+                                  <label>Trades Tasks Next Week:</label>
+                                  <!-- <input placeholder="What do you want Sub Contractors staff to have Completed?" type="text"> -->
+                                  <!-- <div class= "chip-input-holder">
+                                    <mat-chip-list #chipList4>
+                                        <mat-chip *ngFor="let SubAccNextWeek of editForm.get('subAccNextWeek')['controls']; let i = index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="removeSubAccNextWeek(i)">
+                                            {{SubAccNextWeek.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+                                        <input class="chip-input" placeholder="What tasks did Sub Contractors staff get done this week?"
+                                              [matChipInputFor]="chipList4"
+                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                              [matChipInputAddOnBlur]="addOnBlur"
+                                              (matChipInputTokenEnd)="addSubAccNextWeek($event)" />
+                                    </mat-chip-list>
+                                  </div> -->
+                                  <tag-input 
+                                            id="subAccNextWeek"
+                                            formControlName="subAccNextWeek"
+                                            [editable]="true"
+                                            placeholder="Add Accomplishments"
+                                            secondaryPlaceholder="Add Accomplishments"
+                                            addOnBlur="true"
+                                            addOnPaste ="true"
+                                            [modelAsStrings]="true"
+                                            blinkIfDupe ="true"
+                                            theme="dark"
+                                            [dragZone]="'zone1'"
+                                          >
+                                  </tag-input>
+                                </div>
+                                <div class="col-md-6">
+                                      <label>Consultants on Site This Week:<span *ngIf="showAddTaskWorkerButton == true" (click) = "openVisitorListDialog()" class="btn-span" style="margin-left:15px;">Add Visitor on Site</span></label>
+                                      <!-- <input placeholder="Accomplishment this week" type="text" formControlName="conSiteThisWeek" id="conSiteThisWeek"> -->
+                                      <!-- <div class= "chip-input-holder">
+                                        <mat-chip-list #chipList5>
+                                            <mat-chip *ngFor="let conSiteThisWeek of editForm.get('conSiteThisWeek')['controls']; let i = index;" [selectable]="selectable"
+                                                [removable]="removable" (removed)="removeconSiteThisWeek(i)">
+                                                {{conSiteThisWeek.value}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input class="chip-input" placeholder="What consultants came on site this week?"
+                                                  [matChipInputFor]="chipList5"
+                                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                  [matChipInputAddOnBlur]="addOnBlur"
+                                                  (matChipInputTokenEnd)="addconSiteThisWeek($event)" />
+                                        </mat-chip-list>
+                                      </div> -->
+                                      <tag-input 
+                                                id="conSiteThisWeek"
+                                                formControlName="conSiteThisWeek"
+                                                [editable]="true"
+                                                placeholder="Add Consultants"
+                                                secondaryPlaceholder="Add Consultants"
+                                                addOnBlur="true"
+                                                addOnPaste ="true"
+                                                [modelAsStrings]="true"
+                                                blinkIfDupe ="true"
+                                                theme="dark"
+                                                [dragZone]="'zone1'"
+                                              >
+                                      </tag-input>
+                                      <!-- <button *ngIf="showAddTaskWorkerButton == true" mat-button class="btn dcb-btn"
+                                              (click)="openVisitorListDialog()">
+                                              Add Visitor on Site
+                                      </button> -->
+                                      <!-- <button  mat-button class="btn dcb-btn  btn-compact btn-compact-2"
+                                              (click)="openVisitorListDialog()">
+                                              Add Visitor on Site
+                                      </button> -->
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Consultants Needed This Week:</label>
+                                    <!-- <input  placeholder="What do you want DCB staff to have completed?" type="text" formControlName="conSiteNeedWeek" id="conSiteNeedWeek"> -->
+                                    <!-- <div class= "chip-input-holder">
+                                      <mat-chip-list #chipList6>
+                                          <mat-chip *ngFor="let conSiteNeedWeek of editForm.get('conSiteNeedWeek')['controls']; let i = index;" [selectable]="selectable"
+                                              [removable]="removable" (removed)="removeconSiteNeedWeek(i)">
+                                              {{conSiteNeedWeek.value}}
+                                              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                          </mat-chip>
+                                          <input class="chip-input" placeholder="Do you need anyone on site next week?"
+                                                [matChipInputFor]="chipList6"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                [matChipInputAddOnBlur]="addOnBlur"
+                                                (matChipInputTokenEnd)="addconSiteNeedWeek($event)" />
+                                      </mat-chip-list>
+                                    </div> -->
+                                    <tag-input 
+                                                id="conSiteNeedWeek"
+                                                formControlName="conSiteNeedWeek"
+                                                [editable]="true"
+                                                placeholder="Add Consultants"
+                                                secondaryPlaceholder="Add Consultants"
+                                                addOnBlur="true"
+                                                addOnPaste ="true"
+                                                [modelAsStrings]="true"
+                                                blinkIfDupe ="true"
+                                                theme="dark"
+                                                [dragZone]="'zone1'"
+                                              >
+                                    </tag-input>
+                                </div>
+                            <!-- </div>
+                            <div class="row"> -->
+                              <div class="col-md-6">
+                                <label>Requested Changes to the Project?</label>
+                                <!-- <input placeholder="What tasks did Sub Contractors staff get done this week?" type="text" formControlName="requestedChanges" id="requestedChanges"> -->
+                                <!-- <div class= "chip-input-holder">
+                                  <mat-chip-list #chipList7>
+                                      <mat-chip *ngFor="let requestedChanges of editForm.get('requestedChanges')['controls']; let i = index;" [selectable]="selectable"
+                                          [removable]="removable" (removed)="removerequestedChanges(i)">
+                                          {{requestedChanges.value}}
+                                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                      </mat-chip>
+                                      <input class="chip-input" placeholder="Do you need anything varied?"
+                                            [matChipInputFor]="chipList7"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur"
+                                            (matChipInputTokenEnd)="addrequestedChanges($event)" />
+                                  </mat-chip-list>
+                                </div> -->
+                                  <tag-input 
+                                              id="requestedChanges"
+                                              formControlName="requestedChanges"
+                                              [editable]="true"
+                                              placeholder="Requested Changes"
+                                              secondaryPlaceholder="Requested Changes"
+                                              addOnBlur="true"
+                                              addOnPaste ="true"
+                                              [modelAsStrings]="true"
+                                              blinkIfDupe ="true"
+                                              theme="dark"
+                                              [dragZone]="'zone1'"
+                                            >
+                                  </tag-input>
+                              </div>
+                              <div class="col-md-6">
+                                <label>Clarification from Architect/Engineer</label>
+                                <!-- <input placeholder="What do you want Sub Contractors staff to have Completed?" type="text" formControlName="clarificationArchEng" id="clarificationArchEng"> -->
+                                <!-- <div class= "chip-input-holder">
+                                  <mat-chip-list #chipList8>
+                                      <mat-chip *ngFor="let clarificationArchEng of editForm.get('clarificationArchEng')['controls']; let i = index;" [selectable]="selectable"
+                                          [removable]="removable" (removed)="removeclarificationArchEng(i)">
+                                          {{clarificationArchEng.value}}
+                                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                      </mat-chip>
+                                      <input class="chip-input" placeholder="Do you need information from the consultants?"
+                                            [matChipInputFor]="chipList8"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur"
+                                            (matChipInputTokenEnd)="addclarificationArchEng($event)" />
+                                  </mat-chip-list>
+                                </div> -->
+                                  <tag-input 
+                                              id="clarificationArchEng"
+                                              formControlName="clarificationArchEng"
+                                              [editable]="true"
+                                              placeholder="Clarification"
+                                              secondaryPlaceholder="Clarification"
+                                              addOnBlur="true"
+                                              addOnPaste ="true"
+                                              [modelAsStrings]="true"
+                                              blinkIfDupe ="true"
+                                              theme="dark"
+                                              [dragZone]="'zone1'"
+                                            >
+                                  </tag-input>
+                              </div>
+                              <div class="col-md-6">
+                                  <label>Information Needed to Keep Things Moving:</label>
+                                  <!-- <input placeholder="" type="text" formControlName="informationNeeded" id="informationNeeded"> -->
+                                  <!-- <div class= "chip-input-holder">
+                                    <mat-chip-list #chipList9>
+                                        <mat-chip *ngFor="let informationNeeded of editForm.get('informationNeeded')['controls']; let i = index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="removeinformationNeeded(i)">
+                                            {{informationNeeded.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+                                        <input class="chip-input" placeholder=""
+                                              [matChipInputFor]="chipList9"
+                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                              [matChipInputAddOnBlur]="addOnBlur"
+                                              (matChipInputTokenEnd)="addinformationNeeded($event)" />
+                                    </mat-chip-list>
+                                  </div> -->
+                                  <tag-input 
+                                              id="informationNeeded"
+                                              formControlName="informationNeeded"
+                                              [editable]="true"
+                                              placeholder="Information Needed"
+                                              secondaryPlaceholder="Information Needed"
+                                              addOnBlur="true"
+                                              addOnPaste ="true"
+                                              [modelAsStrings]="true"
+                                              blinkIfDupe ="true"
+                                              theme="dark"
+                                              [dragZone]="'zone1'"
+                                            >
+                                  </tag-input>
+                              </div>
+                              <div class="col-md-6">
+                                <label>Upcoming Meetings:</label>
+                                <!-- <input placeholder="" type="text" formControlName="informationNeeded" id="informationNeeded"> -->
+                                <!-- <div class= "chip-input-holder">
+                                  <mat-chip-list #chipList9>
+                                      <mat-chip *ngFor="let informationNeeded of editForm.get('informationNeeded')['controls']; let i = index;" [selectable]="selectable"
+                                          [removable]="removable" (removed)="removeinformationNeeded(i)">
+                                          {{informationNeeded.value}}
+                                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                      </mat-chip>
+                                      <input class="chip-input" placeholder=""
+                                            [matChipInputFor]="chipList9"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur"
+                                            (matChipInputTokenEnd)="addinformationNeeded($event)" />
+                                  </mat-chip-list>
+                                </div> -->
+                                <tag-input 
+                                            id="upcomingMeetings"
+                                            formControlName="upcomingMeetings"
+                                            [editable]="true"
+                                            placeholder="Upcoming Meetings"
+                                            secondaryPlaceholder="Upcoming Meetings"
+                                            addOnBlur="true"
+                                            addOnPaste ="true"
+                                            [modelAsStrings]="true"
+                                            blinkIfDupe ="true"
+                                            theme="dark"
+                                            [dragZone]="'zone1'"
+                                          >
+                                </tag-input>
+                                
+                            </div>
+
+                            </div>
+  
+                            <div class ="row" formArrayName="customQuestion">
+                                <div class="col-md-12">
+                                  <label>Additional Questions:</label>
+                                </div>  
+                                
+                                <div class="col-md-3" *ngFor="let item of editForm.get('customQuestion')['controls']; let i = index;" [formGroupName]="i" >
+                                          <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                                  <mat-label>Caption</mat-label>
+                                                  <input matInput placeholder="Caption" type="text" formControlName="passFirstName">
+                                          </mat-form-field> -->
+                                          <input [matAutocomplete]="autoPriceAdult" matInput placeholder="Custom Question" type="text" formControlName="custQuestion" class="input-custquestion">
+                                          <!-- <input [matAutocomplete]="autoPriceAdult" matInput formControlName="priceAdult" id="priceAdult" placeholder="$ Per Adult" type="number"> -->
+                                          <mat-autocomplete #autoPriceAdult="matAutocomplete">
+                                                  <mat-option *ngFor="let option of customQuestions" [value]="option.question">
+                                                          {{option.question}}
+                                                  </mat-option>
+                                          </mat-autocomplete>
+                                          <input matInput placeholder="Answer" type="text" formControlName="custAnswer" class="input-custanswer">
+                                </div>
+                                <div class="col-md-12">
+                                  <button 
+                                      [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                      (mouseenter)="onButtonEnter($event.target)" 
+                                      (mouseleave)="onButtonOut($event.target)" 
+                                      (click)= "addCustomQuestion()"
+                                      mat-button class="btn dcb-btn btn-compact">Add
+                                  </button>
+                                  <button (click)= "removeLastCustomQuestion()" mat-button class="btn dcb-btn  dcb-btn-2 btn-remove-group btn-compact">Remove</button>  
+                                </div>
+                          </div> 
+  
+                            <div class ="image-masonry-container" formArrayName="imageUpload" cdkDropListGroup>
+                                  
+                                      <label>Photo</label>
+                                    
+                                    
+                                    <div cdkDropList [cdkDropListData]="i" *ngFor="let item of editForm.get('imageUpload')['controls']; let i = index;" [formGroupName]="i" >
+                                              <div
+                                                cdkDrag
+                                                [cdkDragData]="i"
+                                                (cdkDragEntered)="dragEntered($event)"
+                                                class="example-box"
+                                              >  
+                                                      <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                                              <mat-label>Caption</mat-label>
+                                                              <input matInput placeholder="Caption" type="text" formControlName="passFirstName">
+                                                      </mat-form-field> -->
+                                                      <label>Caption </label>
+                                                      <input matInput  maxlength="80" placeholder="Caption" type="text" formControlName="imageCaption">
+                                                      <span class="caption-hint"><span>(Max 80 characters)</span> <span>{{item.get('imageCaption').value.length || 0}}/80</span></span>
+                                                      <div class="fileinput fileinput-new text-center">
+                                                          <div  *ngIf="imageOrientations[i] == 'landscape' " class="alert alert-rose alert-with-icon" data-notify="container">
+                                                            <i class="material-icons" data-notify="icon">notifications</i>
+                                                            <span data-notify="message">Please use PORTRAIT photo.</span>
+                                                          </div>
+                                                          <div class="fileinput-new thumbnail">
+                                                              <img src="./assets/img/image_placeholder.jpg" alt="..." *ngIf="!item.get('imageFile').value">
+                                                              <img (click)="enlargeImage($event,item.get('imageStamp').value)" data-toggle="modal" data-target="#myModal"  [src]="item.get('imageFile').value" *ngIf="item.get('imageFile').value && item.get('imageFile').value !== ''" >
+                                                          </div>
+                                                          <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                                          <div>
+                                                            {{ formatBytes(imageSize[i]) }}
+                                                          </div>
+                                                          <div>
+                                                              <!-- <span class="btn btn-change btn-file btn-compact">
+                                                                  <span class="fileinput-new">Select image</span>
+                                                                  <span class="fileinput-exists">Change</span>
+                                                              </span> -->
+                                                              <!-- <a href="#pablo" class="btn btn-remove-img fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a> -->
+                                                              <span (click)= "removeImageUpload(i)" class="btn-remove-text">Remove Image</span>
+                                                              <!-- <button style = "margin-left: 0 !important;" (click)= "removeImageUpload(i)" mat-button class="btn btn-remove-img btn-compact"><i class="fa fa-times"></i> Remove</button>  -->
+                                                              <!-- <a href="#" class="btn btn-remove-img" (click) = "removeItem(i)"><i class="fa fa-times"></i> Remove</a> -->
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                  </div>
+                                  <div style = "display: block;width: 100%;">
+                                    <span 
+                                        [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                                        (mouseenter)="onButtonEnter($event.target)" 
+                                        (mouseleave)="onButtonOut($event.target)" 
+                                        class="btn dcb-btn btn-file">
+                                        <span class="fileinput-new">Add Multiple Images</span>
+                                        <input  accept="image/png, image/jpeg" type='file' (change)="onSelectFile($event)" multiple>
+                                    </span>
+                                    <button *ngIf="showAddImageDailyButton == true" (click)= "addImageDiary()" mat-button class="btn dcb-btn dcb-btn-2">Add Image From Daily Report</button>
+                                    <button *ngIf="showAddImageWorkerButton == true" (click)= "addImageWorker()" mat-button class="btn dcb-btn dcb-btn-2">Add Image From Workers</button>
+                                    <!-- <button (click)= "addImageUpload()" mat-button class="btn btn-info">Add</button> -->
+                                    <!-- <button (click)= "removeLastImageUpload()" mat-button class="btn btn-remove-group">Remove</button>   -->
+                                  </div>
+                            </div> 
+                            
+                          </form>
+                      </div>
+                      <div class="card-footer">
+                        
+                        <!-- <button (click)= "saveStep1()" mat-button class="btn dcb-btn">Update Report</button> -->
+                        <div>
+                          <button 
+                              [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                              (mouseenter)="onButtonEnter($event.target)" 
+                              (mouseleave)="onButtonOut($event.target)" 
+                              (mousedown)= "saveStep1('default')" 
+                              mat-button class="btn dcb-btn">Update Weekly Report
+                          </button>
+                          <button (click)= "saveStep1('download')" mat-button class="btn dcb-btn dcb-btn-2">Update and Download PDF</button>
+                          <button (click)= "saveStep1('preview')" mat-button class="btn dcb-btn dcb-btn-2">Update and Preview PDF</button>
+                          <p style="font-style:italic; font-size:13px;margin-top:20px;">If the <span style="cursor:pointer" (dblclick)= "saveStep1Test('default')">PDF</span> doesn't appear after preview, please allow pop-ups in your browser's settings.</p>
+                        </div>
+
+                        <div style="margin-bottom:auto">
+                          <button 
+                              [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                              (mouseenter)="onButtonEnter($event.target)" 
+                              (mouseleave)="onButtonOut($event.target)" 
+                              (click)= "openEmailAdminDialog()" 
+                              mat-button class="btn dcb-btn">Submit to Admin
+                          </button>
+                          <button (click)= "openEmailClientDialog()" mat-button class="btn dcb-btn dcb-btn-2">Submit to Client</button>
+                        </div>
+
+                        <!-- <button (click)= "updateReport()" mat-button class="btn btn-info" *ngIf="editForm.controls.imageUpload.imageFile.dirty">Update Report w/ Images</button> -->
+                        <!-- <button (click)= "uploadImage()" mat-button class="btn btn-info">Upload Image</button> -->
+                        <!-- <button (click)= "modalSubmitForApproval()" mat-button class="btn dcb-btn">Update and Submit For Approval</button>
+                        <button (click)= "modalSubmitForClientApproval()" mat-button class="btn dcb-btn">Update and Submit To Client</button>
+                        <button (click)= "modalGeneratePdf()" mat-button class="btn dcb-btn">Update and Preview PDF</button> -->
+                          <!-- <div class="stats">
+                            <i class="material-icons">access_time</i> Modified last:&nbsp;<span style = "color:#000000">{{userNotes?.update_date_time}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;Modified by:&nbsp;<span style = "color:#000000">{{userNotes?.author}}</span>
+                          </div>
+                          <div class="stats">
+                            <a  href = "#" [routerLink]="'/notes'"><i style = "vertical-align: top" class="material-icons">access_time</i> View Version History</a>
+                         </div> -->
+                          <!-- <div class="stats">
+                            <i class="material-icons">access_time</i> Modified last: 25/10/2019  
+                          </div>
+                          <div class="stats">
+                            <i class="material-icons">access_time</i> Modified by: Sue de Graaf  
+                          </div> -->
+                      </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+ <!-- Modal -->
+ <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a style="color:#292929" download="image.jpg" href="{{imgSrc}}"><i class="material-icons">download</i>Download Image</a>
+        <!-- <h4 class="modal-title">Modal Header</h4> -->
+        <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+      <img
+      src="{{imgSrc}}"
+      style="max-width:100%;cursor:pointer"
+      class="modal-hover-opacity"
+    /> 
+    <span>Uploaded at {{imgStampString}}</span>
+      </div>
+    </div>
+  </div>
+  </div>
+ 

@@ -1,0 +1,41 @@
+[1mdiff --git a/src/app/rfi/rfiproject/rficreateproject/rficreateproject.component.ts b/src/app/rfi/rfiproject/rficreateproject/rficreateproject.component.ts[m
+[1mindex dcc9e2f..69a8c5b 100644[m
+[1m--- a/src/app/rfi/rfiproject/rficreateproject/rficreateproject.component.ts[m
+[1m+++ b/src/app/rfi/rfiproject/rficreateproject/rficreateproject.component.ts[m
+[36m@@ -2882,7 +2882,7 @@[m [mif(str){[m
+       openingMessage: this.rfiForm.value.openingMessage,[m
+       closingMessage: this.rfiForm.value.closingMessage,[m
+       projectName: this.projectData.projectName,[m
+[31m-      variationName: this.rfiForm.value.rfiName[m
+[32m+[m[32m      rfiName: this.rfiForm.value.rfiName[m
+     }[m
+   [m
+ [m
+[1mdiff --git a/src/app/selections/selectionsproject/selectionsprojectedit/selectionsprojectedit.component.ts b/src/app/selections/selectionsproject/selectionsprojectedit/selectionsprojectedit.component.ts[m
+[1mindex d5067d8..b537ffc 100644[m
+[1m--- a/src/app/selections/selectionsproject/selectionsprojectedit/selectionsprojectedit.component.ts[m
+[1m+++ b/src/app/selections/selectionsproject/selectionsprojectedit/selectionsprojectedit.component.ts[m
+[36m@@ -3316,12 +3316,12 @@[m [mgetFooter2(currentPage, pageCount) {[m
+       closingMessage: this.selectionFom.value.closingMessage,[m
+       projectName: this.projectData.projectName,[m
+       selectionName: this.selectionFom.value.selectionName,[m
+[31m-      subjectTitle: 'Variation Admin Approval'[m
+[32m+[m[32m      subjectTitle: 'Selection Admin Approval'[m
+     }[m
+     console.log(tempdata);[m
+ [m
+     this.spinnerService.show();[m
+[31m-    const callableTest = this.functions.httpsCallable('sendFBSelectionRequest');[m
+[32m+[m[32m    const callableTest = this.functions.httpsCallable('sendFBSelectionsRequest');[m
+     callableTest(tempdata).subscribe(result => {[m
+       console.log(result)[m
+       this.spinnerService.hide();[m
+[36m@@ -3408,7 +3408,7 @@[m [msendClientEmail(selectionID,projectID){[m
+       openingMessage: this.selectionFom.value.openingMessage,[m
+       closingMessage: this.selectionFom.value.closingMessage,[m
+       projectName: this.projectData.projectName,[m
+[31m-      variationName: this.selectionFom.value.selectionName,[m
+[32m+[m[32m      selectionName: this.selectionFom.value.selectionName,[m
+       subjectTitle: 'Selection Approval Request'[m
+     }[m
+     console.log(tempdata);[m

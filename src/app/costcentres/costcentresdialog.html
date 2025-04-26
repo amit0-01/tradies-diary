@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Update Cost Centre</h1>
+<div mat-dialog-content class="table-pop">
+        <form [formGroup]="editForm" class="dcb-form">
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Cost Centre Name</label>
+                                <input formControlName="costcentreName" id="costcentreName" placeholder="Name" matInput  type="text">
+                        </div>
+                </div>
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)" 
+                class = "btn dcb-btn" 
+                (click)="updateFBCostcentre()" 
+                mat-button cdkFocusInitial  
+                [disabled]="editForm.pristine">Update Cost Centres Name
+        </button>
+</div>

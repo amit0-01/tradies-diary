@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Select Project</h1>
+<div mat-dialog-content>
+    <form [formGroup]="addFestForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Select Project</mat-label>
+                <!-- <input formControlName="category" id="category" placeholder="Category" matInput  type="text"> -->
+                <mat-select formControlName="project" id="project" placeholder="Project" name="project">
+                        <mat-option *ngFor="let listProject of listProjects" [value]="listProject.id">
+                        {{ listProject.project_name }}
+                        </mat-option>
+                </mat-select>  
+          </mat-form-field> 
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Select Date</mat-label>
+            <input matInput [matDatepicker]="picker2" placeholder="Today's Date" type="text" formControlName="date"
+                id="todaysDate" (click)="picker2.open()">
+                <mat-datepicker-toggle matSuffix [for]="picker2" style = "display: none;"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+         </mat-form-field> 
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button [mat-dialog-close]="addFestForm.value" class = "btn dcb-btn btn-primary" mat-button cdkFocusInitial>Submit</button>
+</div>

@@ -1,0 +1,192 @@
+<h1 mat-dialog-title>Project Request</h1>
+
+<div mat-dialog-content>
+        <form [formGroup]="approvalForm" >
+                <br>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Client Name *</mat-label>
+                        <input matInput value="{{projectRequestData?.clientName}}"  placeholder="Client Name" type="text" readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Site Address</mat-label>
+                        <input matInput value="{{projectRequestData?.siteAddress}}"  placeholder="Site Address" type="text"  readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Individual</mat-label>
+                        <input matInput value="{{ projectRequestData.individual == true ? 'Yes' : 'No' }}"  placeholder="Individual" type="text"  readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Company</mat-label>
+                        <input matInput value="{{ projectRequestData.company == true ? 'Yes' : 'No' }}"  placeholder="Company" type="text"  readonly="true">
+                </mat-form-field>
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Company</mat-label>
+                        <input matInput value="{{projectRequestData?.company}}"  placeholder="Company" type="text" disabled>
+                </mat-form-field> -->
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Site Name</mat-label>
+                        <input matInput value="{{projectRequestData?.siteName}}"  placeholder="Site Name" type="text"  readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Contact Number</mat-label>
+                        <input matInput value="{{projectRequestData?.contactNumber}}"  placeholder="Contact Number" type="text"  readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Contact Email</mat-label>
+                        <input matInput value="{{projectRequestData?.contactEmail}}"  placeholder="Contact Email" type="text"  readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Send Invoices To</mat-label>
+                        <input matInput value="{{projectRequestData?.sendInvoicesTo}}"  placeholder="Send Invoices To" type="text"  readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Urgency</mat-label>
+                        <input matInput value="{{projectRequestData?.urgency}}"  placeholder="Urgency" type="text"  readonly="true">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == false" class="mat-full-width" appearance="outline">
+                        <mat-label>Description of Works</mat-label>
+                        <textarea matInput value="{{projectRequestData?.descriptionWorks}}"  placeholder="Description of Works" type="text"  readonly="true"  rows="2"></textarea>
+                </mat-form-field>
+
+
+                <!-- EDITABLE FORM -->
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Client Name</mat-label>
+                        <input matInput formControlName="clientName" id="clientName" placeholder="Client Name" type="text">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Site Address</mat-label>
+                        <input matInput formControlName="siteAddress" id="siteAddress"  placeholder="Site Address" type="text">
+                </mat-form-field>
+                <!-- <mat-checkbox *ngIf="chkeditmode == true" class="example-margin" formControlName="individual" id="individual">Individual</mat-checkbox> -->
+                <div  *ngIf="chkeditmode == true" style="display: flex;justify-content: space-around;">
+                        <div class="togglebutton" *ngIf="chkeditmode == true">
+                                <label>
+                                        <input type="checkbox" formControlName="individual">
+                                        <span [style.backgroundColor]="approvalForm.value.individual ? colorHlightDefault : ''" class="toggle"></span>
+                                        Individual
+                                </label>
+                        </div> 
+                        <div class="togglebutton" *ngIf="chkeditmode == true">
+                                <label>
+                                        <input type="checkbox" formControlName="company">
+                                        <span [style.backgroundColor]="approvalForm.value.company ? colorHlightDefault : ''" class="toggle"></span>
+                                        Company
+                                </label>
+                        </div> 
+                </div>
+                <br><br>
+                <!-- <mat-checkbox *ngIf="chkeditmode == true" class="example-margin" formControlName="company" id="company">Company</mat-checkbox>
+                 -->
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Company</mat-label>
+                        <input matInput value="{{projectRequestData?.company}}"  placeholder="Company" type="text" disabled>
+                </mat-form-field> -->
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Site Name</mat-label>
+                        <input matInput formControlName="siteName" id="siteName" placeholder="Site Name" type="text">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Contact Number</mat-label>
+                        <input matInput formControlName="contactNumber" id="contactNumber" placeholder="Contact Number" type="text">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Contact Email</mat-label>
+                        <input matInput formControlName="contactEmail" id="contactEmail" placeholder="Contact Email" type="text">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Send Invoices To</mat-label>
+                        <input matInput formControlName="sendInvoicesTo" id="sendInvoicesTo" placeholder="Send Invoices To" type="text">
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Urgency</mat-label>
+                        <mat-select formControlName="urgency" id="urgency" placeholder="Urgency" name="urgency">
+                                <mat-option *ngFor="let urgencyChoice of urgencyChoices" [value]="urgencyChoice.value">
+                                {{ urgencyChoice.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field>
+                <mat-form-field *ngIf="chkeditmode == true" class="mat-full-width" appearance="outline">
+                        <mat-label>Description of Works</mat-label>
+                        <textarea matInput formControlName="descriptionWorks" id="descriptionWorks" placeholder="Description of Works" type="text"  rows="2"></textarea>
+                </mat-form-field>
+                <!-- <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Email Address</mat-label>
+                        <input value="{{userData[0].data?.user_email}}" placeholder="Email Address" matInput  type="text" disabled>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>First Name</mat-label>
+                        <input formControlName="firstName" id="firstName" placeholder="First Name" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Last Name</mat-label>
+                        <input formControlName="lastName" id="lastName" placeholder="Last Name" matInput  type="text">
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>User Role</mat-label>
+                        <mat-select formControlName="role" id="role" placeholder="User Role" name="pickupChoice">
+                                <mat-option *ngFor="let pickupChoice of pickupChoices" [value]="pickupChoice.value">
+                                {{ pickupChoice.viewValue }}
+                                </mat-option>
+                        </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="editForm.get('role').value === 'project_worker' || editForm.get('role').value === 'project_supervisor'" class="example-full-width" appearance="outline">
+                        <mat-label>Employee Number</mat-label>
+                        <input formControlName="staffNo" id="staffNo" placeholder="Employee Number" matInput  type="text">
+                </mat-form-field>
+                <div class="togglebutton">
+                        <label>
+                                <input type="checkbox" formControlName="showTime">
+                                <span class="toggle"></span>
+                                Add Time Shift
+                        </label>
+                </div>
+                <mat-form-field *ngIf="(editForm.get('showTime').value == true || editForm.get('showTime').value  == '1') && (editForm.get('role').value === 'project_worker' || editForm.get('role').value === 'project_supervisor')" class="example-full-width" appearance="outline">
+                        <mat-label>Start</mat-label>
+                        <input  formControlName="start" matInput (click)="changeTimeDialog('start',editForm.get('start').value)"/>
+                </mat-form-field>
+                <mat-form-field *ngIf="(editForm.get('showTime').value == true || editForm.get('showTime').value  == '1') && (editForm.get('role').value === 'project_worker' || editForm.get('role').value === 'project_supervisor')" class="example-full-width" appearance="outline">
+                        <mat-label>Break</mat-label>
+                        <mat-select formControlName="break" id="break" placeholder="Break" name="break">
+                                <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                {{ breaktime.viewValue }}
+                                </mat-option>
+                        </mat-select>  
+                </mat-form-field> 
+                <mat-form-field *ngIf="(editForm.get('showTime').value == true || editForm.get('showTime').value  == '1') && (editForm.get('role').value === 'project_worker' || editForm.get('role').value === 'project_supervisor')" class="example-full-width" appearance="outline">
+                        <mat-label>Finish</mat-label>
+                        <input  formControlName="finish" matInput (click)="changeTimeDialog('finish',editForm.get('finish').value)"/>
+                </mat-form-field>   -->
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)"
+                style = "margin-left:auto" 
+                *ngIf="chkeditmode == false" 
+                class = "btn dcb-btn" 
+                (click)="approveFBProject()" 
+                mat-button cdkFocusInitial>Approve
+        </button>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)"
+                style = "margin-left:auto" 
+                *ngIf="chkeditmode == true" 
+                class = "btn dcb-btn" 
+                (click)="updateProjectRequest()" 
+                mat-button cdkFocusInitial>Update
+        </button>
+        <!-- <mat-checkbox style = "margin-left:auto" [(ngModel)]="chkeditmode" >Edit Mode</mat-checkbox> -->
+        <div style = "margin-left:auto" class="togglebutton">
+                <label>
+                        <input type="checkbox" [(ngModel)]="chkeditmode">
+                        <span [style.backgroundColor]="chkeditmode ? colorHlightDefault : ''" class="toggle"></span>
+                        Edit Mode
+                </label>
+        </div> 
+</div>

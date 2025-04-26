@@ -1,0 +1,21 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+        <form [formGroup]="addFestForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Subject</mat-label>
+                        <input formControlName="subject" id="subject" placeholder="Subject" matInput  type="text">
+                </mat-form-field>   
+                <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Comments</mat-label>
+                        <textarea  formControlName="comments" id="comments" placeholder="Comments" matInput> </textarea>
+                </mat-form-field>   
+                <mat-form-field>
+                        <ngx-mat-file-input formControlName="multiplefile" placeholder="Multiple inputs" multiple (change)="onSelectedFileMultiple($event)"></ngx-mat-file-input>
+                        <i class="material-icons" matSuffix>folder</i>
+                </mat-form-field>
+        </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button  (click)= "submitFeedback()" class = "btn dcb-btn btn-primary" mat-button cdkFocusInitial [disabled]="!addFestForm.valid">Submit Feedback</button>
+</div>

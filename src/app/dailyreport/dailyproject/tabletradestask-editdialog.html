@@ -1,0 +1,82 @@
+<h1 mat-dialog-title>Update Task for {{data?.staffName}}</h1>
+<div mat-dialog-content class=" table-pop">
+        <form [formGroup]="editForm" class="dcb-form">
+                <!-- <div class = "row">
+                        <div class="col-md-12">
+                                <label>Employee Name</label>
+                                <mat-select  #singleSelect formControlName="staffOnSite" id="staffOnSite" placeholder="Employee Name" name="staffOnSite" >
+                                        <mat-option>
+                                              <ngx-mat-select-search 
+                                                [formControl]="search_control_employee"
+                                                placeholderLabel="Search..."
+                                                noEntriesFoundLabel="'No Match Found'"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let listStaff of filter_list_employees | async" [value]="listStaff.id">
+                                          <ng-container *ngIf="listStaff.type =='user-supervisor'">
+                                              {{ listStaff.staff_name}} (Supervisor)
+                                          </ng-container>
+                                          <ng-container *ngIf="listStaff.type =='user-altsupervisor'">
+                                            {{ listStaff.staff_name}} (Alt Supervisor)
+                                        </ng-container>
+                                          <ng-container *ngIf="listStaff.type =='user-worker'">
+                                            {{ listStaff.staff_name}} (Worker)
+                                          </ng-container>
+                                          <ng-container *ngIf="listStaff.type !='user-supervisor' && listStaff.type !='user-worker' && listStaff.type !='user-altsupervisor'">
+                                              {{ listStaff.staff_name}}
+                                          </ng-container>
+                                        </mat-option>
+                                </mat-select> 
+                        </div>
+                </div> -->
+                <div class = "row">
+                        <div class="col-md-12">
+                                <label>Description</label>
+                                <input  matInput placeholder="Description" type="text" formControlName="taskDescription">
+                        </div>
+                </div>
+                <div class = "row">
+                        <div class="col-md-3">
+                                <label>Detail</label>
+                                <mat-checkbox formControlName="checkDetail" class="example-margin"></mat-checkbox> 
+                        </div>
+                        <div class="col-md-3" *ngIf="editForm.get('checkDetail').value != true">  
+                                <label>Hours *</label>
+                                <input matInput placeholder="Hours" type="number" formControlName="hours">
+                        </div>
+                </div>        
+                <div class = "row"  *ngIf="editForm.get('checkDetail').value === true">      
+                        <div class="col-md-3">
+                                <label>Start</label>
+                                <input  formControlName="start" (click)="changeTimeDialog('start',editForm.get('start').value)"/>
+                        </div>
+                        <div class="col-md-3">
+                                <label>Break</label>
+                                <mat-select formControlName="break" id="break" placeholder="Break" name="break" (selectionChange)="computeTimeStaff()">
+                                    <mat-option *ngFor="let breaktime of breaktimes" [value]="breaktime.value">
+                                    {{ breaktime.viewValue }}
+                                    </mat-option>
+                                </mat-select>  
+                        </div>
+                        <div class="col-md-3">
+                                <label>Finish</label>
+                                <input  formControlName="finish" (click)="changeTimeDialog('finish',editForm.get('finish').value)" />
+                        </div>
+                        <div class="col-md-3">
+                                <label>Hours *</label>
+                                <input placeholder="Hours" type="hidden" formControlName="tempHours">
+                                <input matInput placeholder="Hours" type="text" value="{{editForm.get('tempHours').value}}"  readonly>
+                        </div>        
+              </div>
+        </form>
+</div>
+<div mat-dialog-actions>
+        <span class = "btn-span" (click)="onNoClick()">Cancel</span>
+        <button 
+                [ngStyle]="{ backgroundColor: colorBtnDefault }" 
+                (mouseenter)="onButtonEnter($event.target)" 
+                (mouseleave)="onButtonOut($event.target)"
+                class = "btn dcb-btn" 
+                (click)="updateEmployee()" 
+                mat-button cdkFocusInitial>Update Task
+        </button>
+</div>
