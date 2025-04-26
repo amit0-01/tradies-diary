@@ -17,20 +17,20 @@ export const environment = {
 
     // TRADIES DIARIES
 
-    // apiKey: "AIzaSyBkCKCPyDH2g_pOSWtAo4XbCIIVe-p44mg",
-    // authDomain: "tradies-diary.firebaseapp.com",
-    // projectId: "tradies-diary",
-    // storageBucket: "tradies-diary.appspot.com", 
-    // messagingSenderId: "952186528665",
-    // appId: "1:952186528665:web:084c647fdcc14e1b11a908"
+    apiKey: "AIzaSyBkCKCPyDH2g_pOSWtAo4XbCIIVe-p44mg",
+    authDomain: "tradies-diary.firebaseapp.com",
+    projectId: "tradies-diary",
+    storageBucket: "tradies-diary.appspot.com", 
+    messagingSenderId: "952186528665",
+    appId: "1:952186528665:web:084c647fdcc14e1b11a908"
 
 
     // TRADIES TESTING
-    apiKey: "AIzaSyBDyJ0qlN1plui2WkIDnOklRhq9h_YYNKw",
-    authDomain: "tradies-testing-444503.firebaseapp.com",
-    projectId: "tradies-testing-444503",
-    storageBucket: "tradies-testing-444503.firebasestorage.app",
-    messagingSenderId: "86042921892",
-    appId: "1:86042921892:web:fe36d6625e4aaa07facf31",
+    // apiKey: "AIzaSyBDyJ0qlN1plui2WkIDnOklRhq9h_YYNKw",
+    // authDomain: "tradies-testing-444503.firebaseapp.com",
+    // projectId: "tradies-testing-444503",
+    // storageBucket: "tradies-testing-444503.firebasestorage.app",
+    // messagingSenderId: "86042921892",
+    // appId: "1:86042921892:web:fe36d6625e4aaa07facf31",
   }
 };
